@@ -1,0 +1,2 @@
+ErrorDocument 404 /error.php
+ErrorDocument 500 "<H1>Some error, contact administrator</H1>"
