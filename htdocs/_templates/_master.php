@@ -18,6 +18,9 @@
 	<script
 		src="<?=get_config('base_path')?>assets/dist/js/bootstrap.bundle.min.js">
 	</script>
+	<?php if(file_exists($_SERVER['DOCUMENT_ROOT']."/js/".basename($_SERVER['PHP_SELF'], '.php').".js")) { ?>
+	<script src="/js/<?=basename($_SERVER['PHP_SELF'], '.php');?>.js"></script>
+	<?php }?>
 
 
 </body>

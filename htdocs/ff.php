@@ -13,6 +13,9 @@ $result = Device::deviceProperties('light');
 ?>
 <pre>
 <?php
-print_r($result);
+$s = $_SERVER['DOCUMENT_ROOT']."/js/".basename($_SERVER['PHP_SELF'], '.php').".js";
+$ss = "/js/" . basename($_SERVER['PHP_SELF'], '.php').".js";
+$sss = $_SERVER['DOCUMENT_ROOT']."/css/".basename($_SERVER['PHP_SELF'], '.php').".css";
+print_r($sss);
 ?>
 </pre>

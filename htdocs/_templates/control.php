@@ -10,12 +10,11 @@
             
 
             for ($i = 0; $i < $n; $i++) {
+                $formid = "devicename" . $i;
 
             ?>
-            <form id="myForm" action="properties.php" method="POST">
-                
-
-            <div class="card shadow m-2" style="width: 18rem; cursor:pointer;" onclick="submitForm()">
+            <form id="<?= $formid; ?>" action="properties.php" method="POST">
+            <div class="card shadow m-2" style="width: 18rem; cursor:pointer;" onclick="submitForm('<?= $formid; ?>')">
                 <div class="card-body">
                     <h5 class="card-title">
                     <?php 
@@ -58,7 +57,7 @@
                     <?php } ?>
                     <?php if(in_array("indicator", $properties)){ ?>
                     <a class="btn btn-dark my-2"><i class="bi bi-lightbulb"></i></a>
-                    <input type="hidden"  name="idicator" value="1">
+                    <input type="hidden"  name="indicator" value="1">
                     <?php } ?>
 
                     <?php if(in_array("slider", $properties)){?>
@@ -78,8 +77,8 @@
         </div>
     </div>
     <script>
-        function submitForm() {
-            document.getElementById("myForm").submit();
+        function submitForm(formId) {
+            document.getElementById(formId).submit();
         }
 </script>
 </section>
