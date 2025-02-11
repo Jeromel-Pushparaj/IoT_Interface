@@ -1,8 +1,4 @@
 // Define the URL with query parameters
-
-
-
-
 function toggleAction() {
     const toggleSwitch = document.getElementById('toggleSwitch');
     const toggleStatus = document.getElementById('toggleStatus');
