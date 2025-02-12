@@ -7,12 +7,12 @@ class WebAPI
 
         if (php_sapi_name() == "cli") {
             global $__site_config;
-            $__site_config_path = "/var/www/html/first_app/projects/photogramconfig.json";
+            $__site_config_path = "/var/www/html/first_app/projects/config.json";
             $__site_config = file_get_contents($__site_config_path);
         } elseif(php_sapi_name() == "apache2handler") {
             global $__site_config;
             // $__site_config_path = dirname(is_link($_SERVER['DOCUMENT_ROOT']) ? readlink($_SERVER['DOCUMENT_ROOT']) : $_SERVER['DOCUMENT_ROOT']).'/../projects/photogramconfig.json';
-            $__site_config_path = __DIR__."/../../../projects/photogramconfig.json";
+            $__site_config_path = __DIR__."/../../../projects/config.json";
             $__site_config = file_get_contents($__site_config_path);
 
         }
