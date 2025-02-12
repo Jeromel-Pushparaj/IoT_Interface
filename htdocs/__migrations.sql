@@ -44,15 +44,17 @@ CREATE TABLE `session` (
 
 DROP TABLE EXISTS `devices`;
 CREATE TABLE `devices` (
-  `device_no` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `device_name` varchar(255) NOT NULL,
+  `deviceno` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `devicename` varchar(255) NOT NULL,
   `button` int NOT NULL DEFAULT '0',
   `slider` int NOT NULL DEFAULT '0',
   `display` int NOT NULL DEFAULT '0',
   `indicator` int NOT NULL DEFAULT '0',
   `timer` int NOT NULL DEFAULT '0',
-  `desc` varchar(1025) NOT NULL
+  `desc` varchar(1025) NOT NULL,
+  `id` INT NULL,
+  INDEX (id)
 ) ENGINE='InnoDB' COLLATE 'utf8mb4_0900_ai_ci';
 
 ALTER TABLE `devices`
-ADD FOREIGN KEY (`device_no`) REFERENCES `auth` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+ADD FOREIGN KEY (`deviceno`) REFERENCES `auth` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
