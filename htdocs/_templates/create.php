@@ -19,8 +19,13 @@ if(isset($_POST['devicename']) && (isset($_POST['ToggleButton']) || isset($_POST
 }
 
 $result = Device::addDevice($_POST['devicename'], $_POST['description'], $passedParams['ToggleButton'], $passedParams['Slider'], $passedParams['Display'], $passedParams['Indicator'], $passedParams['Timer']);
+if(!$result){
 header("Location: /device.php");
 die();
+}else{
+  printf("Error creating device");
+}
+print($result);
 }
 
 }

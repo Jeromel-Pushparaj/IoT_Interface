@@ -41,6 +41,7 @@ if ($result->num_rows > 0) {
 
     public static function addDevice($dname, $desc, $button=0, $slider=0, $display=0, $indicator=0, $timer=0)
     {
+        print("addDevice Called");
         $conn = Database::getConnection();
 
         $auth_id = Session::getUser()->getid();
@@ -71,6 +72,7 @@ if ($result->num_rows > 0) {
             // Execute the INSERT query
             if ($sql->execute() === true) {
                 $error = false;
+                printf("Device created succesfully");
             } else {
                 // Handle the duplicate entry error
                 if ($conn->errno === 1062) {

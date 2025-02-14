@@ -6,7 +6,5 @@ if(Session::isAuthenticated()){
     header("Location: /");
     die();
 }
-if(hello=){
-  print
-}
+
 Session::renderPage();
