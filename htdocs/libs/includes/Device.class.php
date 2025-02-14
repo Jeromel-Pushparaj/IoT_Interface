@@ -34,9 +34,9 @@ if ($result->num_rows > 0) {
 } else {
     return false;
 }
-
+// hello bro 
 // Close the connection
-    $conn->close();
+    // $conn->close();
 }
 
     public static function addDevice($dname, $desc, $button=0, $slider=0, $display=0, $indicator=0, $timer=0)
