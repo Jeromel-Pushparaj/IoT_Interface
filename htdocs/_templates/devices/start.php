@@ -29,18 +29,18 @@ if(isset($_GET['delete'])){
                 <div class="card-body">
                     <h5 class="card-title"><?php 
                     if(is_string($devicenames)){
-                        echo $devicenames;
+                        echo htmlspecialchars($devicenames);
                     }else{
-                        echo $devicenames[$i];
+                        echo htmlspecialchars($devicenames[$i]);
                     }
                     ?></h5>
                     <h6 class="card-subtitle mb-2 text-muted">About Machine</h6>
                     <p class="card-text"><?php 
                      
                     if(is_string($devicedesc)){
-                        echo $devicedesc;
+                        echo htmlspecialchars($devicedesc);
                     }else{
-                        echo $devicedesc[$i];
+                        echo htmlspecialchars($devicedesc[$i]);
                     }
                     ?></p>
                     <a href="#" class="btn btn-success my-2"><i class="bi bi-pencil"></i></a>

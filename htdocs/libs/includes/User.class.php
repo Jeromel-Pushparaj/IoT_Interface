@@ -119,8 +119,7 @@ class User
             return false; // User not found
         }
     
-        $sql->close();
-        $conn->close();
+        
     }
     
 //User object can be constructed with either UserID or Username.
