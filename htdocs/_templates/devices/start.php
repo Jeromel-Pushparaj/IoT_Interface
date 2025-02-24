@@ -10,7 +10,7 @@ if(isset($_GET['delete'])){
 ?>
 <section class="d-flex justify-content-center align-items-center vh-100">
     <div>
-        <h1 class="mb-4">Do Something Great With Your Machines!</h1> 
+        <h1 class="mb-4">Do Something Great With Your Device!</h1> 
         <a href="create.php" class="btn btn-success my-2">Add Device</a>
         <div class="d-flex flex-row">
             <?php
@@ -54,11 +54,22 @@ if(isset($_GET['delete'])){
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="infoModalLabel<?php echo $i; ?>"><?php echo $machineTitle; ?></h5>
+                            <h5 class="modal-title" id="infoModalLabel<?php echo $i; ?>">
+                            <?php 
+                                if(is_string($devicenames)){
+                                    echo htmlspecialchars($devicenames);
+                                }else{
+                                    echo htmlspecialchars($devicenames[$i]);
+                                }
+                            ?>
+                            </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <?php echo $machineDescription; ?>
+                        <div class="model-body">
+                        <div class="container">
+                            <input type="text" id="textbox" value="<?= "Here you have your unique token" ?>" readonly />
+                            <button class="copy-btn" onclick="copyText()"><i class="bi bi-copy"></i></button>
+                        </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
