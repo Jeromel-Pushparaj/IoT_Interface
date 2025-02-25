@@ -9,7 +9,7 @@ function toggleAction() {
         console.log('Toggle is ON');
 
         // Send GET request for "On" action
-        fetch('http://192.168.1.5/led1/on')
+        fetch('http://192.168.196.213/led1/on')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -73,7 +73,7 @@ function toggleAction() {
                 // Replace the URL with your server's endpoint
                 const url = '';
     
-                fetch('http://192.168.1.5/status')
+                fetch('http://192.168.196.213/status')
                     .then(response => {
                         if (response.ok) {
                             // 200 OK response
