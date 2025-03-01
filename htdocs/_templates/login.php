@@ -42,8 +42,8 @@ if (!$login_page) {
 
 		<form method="post" action="login.php">
 			<img class="mb-4"
-				src="https://th.bing.com/th/id/OIP.wqxTxU-160K2ewL--2H2qwHaEK?w=314&h=180&c=7&r=0&o=5&pid=1.7"
-				alt="logo" width="250" height="150">
+				src="assets/brand/Logo.png"
+				alt="logo" width="250" height="250">
 			<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 			<?
 		if(isset($_GET['error'])){

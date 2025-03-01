@@ -40,8 +40,8 @@ if ($signup) {
     ?>
 <main class="form-signup">
 	<form method="post" action="signup.php">
-		<img class="mb-4" src="https://git.selfmade.ninja/uploads/-/system/appearance/logo/1/Logo_Dark.png" alt=""
-			height="50">
+		<img class="mb-4" src="assets/brand/Logo.png" alt="" width="250"
+			height="250">
 		<h1 class="h3 mb-3 fw-normal">Signup here</h1>
 		<div class="form-floating">
 			<input name="username" type="text" class="form-control" id="floatingInputUsername"

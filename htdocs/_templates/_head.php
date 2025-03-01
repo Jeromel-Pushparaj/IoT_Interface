@@ -34,6 +34,7 @@
 
 	<!-- Bootstrap core CSS -->
 	<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="icon" type="image/x-icon" href="assets/brand/Logo.png">
 
 	<?php if(file_exists($_SERVER['DOCUMENT_ROOT']."/css/".basename($_SERVER['PHP_SELF'], '.php').".css")) {?>
 	<link
