@@ -1,7 +1,7 @@
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <h1>Add Device</h1>
-    <form method="post" action="create.php">
+    <form method="post" action="create">
       <div class="mb-3">
         <label for="deviceName" class="form-label">Device Name</label>
         <input type="text" name="devicename" class="form-control" id="deviceName" placeholder="Enter device name" required>

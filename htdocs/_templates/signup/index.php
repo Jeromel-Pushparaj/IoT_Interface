@@ -19,7 +19,7 @@ if ($signup) {
 	<div class="bg-light p-5 rounded mt-3">
 		<h1>Signup Success</h1>
 		<p class="lead">Now you can login from <a
-				href="<?=get_config('base_path')?>login.php">here</a>.
+				href="<?=get_config('base_path')?>login">here</a>.
 		</p>
 
 	</div>
@@ -39,7 +39,7 @@ if ($signup) {
 } else {
     ?>
 <main class="form-signup">
-	<form method="post" action="signup.php">
+	<form method="post" action="signup">
 		<img class="mb-4" src="assets/brand/Logo.png" alt="" width="250"
 			height="250">
 		<h1 class="h3 mb-3 fw-normal">Signup here</h1>

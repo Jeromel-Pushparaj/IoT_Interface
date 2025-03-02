@@ -32,7 +32,7 @@ if (isset($_GET['logout'])) {
 						<?if(Session::isAuthenticated()){?>
 						<li><a href="/?logout" class="text-white">Logout</a></li>
 						<?} else {?>
-							<li><a href="/login.php" class="text-white">Login</a></li>
+							<li><a href="/login" class="text-white">Login</a></li>
 						<?}?>
 
 					</ul>

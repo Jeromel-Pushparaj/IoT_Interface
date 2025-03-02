@@ -13,7 +13,7 @@
                 $formid = "devicename" . $i;
 
             ?>
-            <form id="<?= $formid; ?>" action="properties.php" method="POST">
+            <form id="<?= $formid; ?>" action="properties" method="POST">
             <div class="card shadow m-2" style="width: 18rem; cursor:pointer;" onclick="submitForm('<?= $formid; ?>')">
                 <div class="card-body">
                     <h5 class="card-title">

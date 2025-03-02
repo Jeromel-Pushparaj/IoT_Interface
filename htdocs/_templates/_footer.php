@@ -5,7 +5,7 @@
 			<?php
 			 if(session::isset("session_token")){
 				?>
-				<a href="login.php?logout">Logout</a><?php
+				<a href="login?logout">Logout</a><?php
 			 }
 			?>
 			

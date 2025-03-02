@@ -2,7 +2,7 @@
 if(isset($_GET['delete'])){
     $deviceno = $_GET['delete'];
     if(!Device::deleteDevice($deviceno)){
-        header("location: /device.php");
+        header("location: /device");
         die();
     }
 
@@ -11,7 +11,7 @@ if(isset($_GET['delete'])){
 <section class="d-flex justify-content-center align-items-center vh-100">
     <div>
         <h1 class="mb-4">Do Something Great With Your Device!</h1> 
-        <a href="create.php" class="btn btn-success my-2">Add Device</a>
+        <a href="create" class="btn btn-success my-2">Add Device</a>
         <div class="d-flex flex-row">
             <?php
             $devicenames = Device::getDevice()->getdevicename();
@@ -44,7 +44,7 @@ if(isset($_GET['delete'])){
                     }
                     ?></p>
                     <a href="#" class="btn btn-success my-2"><i class="bi bi-pencil"></i></a>
-                    <a href="/device.php?delete=<?php echo $devicenum[$i]; ?>" class="btn btn-success my-2"><i class="bi bi-trash"></i></a>
+                    <a href="/device?delete=<?php echo $devicenum[$i]; ?>" class="btn btn-success my-2"><i class="bi bi-trash"></i></a>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal<?php echo $i; ?>">Info</button>
                 </div>
             </div>

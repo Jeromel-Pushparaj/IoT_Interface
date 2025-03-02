@@ -29,7 +29,7 @@ if (!$login_page) {
 	} else {
 		?>
 		<script>
-			window.location.href = "/login.php?error=1"
+			window.location.href = "/login?error=1"
 		</script>
 		
 		<?php
@@ -40,7 +40,7 @@ if (!$login_page) {
 	<main class="form-signin w-100 m-auto align-items-center">
 
 
-		<form method="post" action="login.php">
+		<form method="post" action="login">
 			<img class="mb-4"
 				src="assets/brand/Logo.png"
 				alt="logo" width="250" height="250">
@@ -74,7 +74,7 @@ if (!$login_page) {
 				</label>
 			</div>
 			<button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-			<a href="/signup.php" class="w-100 btn btn-link">Not registered? Sign up</a>
+			<a href="/signup" class="w-100 btn btn-link">Not registered? Sign up</a>
 		</form>
 
 	</main>
