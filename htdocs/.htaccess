@@ -3,8 +3,7 @@
 RewriteEngine On
 RewriteBase /
 
-# Rewrite for Web
-# RewriteRule /([a-zA-Z-]+)$ $1.php [R]
+
 
 # Rewrite for a API
 RewriteRule ^/?api/([^/]+)?$ api/index.php?rquest=$1 [L,QSA,NC]
@@ -17,7 +16,7 @@ RewriteRule ^/?api/([^/]+)/([^/]+)?$ api/index.php?rquest=$2&namespace=$1 [L,QSA
 RewriteCond %{THE_REQUEST} ^(.+)\.php([#?][^\ ]*)?\ HTTP/
 RewriteRule ^(.+)\.php$ "http://%{HTTP_HOST}/$1" [R=404,L]
 
-# Resolve .php file for extensionless php urls
+# Resolve .php file for extensionless php urls and for not api Request
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^([^/.]+)$ $1.php [L]
 

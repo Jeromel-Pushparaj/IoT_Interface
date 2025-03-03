@@ -5,14 +5,14 @@
       <input type="text" class="form-control" id="deviceName" placeholder="Enter device name">
     </div>
     <div class="d-flex justify-content-between mb-4">
-      <button class="btn btn-primary">
+      <button class="btn btn-dark">
         <i class="bi bi-plus"></i> Add
       </button>
-      <button class="btn btn-secondary">
+      <button class="btn btn-dark">
         <i class="bi bi-pencil"></i> Edit
       </button>
     </div>
     <div class="text-center">
-      <button class="btn btn-success w-100">Add Device</button>
+      <button class="btn btn-dark w-100">Add Device</button>
     </div>
   </div>

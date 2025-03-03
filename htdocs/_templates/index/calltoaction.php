@@ -4,8 +4,8 @@
 				<h1 class="fw-bold">Add and Access in same place, <?= htmlspecialchars(Session::getUser()->getUsername()) ?></h1>
 				<p class="lead text-primary">Connect and control it all in one place</p>
 				<p>
-        <a href="/device" class="btn btn-primary my-2">Add Devices</a>
-        <a href="/control" class="btn btn-success my-2">Control Devices</a>
+        <a href="/device" class="btn btn-dark my-2">Add Devices</a>
+        <a href="/control" class="btn btn-dark my-2">Control Devices</a>
 				</p>
 			</div>
 	</div>

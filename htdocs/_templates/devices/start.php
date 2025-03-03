@@ -11,7 +11,7 @@ if(isset($_GET['delete'])){
 <section class="d-flex justify-content-center align-items-center vh-100">
     <div>
         <h1 class="mb-4">Do Something Great With Your Device!</h1> 
-        <a href="create" class="btn btn-success my-2">Add Device</a>
+        <a href="create" class="btn btn-dark my-2">Add Device</a>
         <div class="d-flex flex-row">
             <?php
             $devicenames = Device::getDevice()->getdevicename();
@@ -43,9 +43,9 @@ if(isset($_GET['delete'])){
                         echo htmlspecialchars($devicedesc[$i]);
                     }
                     ?></p>
-                    <a href="#" class="btn btn-success my-2"><i class="bi bi-pencil"></i></a>
-                    <a href="/device?delete=<?php echo $devicenum[$i]; ?>" class="btn btn-success my-2"><i class="bi bi-trash"></i></a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal<?php echo $i; ?>">Info</button>
+                    <a href="#" class="btn btn-dark my-2"><i class="bi bi-pencil"></i></a>
+                    <a href="/device?delete=<?php echo $devicenum[$i]; ?>" class="btn btn-dark my-2"><i class="bi bi-trash"></i></a>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal<?php echo $i; ?>">Info</button>
                 </div>
             </div>
 
