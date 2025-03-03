@@ -17,6 +17,6 @@
         <label for="deviceDescription" class="form-label">Description</label>
         <textarea class="form-control" name="description" type="text" id="deviceDescription" rows="3" placeholder="Enter description"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Add Device</button>
+      <button type="submit" class="btn btn-dark">Add Device</button>
     </form>
   </div>

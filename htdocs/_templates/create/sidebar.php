@@ -9,23 +9,23 @@
       <span class="label">.</span>
     </div>
     <div class="sidebar-menu-item" draggable="true" data-type="toggle">
-      <span class="icon">🖲️</span>
-      <span class="label">ToggleButton</span>
+      <span class="icon"><i class="bi bi-toggles m-2"></i></span>
+      <span class="label">  ToggleButton</span>
     </div>
     <div class="sidebar-menu-item" draggable="true" data-type="slider">
-      <span class="icon">🎚️</span>
-      <span class="label">Slider</span>
+      <span class="icon"><i class="bi bi-sliders m-2"></i></span>
+      <span class="label">  Slider</span>
     </div>
     <div class="sidebar-menu-item" draggable="true" data-type="display">
-      <span class="icon">📟</span>
-      <span class="label">Display</span>
+      <span class="icon"><i class="bi bi-display m-2"></i></span>
+      <span class="label">  Display</span>
     </div>
     <div class="sidebar-menu-item" draggable="true" data-type="indicator">
-      <span class="icon">💡</span>
-      <span class="label">Indicator</span>
+      <span class="icon"><i class="bi bi-lightbulb m-2"></i></span>
+      <span class="label">  Indicator</span>
     </div>
     <div class="sidebar-menu-item" draggable="true" data-type="timer">
-      <span class="icon">⏳</span>
-      <span class="label">Timer</span>
+      <span class="icon"><i class="bi bi-alarm m-2"></i></span>
+      <span class="label">  Timer</span>
     </div>
   </div>
