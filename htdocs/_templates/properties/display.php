@@ -1,6 +1,6 @@
 <div class="sensor-display">
-        <h3>Sensor Reading</h3>
-        <div class="sensor-value" id="sensorValue">--</div>
-        <div class="unit" id="unit">°C</div>
-        <div class="status normal" id="status">Normal</div>
+        <h3>Device display</h3>
+        <div class="sensor-value" id="sensorValue">hello jeromel is this display he owns it</div>
+        <div class="unit" id="unit"></div>
+        <div class="status normal" id="status">Connected</div>
     </div>

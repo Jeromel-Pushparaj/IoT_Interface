@@ -1,4 +1,5 @@
 .toggle-container {
+    margin: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -45,30 +46,36 @@ input:checked + .slider:before {
 }
 
 .sensor-display {
-    width: 300px;
+    width: 500px;
+    height: 200px;
     padding: 20px;
-    background-color: white;
+    margin: 20px;
+    background-color: rgb(0, 0, 0);
+    border-style: solid;
+    border-width:  2px;
+    border-color: rgb(255, 255, 255);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+
 }
 
 .sensor-display h3 {
     margin: 0 0 10px;
     font-size: 18px;
-    color: #333;
+    color: white;
 }
 
 .sensor-value {
-    font-size: 40px;
+    font-size: 20px;
     font-weight: bold;
-    color: #4CAF50;
+    color: white;
     margin: 10px 0;
 }
 
 .unit {
     font-size: 16px;
-    color: #888;
+    color: white;
 }
 
 .status {
@@ -82,7 +89,7 @@ input:checked + .slider:before {
 }
 
 .status.normal {
-    background-color: #4CAF50;
+    background-color: #ffffff;
 }
 
 .status.alert {
@@ -92,6 +99,7 @@ input:checked + .slider:before {
 .status-container {
     display: flex;
     align-items: center;
+    margin: 20px;
     gap: 10px;
 }
 
@@ -106,4 +114,35 @@ input:checked + .slider:before {
 .status-text {
     font-size: 16px;
     font-weight: bold;
+}
+
+/* Style only the slider with a specific class */
+.slider-input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, #4CAF50, #81C784); /* Green gradient */
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s;
+}
+
+/* Style the thumb (the draggable button) */
+.slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #4CAF50; /* Green */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover and active effects */
+.slider-input::-webkit-slider-thumb:hover {
+    background: #388E3C; /* Darker green */
+}
+
+.slider-input:active::-webkit-slider-thumb {
+    transform: scale(1.2);
 }
