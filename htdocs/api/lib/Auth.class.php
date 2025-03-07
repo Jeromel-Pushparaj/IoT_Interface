@@ -6,7 +6,7 @@ class Auth{
     private $validKey = false;
     private $deviceToken = null;
     private $deviceAuth;
-    private $apiKey
+    private $apiKey;
     public function __construct($apiKey){
        $this->db = Database::getConnection();
        if($apiKey != NULL){

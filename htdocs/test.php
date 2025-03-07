@@ -7,6 +7,7 @@ include_once 'libs/load.php';
 include_once 'libs/includes/Device.class.php';
 
 $d = new Device();
+
 // print_r($_SERVER);
 // print($_SERVER['REQUEST_URI']);
 // print_r($_GET);

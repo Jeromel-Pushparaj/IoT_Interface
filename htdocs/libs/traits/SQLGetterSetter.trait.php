@@ -28,9 +28,11 @@ trait SQLGetterSetter {
         if ($this->conn) {
             $this->conn = Database::getConnection();
         }
-        $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = $this->id";
+        try{
+        $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = $this->id;";
         //print($sql);
         $result = $this->conn->query($sql);
+        if($this->table == 'devices'){
         if ($result and $result->num_rows == 1) {
             //print("Res: ".$result->fetch_assoc()["$var"]);
             return $result->fetch_assoc()["$var"];
@@ -42,6 +44,16 @@ trait SQLGetterSetter {
         }else{
             return null;
         }
+        }
+       else {
+            if($result and $result->num_rows == 1){
+                return $result->fetch_assoc()["$var"];
+            }
+        }
+    }catch(Exception $e){
+        throw new Exception(__CLASS__."::_get_data() -> $var , data unavailable. $e");
+        // return $e->getMessage();
+    }
     }
 
     private function _set_data($var, $data)
