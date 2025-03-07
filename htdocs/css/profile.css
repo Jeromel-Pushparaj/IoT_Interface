@@ -1,0 +1,29 @@
+        .api-card {
+            width: 400px;
+            padding: 20px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .api-key-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .api-key {
+            flex-grow: 1;
+            font-family: monospace;
+            font-size: 16px;
+            border: none;
+            background: transparent;
+            text-align: center;
+        }
+        .copy-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+        }

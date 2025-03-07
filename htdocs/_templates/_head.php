@@ -9,6 +9,7 @@
 	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 	<link rel="stylesheet" href="css/main.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/headers/">
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<title>
@@ -33,7 +34,7 @@
     </script>
 
 	<!-- Bootstrap core CSS -->
-	<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="icon" type="image/x-icon" href="assets/brand/Logo.png">
 
 	<?php if(file_exists($_SERVER['DOCUMENT_ROOT']."/css/".basename($_SERVER['PHP_SELF'], '.php').".css")) {?>

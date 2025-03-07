@@ -16,6 +16,21 @@ if (isset($_GET['logout'])) {
 }
 
 ?>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
 <header>
 	<div class="collapse bg-dark" id="navbarHeader">
 		<div class="container">
@@ -28,9 +43,9 @@ if (isset($_GET['logout'])) {
 					<h4 class="text-white">Contact</h4>
 					<ul class="list-unstyled">
 						<li><a href="#" class="text-white">Follow on Twitter</a></li>
-						<li><a href="#" class="text-white">Like on Facebook</a></li>
 						<?if(Session::isAuthenticated()){?>
-						<li><a href="/?logout" class="text-white">Logout</a></li>
+							<li><a href="/?logout" class="text-white">Logout</a></li>
+							<li><a href="/Profile" class="text-white">Profile</a></li>
 						<?} else {?>
 							<li><a href="/login" class="text-white">Login</a></li>
 						<?}?>

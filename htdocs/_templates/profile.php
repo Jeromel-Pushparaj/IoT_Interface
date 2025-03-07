@@ -1,1 +1,6 @@
-<h1>THis is Profile page guys</h1>
+<?php
+
+Session::loadTemplate('profile/apikey');
+Session::loadTemplate('profile/sidebar')
+
+?>

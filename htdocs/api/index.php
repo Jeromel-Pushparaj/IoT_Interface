@@ -3,6 +3,7 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 require_once($_SERVER['DOCUMENT_ROOT']."/api/REST.api.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Database.class.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/load.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/api/lib/Auth.class.php");
 
 class API extends REST{
     public $data = "";
@@ -64,6 +65,22 @@ class API extends REST{
             return call_user_func($this->current_call, $args);
         } else {
             $this->response($this->json(['error' => 'method_not_callable']), 404);
+        }
+    }
+    public function auth(){
+        $headers = getallheaders();
+        if(isset($headers['Authorization'])){
+            $token = explode(' ', $headers['Authorization']);
+            $this->auth = new Auth($token[1]);
+        }
+    }
+    
+    public function isAuthenticated(){
+        if($this->auth == null){
+            return false;
+        }
+        if($this->auth->getAuth()->authenticate()){
+            //
         }
     }
 
