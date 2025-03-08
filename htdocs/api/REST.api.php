@@ -1,34 +1,31 @@
 <?php
+    require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Database.class.php");
+    class REST {
 
-require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Database.class.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/libs/load.php");
-class REST {
-    public $_allow = array();
-    public $_content_type = "application/json";
-    public $_request = array();
+        public $_allow = array();
+        public $_content_type = "application/json";
+        public $_request = array();
 
-    private $_method = "";
-    private $_code = 200;
+        private $_method = "";
+        private $_code = 200;
 
-    public function __construct(){
-        $this->inputs();
-    }
-    public function get_referer(){
-        return $_SERVER['HTTP_REFERER'];
-    }
+        public function __construct(){
+            $this->inputs();
+        }
 
-    public function get_request_method(){
-        return $_SERVER['REQUEST_METHOD'];
-    }
+        public function get_referer(){
+            return $_SERVER['HTTP_REFERER'];
+        }
 
-    public function response($data, $status){
-        $this->_code = ($status)?$status:200;
-        $this->set_headers();
-        echo $data;
-        exit;
-    }
-    private function get_status_message(){
-        $status = array(
+        public function response($data,$status){
+            $this->_code = ($status)?$status:200;
+            $this->set_headers();
+            echo $data;
+            exit;
+        }
+
+        private function get_status_message(){
+            $status = array(
                         100 => 'Continue',
                         101 => 'Switching Protocols',
                         200 => 'OK',
@@ -70,44 +67,52 @@ class REST {
                         503 => 'Service Unavailable',
                         504 => 'Gateway Timeout',
                         505 => 'HTTP Version Not Supported');
-        return ($status[$this->_code])?$status[$this->_code]:$status[500];
-    }
-    private function inputs(){
-        switch($this->get_request_method()){
-            case "POST":
-                $this->_request = $this->cleanInputs(array_merge($_GET, $_POST));
-                break;
-            case "GET":
-                $this->_request= $this->cleanInputs($_GET);
-            case "DELETE":
-                $this->_request = $this->cleanInputs($_GET);
-                break;
-            case "PUT":
-                parse_str(file_get_contents("php://input"), $this->_request);
-                $this->_request = $this->cleanInputs($this->_request);
-                break;
-            default:
-                $this->response('', 406);
-                break;
+            return ($status[$this->_code])?$status[$this->_code]:$status[500];
         }
-    }
-    private function cleanInputs($data){
-        $clean_input = array();
-        if(is_array($data)){
-            foreach($data as $k => $v){
-                $clean_input[$k] = $this->cleanInputs($v);
+
+        public function get_request_method(){
+            return $_SERVER['REQUEST_METHOD'];
+        }
+
+        private function inputs(){
+            switch($this->get_request_method()){
+                case "POST":
+                    //$this->_request = $this->cleanInputs($_POST);
+                    $this->_request =  $this->cleanInputs(array_merge($_GET,$_POST));
+                    break;
+                case "GET":
+                    $this->_request = $this->cleanInputs($_GET);
+                case "DELETE":
+                    $this->_request = $this->cleanInputs($_GET);
+                    break;
+                case "PUT":
+                    parse_str(file_get_contents("php://input"),$this->_request);
+                    $this->_request = $this->cleanInputs($this->_request);
+                    break;
+                default:
+                    $this->response('',406);
+                    break;
             }
-        }else{
+        }
+
+        private function cleanInputs($data){
+            $clean_input = array();
+            if(is_array($data)){
+                foreach($data as $k => $v){
+                    $clean_input[$k] = $this->cleanInputs($v);
+                }
+            }else{
                 $data = trim(stripslashes($data));
                 $data = strip_tags($data);
                 $data = mysqli_real_escape_string(Database::getConnection(), $data);
                 $clean_input = trim($data);
+            }
+            return $clean_input;
         }
-        return $clean_input;
-    }
 
-    private function set_headers(){
-        header("HTTP/1.1".$this->_code." ". $this->get_status_message());
-        header("Content-Type:".$this->_content_type);
+        private function set_headers(){
+            header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
+            header("Content-Type:".$this->_content_type);
+        }
     }
-}
+?>

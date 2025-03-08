@@ -4,6 +4,8 @@ require_once($_SERVER['DOCUMENT_ROOT']."/api/REST.api.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Database.class.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/load.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/api/lib/Auth.class.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/DeviceKey.class.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Device.class.php");
 
 class API extends REST{
     public $data = "";
@@ -79,17 +81,27 @@ class API extends REST{
         if($this->auth == null){
             return false;
         }
-        if($this->auth->getAuth()->authenticate()){
-            //
+        if($this->auth->Authenticate()){
+            return true;
+        }else{
+            return false;
         }
     }
 
      /*************API SPACE START*******************/
 
      private function about(){
-        $data = array('method'=> $this->get_request_method(),'version' => $this->_request['version'], 'desc' => 'This API is created for Transfer Data between devices and server');
+        if($this->isAuthenticated()){
+        $data = array('method'=> $this->get_request_method(), 'desc' => 'This API is created for Transfer Data between devices and server');
         $data = $this->json($data);
         $this->response($data,200);
+        }else{
+            $data = [
+                "error" => "Invalid Key"
+            ];
+            $data = $this->json($data);
+            $this->response($data, 400);
+        }
      }
 
       /*************API SPACE END*******************/
@@ -99,6 +111,7 @@ class API extends REST{
 //Initiate Library
 $api = new API;
 try{
+    $api->auth();
     $api->processApi();
 }
 catch(Exception $e){
