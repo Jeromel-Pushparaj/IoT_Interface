@@ -1,6 +1,7 @@
 <?php
 require_once "Database.class.php";
 include_once __DIR__ . "/../traits/SQLGetterSetter.trait.php";
+include_once "DeviceKey.class.php";
 
 class Device
 {
@@ -14,8 +15,8 @@ class Device
     $this->conn = Database::getConnection();
     $this->table = 'devices';
     $this->id = Session::getUser()->getid(); 
+    
   }
-
 
   public static function nextDeviceNo($auth_id){
     $conn = Database::getConnection();
@@ -34,6 +35,7 @@ if ($result->num_rows > 0) {
 } else {
     return false;
 }
+
 // hello bro 
 // Close the connection
     // $conn->close();
@@ -41,7 +43,7 @@ if ($result->num_rows > 0) {
 
     public static function addDevice($dname, $desc, $button=0, $slider=0, $display=0, $indicator=0, $timer=0)
     {
-        print("addDevice Called");
+        // print("addDevice Called");
         $conn = Database::getConnection();
 
         $auth_id = Session::getUser()->getid();
@@ -61,17 +63,17 @@ if ($result->num_rows > 0) {
 
         // Bind the parameters
         $sql->bind_param("sssssssss", $dno, $dname, $button, $slider, $display, $indicator, $timer, $desc, $auth_id);
-        // Before the bind_param statement
-
-        // The bind_param statement
-        $sql->bind_param("sssssssss", $dno, $dname, $button, $slider, $display, $indicator, $timer, $desc, $auth_id);
-
 
         $error = false;
+       
         try {
+             
             // Execute the INSERT query
             if ($sql->execute() === true) {
-                $error = false;
+                $result = Devicekey::getDevice_key()->generateDevicekey();
+                if($result == false){
+                    $error = false;
+                }
                 printf("Device created succesfully");
             } else {
                 // Handle the duplicate entry error
@@ -120,7 +122,6 @@ if ($result->num_rows > 0) {
             $error = $e->getMessage();
         }
         $sql->close();
-        $conn->close();
         return $error;
     }
 

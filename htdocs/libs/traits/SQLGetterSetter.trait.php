@@ -29,6 +29,7 @@ trait SQLGetterSetter {
             $this->conn = Database::getConnection();
         }
         try{
+            
         $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = $this->id;";
         //print($sql);
         $result = $this->conn->query($sql);

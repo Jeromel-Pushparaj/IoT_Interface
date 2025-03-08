@@ -5,6 +5,8 @@ session_start();
 include_once 'libs/includes/pc.class.php';
 include_once 'libs/load.php';
 include_once 'libs/includes/Device.class.php';
+include_once 'libs/includes/DeviceKey.class.php';
+
 
 $d = new Device();
 

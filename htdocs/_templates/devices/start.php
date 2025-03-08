@@ -17,13 +17,11 @@ if(isset($_GET['delete'])){
             $devicenames = Device::getDevice()->getdevicename();
             $devicedesc = Device::getDevice()->getdesc();
             $devicenum = Device::getDevice()->getdeviceno();
+            $deviceid = Device::getDevice()->getdeviceid();
             $n = Device::numOfDevice();
             // print($devicedesc . " " . $devicenames);
             for ($i = 0; $i < $n; $i++) {
-                // print($n);
-                // Machine-specific information
-                $machineTitle = "Machine " . ($i + 1);
-                $machineDescription = "Detailed information about Machine " . ($i + 1);
+                
             ?>
             <div class="card shadow m-2" style="width: 18rem;">
                 <div class="card-body">
@@ -67,7 +65,8 @@ if(isset($_GET['delete'])){
                         </div>
                         <div class="model-body">
                         <div class="container">
-                            <input type="text" id="textbox" value="<?= "Here you have your unique token" ?>" readonly />
+                            <!-- TODO: Fix Copy to clipboard of this device key  -->
+                            <input type="text" id="textbox" value="<?php echo is_int($deviceid) ?  Devicekey::getDevice_key()->getkey($deviceid) : Devicekey::getDevice_key()->getkey($deviceid[$i]) ;?>" readonly />
                             <button class="copy-btn" onclick="copyText()"><i class="bi bi-copy"></i></button>
                         </div>
                         </div>
