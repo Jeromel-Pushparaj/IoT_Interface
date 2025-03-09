@@ -96,34 +96,46 @@ if ($result->num_rows > 0) {
         return new Device();
     }
 
-    public static function deleteDevice($deviceno){
-        $conn = Database::getConnection();
-        $sql = $conn->prepare("DELETE FROM devices WHERE deviceno = $deviceno");
-
-        if (!$sql) {
-            return "Error in preparing SQL statement: " . $conn->error;
-        }
-
-
-        $error = false;
-        try {
-            // Execute the INSERT query
-            if ($sql->execute() === true) {
-                $error = false;
-            } else {
-                // Handle the duplicate entry error
-                if ($conn->errno === 1062) {
-                    $error = "Device can't to created";
-                } else {
-                    $error = $sql->error;
-                }
-            }
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-        }
-        $sql->close();
-        return $error;
+public static function deleteDevice($deviceno) {
+    // Validate the device number
+    $deviceno = filter_var($deviceno, FILTER_VALIDATE_INT);
+    if (!$deviceno) {
+        return "Invalid device number.";
     }
+
+    // Get the database connection
+    $conn = Database::getConnection();
+
+    // Prepare the DELETE query with a placeholder
+    $sql = $conn->prepare("DELETE FROM devices WHERE deviceno = ?");
+    if (!$sql) {
+        return "Error in preparing SQL statement: " . $conn->error;
+    }
+
+    // Bind the device number parameter
+    $sql->bind_param("i", $deviceno);
+
+    // Try executing the query
+    $error = false;
+    try {
+        if ($sql->execute() === true) {
+            $error = false;
+        } else {
+            if ($conn->errno === 1062) {
+                $error = "Device can't be created";
+            } else {
+                $error = $sql->error;
+            }
+        }
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    }
+
+    // Close the statement
+    $sql->close();
+    return $error;
+}
+
 
     public static function numOfDevice(){
         $conn = Database::getConnection();
