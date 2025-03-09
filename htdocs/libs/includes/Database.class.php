@@ -32,4 +32,19 @@ class Database
             return Database::$conn;
         }
     }
+
+    public static function getMongoConnection(){
+        $username = get_config('mongo_username');
+        $password = get_config('mongo_password');
+
+        try {
+            $client = new MongoDB\Client("mongodb://$username:$password@mongo_db:27017");
+            $dbs = $client->listDatabases();
+            print_r($dbs);
+            echo "Connected to MongoDB successfully!";
+        } catch (Exception $e) {
+            echo "Error connecting to MongoDB: " . $e->getMessage();
+        }
+    }
 }
+

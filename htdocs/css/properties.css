@@ -69,13 +69,13 @@ input:checked + .slider:before {
 .sensor-value {
     font-size: 20px;
     font-weight: bold;
-    color: white;
+    color: rgb(0, 0, 0);
     margin: 10px 0;
 }
 
 .unit {
     font-size: 16px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .status {
@@ -83,7 +83,7 @@ input:checked + .slider:before {
     padding: 5px 10px;
     font-size: 14px;
     font-weight: bold;
-    color: white;
+    color: rgb(0, 0, 0);
     border-radius: 4px;
     display: inline-block;
 }

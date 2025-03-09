@@ -1,7 +1,7 @@
 <?php
 
 use MongoDB\Driver\Session as DriverSession;
-
+//TODO: Checkout Why Session is not been deleted or always active
 class Session
 {
     public static $isError = false;

@@ -14,7 +14,7 @@ class Auth{
 
     public function Authenticate(){
         if($this->getApikey() != null){
-        if(hash_equals($this->getApikey(), $this->receivedKey)){
+        if(hash_equals($this->getApikey(), user_string: $this->receivedKey)){
             $this->validKey = true;
             return true;
         }else{
