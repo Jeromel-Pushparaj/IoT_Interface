@@ -1,3 +1,4 @@
+<h1>From Server</h1>
 <pre>
 <?php
   phpinfo();
