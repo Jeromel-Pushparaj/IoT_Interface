@@ -45,7 +45,7 @@ if (isset($_GET['logout'])) {
 						<li><a href="#" class="text-white">Follow on Twitter</a></li>
 						<?if(Session::isAuthenticated()){?>
 							<li><a href="/?logout" class="text-white">Logout</a></li>
-							<li><a href="/Profile" class="text-white">Profile</a></li>
+							<li><a href="/profile" class="text-white">Profile</a></li>
 						<?} else {?>
 							<li><a href="/login" class="text-white">Login</a></li>
 						<?}?>

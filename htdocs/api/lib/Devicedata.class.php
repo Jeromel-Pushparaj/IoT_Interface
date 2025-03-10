@@ -33,6 +33,11 @@ class Devicedata {
             return false;
         }
     }
+    
+    public function isExists($rdevicekey){
+        $existDoccument = $this->collection->findOne(["devicekey" => $rdevicekey]);
+        return !$existDoccument ? false : true;
+    }
 
     public function addDeviceEntry($rdevicekey){
         if($this->validateDevice($rdevicekey)){
