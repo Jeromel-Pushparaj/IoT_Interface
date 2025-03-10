@@ -14,8 +14,8 @@ class Devicekey
   public function __construct(){
     $this->conn = Database::getConnection();
     $this->table = 'device_keys';
-    $this->id = Session::getUser()->getid(); 
-    $this->deviceid = Device::getDevice()->getdeviceid();
+    // $this->id = Session::getUser()->getid(); 
+    
   }
 
   public static function getDevice_key(){
@@ -27,6 +27,8 @@ class Devicekey
     }
 
     public function generateDevicekey(){
+        $this->id = Session::getUser()->getid();
+        $this->deviceid = Device::getDevice()->getdeviceid();
         $sql = $this->conn->prepare("INSERT INTO `device_keys` (`id`,`deviceid`, `devicekey`)
         VALUES (?, ?, ?);");
         if (!$sql) {
@@ -68,13 +70,22 @@ class Devicekey
     }
 
     public function getkey($deviceid){
-        $sql = "SELECT `devicekey` FROM `$this->table` WHERE `deviceid` = $deviceid;";
+        $sql = "SELECT `devicekey` FROM `$this->table` WHERE `deviceid` = '$deviceid';";
         $result = $this->conn->query($sql);
         if($result and $result->num_rows == 1){
             return $result->fetch_assoc()["devicekey"];
         }
          
 
+    }
+    public function getkeywithkey($devicekey){
+        $sql = "SELECT `devicekey` FROM `$this->table` WHERE `devicekey` = '$devicekey';";
+        $sql1 = "SELECT `deviceid` FROM `$this->table` WHERE `devicekey` = '$devicekey';";
+        $result = $this->conn->query($sql);
+        $result1 = $this->conn->query($sql1);
+        if(($result and $result->num_rows == 1) and ($result1 and $result1->num_rows == 1)){
+            return [$result1->fetch_assoc()["deviceid"],$result->fetch_assoc()["devicekey"]];
+        }
     }
 
 

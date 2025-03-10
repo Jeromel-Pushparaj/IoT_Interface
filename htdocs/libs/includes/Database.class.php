@@ -39,11 +39,9 @@ class Database
 
         try {
             $client = new MongoDB\Client("mongodb://$username:$password@mongo_db:27017");
-            $dbs = $client->listDatabases();
-            print_r($dbs);
-            echo "Connected to MongoDB successfully!";
+            return $client->device_data;
         } catch (Exception $e) {
-            echo "Error connecting to MongoDB: " . $e->getMessage();
+            throw new Exception( "Error connecting to MongoDB: " . $e->getMessage());
         }
     }
 }

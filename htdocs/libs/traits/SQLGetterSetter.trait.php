@@ -29,25 +29,28 @@ trait SQLGetterSetter {
             $this->conn = Database::getConnection();
         }
         try{
-            
-        $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = $this->id;";
-        //print($sql);
-        $result = $this->conn->query($sql);
-        if($this->table == 'devices'){
-        if ($result and $result->num_rows == 1) {
-            //print("Res: ".$result->fetch_assoc()["$var"]);
-            return $result->fetch_assoc()["$var"];
-        } else if($result->num_rows > 1){
-            while ($row = $result->fetch_assoc()) {
-                $deviceNames[] = $row[$var];
+            if($this->table == 'devices'){
+                $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = '$this->id';";
+                //print($sql);
+                $result = $this->conn->query($sql);
+                if ($result and $result->num_rows == 1) {
+                    //print("Res: ".$result->fetch_assoc()["$var"]);
+                    return $result->fetch_assoc()["$var"];
+                } else if($result->num_rows > 1){
+                    while ($row = $result->fetch_assoc()) {
+                        $deviceNames[] = $row[$var];
+                    }
+                    return $deviceNames;
+                }else{
+                    return null;
+                }
             }
-            return $deviceNames;
-        }else{
-            return null;
-        }
-        }
-       else {
-            if($result and $result->num_rows == 1){
+            else {
+                
+            $sql = "SELECT `$var` FROM `$this->table` WHERE `id` = $this->id;";
+            //print($sql);
+            $result = $this->conn->query($sql);
+                if($result and $result->num_rows == 1){
                 return $result->fetch_assoc()["$var"];
             }
         }

@@ -6,6 +6,7 @@
             $devicenames = Device::getDevice()->getdevicename();
             $devicedesc = Device::getDevice()->getdesc();
             $devicenum = Device::getDevice()->getdeviceno();
+            $deviceid = Device::getDevice()->getdeviceid();
             $n = Device::numOfDevice();
             
 
@@ -44,7 +45,7 @@
                     </p>
                     
                     <?php 
-                    $properties = Device::deviceProperties($devicenames[$i]);
+                    $properties = Device::deviceProperties($deviceid[$i]);
                     
                     if(in_array("button", $properties)){?>
                         <a class="btn btn-dark my-2"><i class="bi bi-toggles"></i></a>

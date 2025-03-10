@@ -14,7 +14,7 @@ class Device
   public function __construct(){
     $this->conn = Database::getConnection();
     $this->table = 'devices';
-    $this->id = Session::getUser()->getid(); 
+    $this->id = Session::getUser()->getid();
     
   }
 
@@ -145,36 +145,37 @@ public static function deleteDevice($deviceno) {
         return $result;
     }
     public static function deviceProperties($device){
+        //TODO: Select the device properties by deviceid not a name
         $conn = Database::getConnection();
         // $id = Session::getUser()->getid();
 
         $sql = "SELECT 'button' AS property
                 FROM devices
-                WHERE devicename = '$device' AND button = 1
+                WHERE deviceid = '$device' AND button = 1
 
                 UNION ALL
 
                 SELECT 'slider' AS property
                 FROM devices
-                WHERE devicename = '$device' AND slider = 1
+                WHERE deviceid = '$device' AND slider = 1
 
                 UNION ALL
 
                 SELECT 'display' AS property
                 FROM devices
-                WHERE devicename = '$device' AND display = 1
+                WHERE deviceid = '$device' AND display = 1
 
                 UNION ALL
 
                 SELECT 'indicator' AS property
                 FROM devices
-                WHERE devicename = '$device' AND indicator = 1
+                WHERE deviceid = '$device' AND indicator = 1
 
                 UNION ALL
 
                 SELECT 'timer' AS property
                 FROM devices
-                WHERE devicename = '$device' AND timer = 1;";
+                WHERE deviceid = '$device' AND timer = 1;";
         $properties = [];
         $result = $conn->query($sql);
         while ($row = $result->fetch_assoc()) {

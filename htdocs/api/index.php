@@ -6,6 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/libs/load.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/api/lib/Auth.class.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/DeviceKey.class.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/libs/includes/Device.class.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/api/lib/Devicedata.class.php");
 
 class API extends REST{
     public $data = "";
