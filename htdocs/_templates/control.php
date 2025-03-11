@@ -8,16 +8,19 @@
             $devicenum = Device::getDevice()->getdeviceno();
             $deviceid = Device::getDevice()->getdeviceid();
             $n = Device::numOfDevice();
+
             
 
             for ($i = 0; $i < $n; $i++) {
                 $formid = "devicename" . $i;
+                $devicekey = Devicekey::getDevice_key()->getkey($deviceid[$i]);
 
             ?>
             <form id="<?= $formid; ?>" action="properties" method="POST">
             <div class="card shadow m-2" style="width: 18rem; cursor:pointer;" onclick="submitForm('<?= $formid; ?>')">
                 <div class="card-body">
                     <h5 class="card-title">
+                        <input type="hidden" name="dkey" value="<?=$devicekey?>">
                     <?php 
                     if(is_string($devicenames)){
                         echo $devicenames;
@@ -46,7 +49,9 @@
                     
                     <?php 
                     $properties = Device::deviceProperties($deviceid[$i]);
-                    
+                    ?>
+                    <input type="hidden" name="id" value="<?=$deviceid[$i]?>">
+                    <?php
                     if(in_array("button", $properties)){?>
                         <a class="btn btn-dark my-2"><i class="bi bi-toggles"></i></a>
                         <input type="hidden" name="button" value="1">
