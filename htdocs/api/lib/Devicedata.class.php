@@ -70,4 +70,18 @@ class Devicedata {
             return false;
         }
     }
+
+    public function readDeviceState($rdevicekey){
+        if($this->validateDevice($rdevicekey)){
+            $state = $this->collection->findOne(["devicekey" => $rdevicekey]);
+            if(isset($state)){
+                return $state;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+        
+    }
 }

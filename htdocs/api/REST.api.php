@@ -86,12 +86,16 @@
                     }
                     break;
                 case "GET":
-                    $this->_request = $this->cleanInputs($_GET);
+                    if (strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
+                        $this->_request = json_decode(file_get_contents("php://input"), true);
+                    } else {
+                        $this->_request = $this->cleanInputs($_GET);
+                    }
+                    break;
                 case "DELETE":
                     $this->_request = $this->cleanInputs($_GET);
                     break;
                 case "PUT":
-                    parse_str(file_get_contents("php://input"),$this->_request);
                     $this->_request = $this->cleanInputs($this->_request);
                     break;
                 default:
