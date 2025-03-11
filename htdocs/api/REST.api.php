@@ -77,8 +77,13 @@
         private function inputs(){
             switch($this->get_request_method()){
                 case "POST":
-                    //$this->_request = $this->cleanInputs($_POST);
-                    $this->_request =  $this->cleanInputs(array_merge($_GET,$_POST));
+                    // $this->_request = $this->cleanInputs($_POST);
+                    // $this->_request =  $this->cleanInputs(array_merge($_GET,$_POST));
+                    if (strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
+                        $this->_request = json_decode(file_get_contents("php://input"), true);
+                    } else {
+                        $this->_request = $this->cleanInputs(array_merge($_GET,$_POST));
+                    }
                     break;
                 case "GET":
                     $this->_request = $this->cleanInputs($_GET);
@@ -97,17 +102,19 @@
 
         private function cleanInputs($data){
             $clean_input = array();
+            
             if(is_array($data)){
                 foreach($data as $k => $v){
                     $clean_input[$k] = $this->cleanInputs($v);
                 }
             }else{
+                
                 $data = trim(stripslashes($data));
-                $data = strip_tags($data);
-                $data = mysqli_real_escape_string(Database::getConnection(), $data);
-                $clean_input = trim($data);
+                //$data = strip_tags($data);
+                //$data = mysqli_real_escape_string(Database::getConnection(), $data);
+                //$clean_input = trim($data);
             }
-            return $clean_input;
+            return array($data);
         }
 
         private function set_headers(){

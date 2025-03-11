@@ -10,13 +10,20 @@ ${basename(__FILE__, '.php')} = function(){
                 try{
         
                     $data = Devicedata::getDevicedata()->addDeviceEntry($devicekey);
+                    if($data != false){
 
-                    $data["DataEntry"] = "Success";
+                    $data["message"] = "device entry success";
 
-                    $this->response($this->json($data), 200);
+                    $this->response($this->json($data), 201);
+                    }else{
+                        $data = [
+                            "error" => "device not found"
+                        ];
+                        $this->response($this->json($data), 406);                      
+                    }
                 }catch(Exception $e){
+                    //TODO: Change this $e->getMessage() to normal msg in string
                     $data = [
-                        "he"=>"rohi",
                         "error" => $e->getMessage()
                     ];
                     $this->response($this->json($data), 406);

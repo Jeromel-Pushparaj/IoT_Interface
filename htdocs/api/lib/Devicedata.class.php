@@ -56,9 +56,18 @@ class Devicedata {
             }catch(Exception $e){
                 throw new Exception("Error inserting DataEntry".$e->getMessage());
             }
-            
+        }else{
+            return false;
+        }
+    }
 
-
+    //TODO: Sanities the value before updatnig - Now it is not sanitied and in vulnerable state
+    public function updateDeviceState($rdevicekey, $propertyToUpdatae, $value){
+        if($this->validateDevice($rdevicekey)){
+            $this->collection->updateOne(['devicekey' => $rdevicekey], ['$set' => [$propertyToUpdatae => $value]]);
+            return true;
+        }else{
+            return false;
         }
     }
 }
