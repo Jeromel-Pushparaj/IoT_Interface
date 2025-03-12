@@ -80,7 +80,7 @@ function toggleAction() {
     console.log(`Toggle is ${buttonState ? 'ON' : 'OFF'}`);
 
     // Send POST request with JSON payload
-    fetch('http://localhost/api/webapi/update', {
+    fetch('https://iotinterface.site/api/webapi/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ function toggleAction() {
 
 // Function to check device status periodically
 function checkbDeviceStatus() {
-    fetch('http://localhost/api/webapi/status', {
+    fetch('https://iotinterface.site/api/webapi/status', {
         method: "POST",
         headers:{
             'Content-Type':'application/json',
@@ -127,7 +127,7 @@ function checkbDeviceStatus() {
 }
 
 function updateDisplay() {
-    fetch('http://localhost/api/webapi/status', {
+    fetch('https://iotinterface.site/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -168,46 +168,72 @@ function updateDisplay() {
         // document.getElementById("status").classList.add("error");
     });
 }
-
-function updateDeviceStatus() {
-    fetch('http://localhost/api/webapi/status', {
+function readUpdated_at(){
+       fetch('https://iotinterface.site/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
             'devicekey': '<?=$devicekey?>'
         },
-        body: JSON.stringify({ "state": "indicator" })
+        body: JSON.stringify({ "state": "updated_at" })
     })
     .then(response => response.json()) // Convert response to JSON
     .then(data => {
-        console.log("Received device status:", data); // Debugging
+        console.log("Received device status:", data);
+        updated_at =  data.updated_at;
+            })
+    .catch(error => {
+        console.error("Error fetching device status:", error);
 
-        // Get the status elements
+    });
+}
+
+function updateDeviceStatus() {
+    fetch('https://iotinterface.site/api/webapi/getstatus', {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'devicekey': '<?=$devicekey?>'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Received device status:", data);
+
         const statusCircle = document.getElementById("statusCircle<?=$deviceId?>");
         const statusText = document.getElementById("statusText<?=$deviceId?>");
 
-        // Update the UI based on the received status
-        if (data.indicator === 1) {
-            statusCircle.style.backgroundColor = "green";
-            statusText.innerText = "Online";
-        } else if (data.indicator === 0) {
+        const lastUpdated = new Date(data.updated_at).getTime(); // Convert to timestamp
+        const currentTime = new Date().getTime();
+        const offlineThreshold = 30 * 1000; // 30 seconds in milliseconds
+
+        if (data.indicator === 0) {
+            // Device is offline (no update in 30 sec)
             statusCircle.style.backgroundColor = "red";
             statusText.innerText = "Offline";
+        } else if (data.indicator === 1) {
+            // Device is online
+            statusCircle.style.backgroundColor = "green";
+            statusText.innerText = "Online";
         } else {
+            // Unknown state
             statusCircle.style.backgroundColor = "gray";
             statusText.innerText = "Unknown";
         }
     })
     .catch(error => {
         console.error("Error fetching device status:", error);
-        
-        // Handle errors by showing offline status
+
+        // Handle errors by showing disconnected status
         const statusCircle = document.getElementById("statusCircle<?=$deviceId?>");
         const statusText = document.getElementById("statusText<?=$deviceId?>");
         statusCircle.style.backgroundColor = "gray";
         statusText.innerText = "Disconnected";
     });
 }
+
+
+
 
 const slider = document.getElementById("slider<?=$deviceId?>");
 const sliderValue = document.getElementById("sliderValue<?=$deviceId?>");
@@ -231,7 +257,7 @@ slider.addEventListener("input", function () {
 function sendValueToServer(value) {
     console.log("Sending value to server:", value);
 
-    fetch("http://localhost/api/webapi/update", {
+    fetch("https://iotinterface.site/api/webapi/update", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -248,7 +274,7 @@ function sendValueToServer(value) {
 
 // Function to periodically check the slider value from the server
 function fetchSliderValue() {
-    fetch("http://localhost/api/webapi/status", {
+    fetch("https://iotinterface.site/api/webapi/status", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -269,14 +295,15 @@ function fetchSliderValue() {
 }
 
 // Fetch the slider value every 5 seconds
-setInterval(fetchSliderValue, 5000);
+setInterval(fetchSliderValue, 500);
 
 // Call updateDeviceStatus every 5 seconds
-setInterval(updateDeviceStatus, 500);
-
+// setInterval(updateDeviceStatus, 500);
+// Auto-refresh every 10 seconds
+setInterval(updateDeviceStatus, 300);
 
 // Call updateDisplay every 3 seconds
-setInterval(updateDisplay, 3000);
+setInterval(updateDisplay, 1000);
 
 // Attach event listener to toggle switch
 document.getElementById('toggleSwitch<?=$deviceId?>').addEventListener('change', toggleAction);

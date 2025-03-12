@@ -64,7 +64,14 @@ class Devicedata {
     //TODO: Sanities the value before updatnig - Now it is not sanitied and in vulnerable state
     public function updateDeviceState($rdevicekey, $propertyToUpdatae, $value){
         if($this->validateDevice($rdevicekey)){
-            $this->collection->updateOne(['devicekey' => $rdevicekey], ['$set' => [$propertyToUpdatae => $value]]);
+            $this->collection->updateOne(['devicekey' => $rdevicekey], 
+            [
+                '$set' => [
+                    $propertyToUpdatae => $value,
+                    "update_at" => date("Y-m-d H:i:s")
+                ],
+            
+            ]);
             return true;
         }else{
             return false;

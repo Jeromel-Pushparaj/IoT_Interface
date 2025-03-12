@@ -3,7 +3,7 @@
 ${basename(__FILE__, '.php')} = function(){
     $header = getallheaders();
     
-    if($this->get_request_method() == "GET" and isset($header['devicekey']) and isset($this->_request['state'])){
+    if($this->get_request_method() == "POST" and isset($header['devicekey']) and isset($this->_request['state'])){
         if($this->isAuthenticated()){
             $devicekey = $header['devicekey'];
             if (Devicedata::getDevicedata()->isExists($devicekey)){
