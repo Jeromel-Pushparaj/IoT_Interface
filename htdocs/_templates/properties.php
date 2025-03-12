@@ -80,7 +80,7 @@ function toggleAction() {
     console.log(`Toggle is ${buttonState ? 'ON' : 'OFF'}`);
 
     // Send POST request with JSON payload
-    fetch('https://iotinterface.site/api/webapi/update', {
+    fetch('http://localhost/api/webapi/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ function toggleAction() {
 
 // Function to check device status periodically
 function checkbDeviceStatus() {
-    fetch('https://iotinterface.site/api/webapi/status', {
+    fetch('http://localhost/api/webapi/status', {
         method: "POST",
         headers:{
             'Content-Type':'application/json',
@@ -127,7 +127,7 @@ function checkbDeviceStatus() {
 }
 
 function updateDisplay() {
-    fetch('https://iotinterface.site/api/webapi/status', {
+    fetch('http://localhost/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ function updateDisplay() {
 }
 
 function updateDeviceStatus() {
-    fetch('https://iotinterface.site/api/webapi/status', {
+    fetch('http://localhost/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -231,7 +231,7 @@ slider.addEventListener("input", function () {
 function sendValueToServer(value) {
     console.log("Sending value to server:", value);
 
-    fetch("https://iotinterface.site/api/webapi/update", {
+    fetch("http://localhost/api/webapi/update", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -248,7 +248,7 @@ function sendValueToServer(value) {
 
 // Function to periodically check the slider value from the server
 function fetchSliderValue() {
-    fetch("https://iotinterface.site/api/webapi/status", {
+    fetch("http://localhost/api/webapi/status", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
