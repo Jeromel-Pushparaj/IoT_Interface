@@ -75,6 +75,7 @@ class API extends REST{
         if(isset($headers['Authorization'])){
             $token = explode(' ', $headers['Authorization']);
             $this->auth = new Auth($token[1]);
+            //  $this->auth = new Auth($headers['Authorization']);
         }
     }
     
