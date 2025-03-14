@@ -5,6 +5,10 @@ if (Session::isAuthenticated()) {
         $deviceName = $_POST['name'];
         $deviceId = $_POST['id'];
         $devicekey = $_POST['dkey'];
+        isset($_POST['button']) ? $button = true : $button = false;
+        isset($_POST['slider']) ? $slider = true : $slider = false;
+        isset($_POST['indicator']) ? $indicator = true : $indicator = false;
+        isset($_POST['display']) ? $display = true : $display = false;
     }
 }
 
@@ -17,7 +21,7 @@ if (Session::isAuthenticated()) {
 				<h1 class="fw-bold"><?=$deviceName;?></h1>
 				<p class="lead text-primary">Your controls here...!</p>
                 <?php 
-                if($_POST['button'] == 1){
+                if($button){
                     ?>
                     <div class="toggle-container">
                         <label class="switch">
@@ -30,7 +34,7 @@ if (Session::isAuthenticated()) {
                     <?php
                     // Session::loadTemplate('properties/button');
                 }
-                if($_POST['display'] == 1){
+                if($display){
 
                     ?>
                     <div class="sensor-display">
@@ -42,7 +46,7 @@ if (Session::isAuthenticated()) {
                     <?php
                     // Session::loadTemplate('properties/display');
                 }
-                if($_POST['indicator'] == 1){
+                if($indicator){
                     ?>
                     <div class="status-container">
         <div id="statusCircle<?=$deviceId?>" class="status-circle"></div>
@@ -51,7 +55,7 @@ if (Session::isAuthenticated()) {
                     <?php
                     // Session::loadTemplate('properties/indicator');
                 }
-                if($_POST['slider'] == 1){
+                if($slider){
                     ?>
                     <div class="slider-container">
                         <input class="slider-input" type="range" id="slider<?=$deviceId?>" min="0" step="1" max="100" value="50">
@@ -69,6 +73,9 @@ if (Session::isAuthenticated()) {
 </section>
 
 <script>
+<?php
+if($button){
+    ?>
     // Function to toggle the button state
 function toggleAction() {
     const toggleSwitch = document.getElementById('toggleSwitch<?=$deviceId?>');
@@ -126,6 +133,16 @@ function checkbDeviceStatus() {
     .catch(error => console.error('Error fetching status:', error));
 }
 
+// Attach event listener to toggle switch
+document.getElementById('toggleSwitch<?=$deviceId?>').addEventListener('change', toggleAction);
+
+setInterval(checkbDeviceStatus, 500);
+<?php
+}
+?>
+<?php
+if($display){
+?>
 function updateDisplay() {
     fetch('https://iotinterface.site/api/webapi/status', {
         method: "POST",
@@ -168,6 +185,14 @@ function updateDisplay() {
         // document.getElementById("status").classList.add("error");
     });
 }
+
+// Call updateDisplay every 3 seconds
+setInterval(updateDisplay, 1000);
+
+<?php
+}
+
+?>
 function readUpdated_at(){
        fetch('https://iotinterface.site/api/webapi/status', {
         method: "POST",
@@ -188,6 +213,9 @@ function readUpdated_at(){
     });
 }
 
+<?php
+if($indicator){
+?>
 function updateDeviceStatus() {
     fetch('https://iotinterface.site/api/webapi/getstatus', {
         method: "GET",
@@ -231,6 +259,13 @@ function updateDeviceStatus() {
         statusText.innerText = "Disconnected";
     });
 }
+
+setInterval(updateDeviceStatus, 300);
+<?php
+}
+
+if($slider){
+?>
 
 
 
@@ -297,16 +332,16 @@ function fetchSliderValue() {
 // Fetch the slider value every 5 seconds
 setInterval(fetchSliderValue, 500);
 
+<?php
+}
+?>
+
 // Call updateDeviceStatus every 5 seconds
 // setInterval(updateDeviceStatus, 500);
 // Auto-refresh every 10 seconds
-setInterval(updateDeviceStatus, 300);
 
-// Call updateDisplay every 3 seconds
-setInterval(updateDisplay, 1000);
 
-// Attach event listener to toggle switch
-document.getElementById('toggleSwitch<?=$deviceId?>').addEventListener('change', toggleAction);
 
-setInterval(checkbDeviceStatus, 500);
+
+
 </script>
