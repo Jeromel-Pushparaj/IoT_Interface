@@ -41,6 +41,17 @@ if ($result->num_rows > 0) {
     // $conn->close();
 }
 
+    /**
+     *This is funtion is used to add device into the database 
+     * @param mixed $dname
+     * @param mixed $desc
+     * @param mixed $button
+     * @param mixed $slider
+     * @param mixed $display
+     * @param mixed $indicator
+     * @param mixed $timer
+     * @return bool|string
+     */
     public static function addDevice($dname, $desc, $button=0, $slider=0, $display=0, $indicator=0, $timer=0)
     {
         // print("addDevice Called");
