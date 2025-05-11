@@ -87,7 +87,7 @@ function toggleAction() {
     console.log(`Toggle is ${buttonState ? 'ON' : 'OFF'}`);
 
     // Send POST request with JSON payload
-    fetch('http://localhost/api/webapi/update', {
+    fetch('/api/webapi/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function toggleAction() {
 
 // Function to check device status periodically
 function checkbDeviceStatus() {
-    fetch('http://localhost/api/webapi/status', {
+    fetch('/api/webapi/status', {
         method: "POST",
         headers:{
             'Content-Type':'application/json',
@@ -144,7 +144,7 @@ setInterval(checkbDeviceStatus, 500);
 if($display){
 ?>
 function updateDisplay() {
-    fetch('http://localhost/api/webapi/status', {
+    fetch('/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -194,7 +194,7 @@ setInterval(updateDisplay, 1000);
 
 ?>
 function readUpdated_at(){
-       fetch('http://localhost/api/webapi/status', {
+       fetch('/api/webapi/status', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ function readUpdated_at(){
 if($indicator){
 ?>
 function updateDeviceStatus() {
-    fetch('http://localhost/api/webapi/getstatus', {
+    fetch('/api/webapi/getstatus', {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ slider.addEventListener("input", function () {
 function sendValueToServer(value) {
     console.log("Sending value to server:", value);
 
-    fetch("http://localhost/api/webapi/update", {
+    fetch("/api/webapi/update", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -309,7 +309,7 @@ function sendValueToServer(value) {
 
 // Function to periodically check the slider value from the server
 function fetchSliderValue() {
-    fetch("http://localhost/api/webapi/status", {
+    fetch("/api/webapi/status", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

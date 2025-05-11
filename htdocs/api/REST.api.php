@@ -88,14 +88,14 @@ class REST
             case "POST":
                 // $this->_request = $this->cleanInputs($_POST);
                 // $this->_request =  $this->cleanInputs(array_merge($_GET,$_POST));
-                if (strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
+                if (strpos($_SERVER['CONTENT_TYPE'], "application/json") !== false) {
                     $this->_request = json_decode(file_get_contents("php://input"), true);
                 } else {
                     $this->_request = $this->cleanInputs(array_merge($_GET, $_POST));
                 }
                 break;
             case "GET":
-                if (strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
+                if (strpos($_SERVER['CONTENT_TYPE'], "application/json") !== false) {
                     $this->_request = json_decode(file_get_contents("php://input"), true);
                 } else {
                     $this->_request = $this->cleanInputs($_GET);
