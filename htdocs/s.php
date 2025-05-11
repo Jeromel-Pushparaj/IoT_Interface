@@ -8,7 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="p-4">
-
+<?php
+for($i=0; $i<5;$i++){
+?>
     <div class="container">
         <label for="textArea" class="form-label">Copy this text:</label>
         <div class="input-group">
@@ -17,7 +19,9 @@
         </div>
         <p id="copyStatus" class="mt-2 text-success"></p>
     </div>
-
+<?php
+}
+?>
     <script>
         function copyText() {
             let textArea = document.getElementById("textArea");
