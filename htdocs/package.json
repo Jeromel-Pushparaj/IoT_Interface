@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "browser-sync": "^3.0.4"
+  },
+  "scripts": {
+  "watch":"browser-sync start --proxy localhost --files \"**/*.php, **/*.html, **/*.css, **/*.js\"" 
+}
+}
