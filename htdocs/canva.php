@@ -18,7 +18,7 @@ canvas {
 </style>
 
 <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;"></canvas>
-
+ 
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");

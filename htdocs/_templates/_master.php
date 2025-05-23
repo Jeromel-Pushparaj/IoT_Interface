@@ -21,6 +21,8 @@
 	<?php if(file_exists($_SERVER['DOCUMENT_ROOT']."/js/".basename($_SERVER['PHP_SELF'], '.php').".js")) { ?>
 	<script src="/js/<?=basename($_SERVER['PHP_SELF'], '.php');?>.js"></script>
 	<?php }?>
+	<script src="http://localhost:35729/livereload.js?snipver=1"></script>
+
 
 
 </body>
