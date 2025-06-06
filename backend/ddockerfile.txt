@@ -1,0 +1,94 @@
+FROM php:8.2-apache
+
+# Set environment variables
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Enable mod_rewrite for clean URLs
+RUN a2enmod rewrite
+
+# Update Apache config to reflect new document root
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libcurl4-openssl-dev \
+    pkg-config \
+    libssl-dev \
+    libsasl2-dev \
+    libzip-dev \
+    unzip \
+    zip \
+    wget \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    curl \
+    xml \
+    json
+
+# Install MongoDB extension with proper dependencies
+RUN pecl install mongodb-1.19.3 \
+    && docker-php-ext-enable mongodb
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Verify MongoDB extension installation
+RUN php -m | grep mongodb
+
+# Create working directory
+WORKDIR /var/www/html
+
+# Copy composer files first for better layer caching
+COPY composer.json composer.lock* ./
+
+# Copy application files first
+COPY . .
+
+# Install PHP dependencies via Composer (if composer.json exists)
+RUN if [ -f composer.json ]; then \
+        composer install --no-dev --optimize-autoloader --no-interaction; \
+    fi
+
+# Create necessary directories
+RUN mkdir -p storage/logs storage/cache public/uploads \
+    && chmod -R 775 storage public/uploads
+
+# Set proper ownership and permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 775 storage public/uploads
+
+# Create PHP configuration for MongoDB
+RUN echo "extension=mongodb" > /usr/local/etc/php/conf.d/mongodb.ini
+
+# Add custom PHP configuration
+RUN echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/custom.ini
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
+
+EXPOSE 80
+
+# Start Apache in foreground
+CMD ["apache2-foreground"]

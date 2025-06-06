@@ -1,0 +1,48 @@
+# Mosquitto MQTT Broker Configuration
+
+# Network settings
+listener 1883 0.0.0.0
+listener 9001 0.0.0.0
+protocol websockets
+
+# Security settings
+allow_anonymous true
+# password_file /mosquitto/config/password_file
+
+# Logging
+log_dest file /mosquitto/log/mosquitto.log
+log_dest stdout
+log_type error
+log_type warning
+log_type notice
+log_type information
+log_timestamp true
+
+# Persistence
+persistence true
+persistence_location /mosquitto/data/
+
+# WebSocket settings
+http_dir /usr/share/mosquitto/www
+
+# Connection settings
+max_connections -1
+max_inflight_messages 20
+max_queued_messages 100
+
+# Message size limit (100KB)
+message_size_limit 102400
+
+# Keep alive settings
+keepalive_interval 60
+
+# Auto-save interval (seconds)
+autosave_interval 1800
+
+# QoS settings
+upgrade_outgoing_qos false
+max_inflight_messages 20
+max_queued_messages 100
+
+# Client settings
+persistent_client_expiration 1m

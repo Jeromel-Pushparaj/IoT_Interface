@@ -1,1 +1,0 @@
-﻿NDFramePage.OnLocationsLoaded([]);NDMenu.OnTabsLoaded([]);

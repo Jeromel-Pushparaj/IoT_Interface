@@ -1,3 +1,4 @@
-/projects
-/htdocs/vendor
-/htdocs/node_modules
+/backend/config
+/backend/vendor
+.env
+
