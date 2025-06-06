@@ -70,6 +70,20 @@ services:
     networks:
       - iot-net
 
+  mqtt-subscriber:
+    build:
+      context: ./mqtt-subscriber
+    volumes:
+      - ./mqtt-subscriber:/app
+    working_dir: /app
+    command: ["python3", "mqtt_subscriber.py"]
+    depends_on:
+      - mongo
+      - mqtt-broker
+    networks:
+      - iot-net
+
+
 networks:
   iot-net:
     driver: bridge
