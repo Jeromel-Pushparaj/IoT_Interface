@@ -85,6 +85,7 @@ function checkResult($result) {
 require_once __DIR__ . '/../vendor/autoload.php';
 checkResult(loadDirectoryFiles('./../src/Controllers'));
 checkResult(loadDirectoryFiles('./../src/Middleware'));
+checkResult(loadDirectoryFiles('./../src/Services'));
 checkResult(loadDirectoryFiles('./../core'));
 checkResult(loadDirectoryFiles('./../config'));
 

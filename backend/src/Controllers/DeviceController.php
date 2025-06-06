@@ -3,6 +3,8 @@ namespace Controllers;
 
 use Database;
 use MongoDB\BSON\ObjectId;
+use Services\MQTTService;
+
 class DeviceController
 {
     private $client;
@@ -91,24 +93,25 @@ class DeviceController
     // PATCH /api/device/update
     public function updateStatus($requestData)
     {
-        if (!isset($requestData['device_id']) || !isset($requestData['status'])) {
+        $deviceId = $requestData['device_id'] ?? null;
+        $status = $requestData['status'] ?? null;
+        if (!isset($deviceId) || !isset($status) || empty($deviceId) || empty($status)) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing fields']);
             return;
         }
 
-        $result = $this->collection->updateOne(
-            ['device_id' => $requestData['device_id']],
-            ['$set' => [
-                'status' => $requestData['status'],
-                'updated_at' => date('c') // ISO8601 format, e.g., "2025-06-05T12:34:56+00:00"
-                ]]
-        );
+            $mqtt = new MQTTService();
+            $topic = "device/$deviceId/cmd";
+            $message = ['action' => $status];
 
-        if ($result->getModifiedCount() > 0) {
-            echo json_encode(['message' => 'Device status updated']);
+            $success = $mqtt->publish($topic, $message);
+
+        if ($success) {
+            echo json_encode(['success' => true, 'message' => "Command sent to $deviceId"]);
         } else {
-            echo json_encode(['message' => 'No changes made']);
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to publish to MQTT']);
         }
     }
 
