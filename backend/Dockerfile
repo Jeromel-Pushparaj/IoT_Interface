@@ -17,6 +17,12 @@ RUN apt-get update && apt-get install -y \
 
 # Install MongoDB extension
 RUN pecl install mongodb && docker-php-ext-enable mongodb
+# # Install Redis extension
+# RUN pecl install redis && docker-php-ext-enable redis
+# # Install GD extension
+# RUN docker-php-ext-install gd
+
+RUN docker-php-ext-install sockets
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 # Enable Apache modules

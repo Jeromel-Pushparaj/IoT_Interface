@@ -2,6 +2,7 @@
     "require": {
         "firebase/php-jwt": "^6.11",
         "ext-mongodb": "2.1",
-        "mongodb/mongodb": "^2.1"
+        "mongodb/mongodb": "^2.1",
+        "bluerhinos/phpmqtt": "^1.0"
     }
 }
