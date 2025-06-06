@@ -81,6 +81,29 @@ This project is a modular IoT platform that provides a RESTful PHP backend, Mong
 
 ---
 
+## How MQTT is in action?
+
+### Architecture Overview
+```
++-------------+            +-----------------+            +--------------+
+|  Frontend   |  ---> API  |   PHP Backend   |  ---> MQTT |   IoT Device |
++-------------+            +-----------------+            +--------------+
+                                |  uses Paho MQTT PHP
+                                |
+                                | Publishes to topic like:
+                                |  device/{device_id}/cmd
+
+```
+### Related Micro Service
+
+`python-mqtt-subscriber.py` is a microservice running for storing a data in DB
+```
+[ IoT Device ] ---> MQTT ---> [ Subscriber Service (PHP CLI/Node/Python) ] ---> MongoDB
+
+e.g., device/123/data → { "temp": 32, "hum": 78 }
+
+```
+
 ## Development
 
 - PHP dependencies managed via Composer (composer.json)
