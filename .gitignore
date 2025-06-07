@@ -2,4 +2,5 @@
 /backend/vendor
 .env
 /mqtt-subscription/.env
-
+/documentations
+/node_modules
