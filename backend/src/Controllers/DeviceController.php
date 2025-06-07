@@ -102,7 +102,7 @@ class DeviceController
         }
 
             $mqtt = new MQTTService();
-            $topic = "device/$deviceId/cmd";
+            $topic = "device/$deviceId/command";
             $message = ['action' => $status];
 
             $success = $mqtt->publish($topic, $message);

@@ -21,6 +21,8 @@ collection = db["device_data"]
 
 mqtt_broker = os.getenv("MQTT_HOST")
 mqtt_port = int(os.getenv("MQTT_PORT"))
+mqtt_uasername = os.getenv("MQTT_USERNAME", None)
+mqtt_password = os.getenv("MQTT_PASSWORD", None)
 
 # Callback for message
 def on_message(client, userdata, message):
@@ -42,7 +44,9 @@ def on_message(client, userdata, message):
 # MQTT Setup
 client = mqtt.Client()
 client.on_message = on_message
+client.username_pw_set(mqtt_uasername, mqtt_password)
 client.connect(mqtt_broker, mqtt_port, 60)
+
 
 # Subscribe to all device data topics
 client.subscribe("device/+/data")

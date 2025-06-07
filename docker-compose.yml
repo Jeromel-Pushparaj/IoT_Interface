@@ -10,7 +10,7 @@ services:
       - ./backend:/var/www/html
     depends_on:
       - mongo
-      - mqtt-broker
+      - rabbitmq
     environment:
       - DB_HOST=mongo
       - DB_PORT=27017
@@ -56,19 +56,46 @@ services:
     networks:
       - iot-net
 
-  mqtt-broker:
-    image: eclipse-mosquitto:latest
-    container_name: mqtt-broker
-    restart: unless-stopped
+  # mqtt-broker:
+  #   image: eclipse-mosquitto:latest
+  #   container_name: mqtt-broker
+  #   restart: unless-stopped
+  #   ports:
+  #     - "1883:1883"   # MQTT
+  #     - "9001:9001"   # WebSocket
+  #   volumes:
+  #     - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  #     - ./mqtt-broker/data:/mosquitto/data
+  #     - ./mqtt-broker/logs:/mosquitto/log
+  #   networks:
+  #     - iot-net
+
+
+  # RabbitMQ with MQTT and Web Management UI
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "1883:1883"   # MQTT
-      - "9001:9001"   # WebSocket
+      - "5672:5672"      # AMQP
+      - "15672:15672"    # Management UI
+      - "1883:1883"      # MQTT
+      - "15675:15675"    # Web MQTT over WebSockets
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     volumes:
-      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - ./mqtt-broker/data:/mosquitto/data
-      - ./mqtt-broker/logs:/mosquitto/log
+      - ./rabbitmq:/var/lib/rabbitmq
+    command: >
+      bash -c "
+      rabbitmq-plugins enable --offline rabbitmq_mqtt &&
+      rabbitmq-plugins enable --offline rabbitmq_web_mqtt &&
+      rabbitmq-plugins enable --offline rabbitmq_web_stomp &&
+      rabbitmq-plugins enable --offline rabbitmq_management &&
+      rabbitmq-server
+      "
     networks:
       - iot-net
+
 
   mqtt-subscriber:
     build:
@@ -79,7 +106,7 @@ services:
     command: ["python3", "mqtt_subscriber.py"]
     depends_on:
       - mongo
-      - mqtt-broker
+      - rabbitmq
     networks:
       - iot-net
 
