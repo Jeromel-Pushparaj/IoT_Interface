@@ -45,7 +45,7 @@ This project is a modular IoT platform that provides a RESTful PHP backend, Mong
 
 1. **Clone the repository:**
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/Jeromel-Pushparaj/IoT_Interface.git
    cd IoT_Interface
    ```
 
