@@ -4,7 +4,7 @@
 /mqtt-subscription/.env
 /documentations
 /node_modules
-/rabitmq
+/rabbitmq
 # Ignore all node modules
 /node_modules
 # Ignore all log files
