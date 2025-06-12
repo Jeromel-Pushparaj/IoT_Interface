@@ -3,6 +3,7 @@ import json
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 import os   
+import datetime 
 
 # Load environment variables
 load_dotenv(find_dotenv())
@@ -34,6 +35,10 @@ def on_message(client, userdata, message):
         # Extract device_id from topic
         device_id = topic.split("/")[1]
         payload["device_id"] = device_id
+        payload["topic"] = topic
+        payload["timestamp"] = datetime.datetime.now()  # Add timestamp if needed
+        payload["raw_data"] = message.payload.decode()  # Store raw data
+        payload["message_id"] = message.mid  # Store message ID
 
         # Store in DB
         collection.insert_one(payload)
@@ -49,7 +54,7 @@ client.connect(mqtt_broker, mqtt_port, 60)
 
 
 # Subscribe to all device data topics
-client.subscribe("device/+/data")
+client.subscribe("device/+/command")
 
 # Loop forever
 client.loop_forever()

@@ -4,3 +4,16 @@
 /mqtt-subscription/.env
 /documentations
 /node_modules
+/rabitmq
+# Ignore all node modules
+/node_modules
+# Ignore all log files
+*.log
+# Ignore all temporary files
+*.tmp
+# Ignore all build artifacts
+/build
+# Ignore all coverage reports
+/coverage
+# Ignore all IDE specific files
+.idea
