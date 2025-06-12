@@ -3,6 +3,7 @@
 This project is a modular IoT platform that provides a RESTful PHP backend, MongoDB database, MQTT broker, and a web client. It is designed for managing IoT devices, collecting sensor data, and integrating with MQTT-enabled hardware.
 
 ---
+![image](https://github.com/user-attachments/assets/dff384d6-1761-4e02-9c6f-54efaac34374)
 
 ## Features
 
@@ -44,7 +45,7 @@ This project is a modular IoT platform that provides a RESTful PHP backend, Mong
 
 1. **Clone the repository:**
    ```sh
-   git clone <repo-url>
+   git clone https://github.com/Jeromel-Pushparaj/IoT_Interface.git
    cd IoT_Interface
    ```
 
