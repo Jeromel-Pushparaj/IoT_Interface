@@ -1,8 +1,14 @@
-function DashboardPage() {
-    return (
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 
-        <h1>welcome</h1>
-    );
+export default function DashboardPage({ children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  )
 }
-
-export default DashboardPage;
