@@ -3,14 +3,14 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
-import {ThemeProvider } from '@/components/theme-provider.jsx'
+import { Theme, ThemePanel } from "@radix-ui/themes";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%" appearance='dark'>
       <App />
-    </ThemeProvider>
+    </Theme>
     </BrowserRouter>
   </StrictMode>,
 )
