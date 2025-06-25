@@ -8,7 +8,7 @@ import { Theme, ThemePanel } from "@radix-ui/themes";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%" appearance='dark'>
+    <Theme panelBackground="translucent" accentColor="indigo" grayColor="sand" radius="large" scaling="95%" appearance='dark'>
       <App />
     </Theme>
     </BrowserRouter>

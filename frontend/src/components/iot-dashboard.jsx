@@ -21,6 +21,7 @@ import {
   Power,
   Settings
 } from 'lucide-react';
+import AppHeader from '@/components/header.jsx'; 
 
 const IoTDashboard = () => {
   const [devices, setDevices] = useState([
@@ -60,10 +61,12 @@ const IoTDashboard = () => {
   };
 
   return (
-    <Box style={{ minHeight: '100vh', backgroundColor: 'transparent' }}>
+    <>
+    <div className="z-0 absolute left-0 right-0 min-h-screen opacity-60 bg-[linear-gradient(to_bottom,_var(--accent-4),_transparent)]"></div>
+    <Box className="absolute left-0 right-0 min-h-screen ">
       <Flex>
         {/* Sidebar */}
-        <Box 
+        {/* <Box 
           style={{ 
             width: '250px', 
             backgroundColor: 'transparent', 
@@ -102,7 +105,7 @@ const IoTDashboard = () => {
             </Flex>
           </Flex>
           </Card>
-        </Box>
+        </Box> */}
 
         {/* Main Content */}
         <Box style={{ flex: 1 }}>
@@ -110,11 +113,11 @@ const IoTDashboard = () => {
           <Box 
             style={{ 
               backgroundColor: 'transparent', 
-              borderBottom: '1px solid var(--gray-6)',
               padding: '1rem 2rem'
             }}
           >
-            <Heading size="6">IoT Device Dashboard</Heading>
+            {/* <Heading size="6">IoT Device Dashboard</Heading> */}
+            <AppHeader />
           </Box>
 
           {/* Content Area */}
@@ -251,6 +254,7 @@ const IoTDashboard = () => {
         </Box>
       </Flex>
     </Box>
+    </>
   );
 };
 
