@@ -22,6 +22,7 @@ import {
   Settings
 } from 'lucide-react';
 import AppHeader from '@/components/header.jsx'; 
+import Background from '@/components/background.jsx';
 
 const IoTDashboard = () => {
   const [devices, setDevices] = useState([
@@ -62,7 +63,7 @@ const IoTDashboard = () => {
 
   return (
     <>
-    <div className="z-0 absolute left-0 right-0 min-h-screen opacity-60 bg-[linear-gradient(to_bottom,_var(--accent-4),_transparent)]"></div>
+    <Background />
     <Box className="absolute left-0 right-0 min-h-screen ">
       <Flex>
         {/* Sidebar */}
