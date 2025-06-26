@@ -39,9 +39,12 @@ class DeviceController
 
         $device = [
             'device_id' => $requestData['device_id'],
-            'name' => $requestData['name'],
-            'status' => 'offline',
             'owner_id' => $this->decode['user']['sub'],
+            'name' => $requestData['name'],
+            'type' => $requestData['type'] ?? 'generic', // default to 'generic' if not provided
+            'value' => $requestData['value'] ?? null, // optional value field
+            'status' => 'inactive', //active|inactive|maintenance|error
+            'isOnline' => false, // false|true
             'created_at' => date('c'), // ISO8601 format, e.g., "2025-06-05T12:34:56+00:00"
             'updated_at' => date('c')
         ];
