@@ -6,6 +6,7 @@ use Database;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+  
 class UserController {
     private $db;
     private $users;
@@ -24,7 +25,6 @@ class UserController {
     }
 
     public function profile() {
-        header('Content-Type: application/json');
         echo json_encode(['message' => 'profile endpoint is working, authentication successful']);
     }
 
@@ -57,7 +57,6 @@ class UserController {
     }
 
     public function login($data) {
-        header('Content-Type: application/json');
 
         $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
