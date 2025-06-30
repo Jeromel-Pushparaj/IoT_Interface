@@ -4,6 +4,7 @@ require 'load.php';
 use Controllers\UserController;
 use Controllers\DeviceController;
 
+
 Router::handle([
     // User routes
     ["method" => "POST", "path" => "/api/register", "handler" => [UserController::class, 'register']],

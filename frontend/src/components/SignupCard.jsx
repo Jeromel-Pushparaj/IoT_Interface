@@ -11,11 +11,12 @@ import {
 } from '@radix-ui/themes';
 import { FaGoogle } from 'react-icons/fa';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function SignupCard() {
   const email = useRef(null);
   const password = useRef(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,12 +46,12 @@ function SignupCard() {
       })
       .then((response) => {
         //redirect to login page after successful signup
-        alert('Signup successful:', response.data);
-        <Navigate to="/login" />;
+        navigate('/login');
+        alert('Signup successful:', response.data.message);
       })
       .catch((error) => {
+        navigate('/signup');
         alert('Signup failed:', error);
-        <Navigate to="/signup" />;
       });
   };
 

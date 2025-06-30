@@ -11,12 +11,16 @@ import {
 } from '@radix-ui/themes';
 // import { AppleLogoIcon } from '@radix-ui/react-icons';
 import { FaGoogle } from 'react-icons/fa';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function LoginCard() {
     const password = useRef(null);
     const email = useRef(null);
-  function handleSubmit() {
+    const navigate = useNavigate();
+
+  function handleLogin(event) {
+    event.preventDefault();
     if (!email.current || !password.current) {
       console.error('Email or password ref is not set');
       return;
@@ -44,18 +48,18 @@ function LoginCard() {
     })
     .then((response) => {
       // Redirect to dashboard after successful login
-      alert('Login successful:', response.data);
-      <Navigate to="/" />;
+      navigate('/');
+      alert('Login successful:');
     })
     .catch((error) => {
-      alert('Login failed:', error);
-      <Navigate to="/login" />;
+      alert('Login failed:' + (error.response?.data?.message || 'An error occurred'));
+      navigate('/login');
     });
 
   }
   return (
+      <form onSubmit={handleLogin}>
     <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
-      <form onSubmit={handleSubmit}>
       <Flex direction="column" gap="4">
         <Text size="4" weight="bold" align="center">Welcome back</Text>
         <Text size="2" align="center" color="gray">Login with your Apple or Google account</Text>
@@ -85,8 +89,8 @@ function LoginCard() {
           Don’t have an account? <Link href="/signup">Sign up</Link>
         </Text>
       </Flex>
-      </form>
     </Card>
+      </form>
     
   );
 }
