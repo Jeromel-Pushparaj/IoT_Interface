@@ -23,16 +23,16 @@ import {
 } from 'lucide-react';
 import AppHeader from '@/components/header.jsx'; 
 import Background from '@/components/background.jsx';
-import axios from 'axios';
+import api from '@/api.js'; // Adjust the import path as necessary
 
 const IoTDashboard = () => {
-  const [devices, setDevices] = useState([
-    { id: 1, name: 'Smart Thermostat', type: 'Temperature', status: 'online', value: '22°C', isActive: true },
-    { id: 2, name: 'Living Room Light', type: 'Lighting', status: 'online', value: '75%', isActive: false },
-    { id: 3, name: 'Security Camera', type: 'Security', status: 'offline', value: 'Inactive', isActive: false },
-    { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
-    { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
-  ]);
+  //dummy data for device
+  // { id: 1, name: 'Smart Thermostat', type: 'Temperature', status: 'online', value: '22°C', isActive: true },
+  //   { id: 2, name: 'Living Room Light', type: 'Lighting', status: 'online', value: '75%', isActive: false },
+  //   { id: 3, name: 'Security Camera', type: 'Security', status: 'offline', value: 'Inactive', isActive: false },
+  //   { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
+  //   { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
+  const [devices, setDevices] = useState([]);
 
   const [sensorData] = useState({
     temperature: 22.5,
@@ -41,6 +41,17 @@ const IoTDashboard = () => {
     lastUpdate: new Date().toLocaleTimeString()
   });
 
+  api.get('/api/device/list')
+  .then((response) => {
+    if (response.data) {
+      setDevices(response.data);
+    } else {
+      console.error('No devices found in response:', response.data);
+    }
+  })
+  .catch((error) => {
+    console.error('Error fetching devices:', error);
+  });
   const toggleDevice = (deviceId) => {
     setDevices(devices.map(device => 
       device.id === deviceId 
