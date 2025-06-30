@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import AppHeader from '@/components/header.jsx'; 
 import Background from '@/components/background.jsx';
+import axios from 'axios';
 
 const IoTDashboard = () => {
   const [devices, setDevices] = useState([
