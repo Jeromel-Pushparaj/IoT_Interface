@@ -78,8 +78,6 @@ useEffect(() => {
 
   return (
     <>
-    <Box className="absolute left-0 right-0 min-h-screen ">
-      <Flex>
         {/* Sidebar */}
         {/* <Box 
           style={{ 
@@ -122,18 +120,6 @@ useEffect(() => {
           </Card>
         </Box> */}
 
-        {/* Main Content */}
-        <Box style={{ flex: 1 }}>
-          {/* Header */}
-          <Box 
-            style={{ 
-              backgroundColor: 'transparent', 
-              padding: '1rem 2rem'
-            }}
-          >
-            {/* <Heading size="6">IoT Device Dashboard</Heading> */}
-            <AppHeader />
-          </Box>
 
           {/* Content Area */}
           <Container size="4" style={{ padding: '2rem' }}>
@@ -266,9 +252,6 @@ useEffect(() => {
               </Flex>
             </Card>
           </Container>
-        </Box>
-      </Flex>
-    </Box>
     </>
   );
 };

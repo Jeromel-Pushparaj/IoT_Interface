@@ -6,7 +6,8 @@ import {
   Button,
   Badge,
   DropdownMenu,
-  IconButton
+  IconButton,
+  Link
 } from '@radix-ui/themes';
 import { 
   ChevronDown,
@@ -31,9 +32,9 @@ const AppHeader = () => {
   }
   
   const leftNavItems = token ? [
-    { id: 'dashboard', label: 'Dashboard', hasDropdown: false },
-    { id: 'devices', label: 'Devices', hasDropdown: false },
-    { id: 'control', label: 'Control', hasDropdown: false, hasBadge: true },
+    { id: 'dashboard', label: 'Dashboard', hasDropdown: false, action: '/' },
+    { id: 'devices', label: 'Devices', hasDropdown: false, action: '/device'},
+    { id: 'control', label: 'Control', hasDropdown: false, action:'/control', hasBadge: true },
     { id: 'icons', label: 'Profile', hasDropdown: true, menu:[ {id: 'dlogout', dlabel: 'Logout', action: handleLogout} ]},
   ] : [
     { id: 'login', label: 'Login', hasDropdown: false },
@@ -91,7 +92,7 @@ const AppHeader = () => {
                           ? 'text-white bg-white' 
                           : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
                       }`}
-                      onClick={() => setActiveItem(item.id)}
+                      onClick={() => {setActiveItem(item.id); navigate(item.action || '/')}}
                     highContrast>
                       <Flex align="center" gap="1">
                         {item.label}
@@ -110,7 +111,7 @@ const AppHeader = () => {
                   ) : (
                     <DropdownMenu.Root>
 	                      <DropdownMenu.Trigger>
-		                      <Button variant="soft">
+		                      <Button variant="soft" onClick={() => setActiveItem(item.id)}>
 			                        {item.label}
 			                        <DropdownMenu.TriggerIcon />
 		                      </Button>
