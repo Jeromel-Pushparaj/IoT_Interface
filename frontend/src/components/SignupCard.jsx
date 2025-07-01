@@ -10,8 +10,8 @@ import {
   Link
 } from '@radix-ui/themes';
 import { FaGoogle } from 'react-icons/fa';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../api'; // Adjust the import path as necessary
 
 function SignupCard() {
   const email = useRef(null);
@@ -35,10 +35,6 @@ function SignupCard() {
     // Add your signup logic here
     console.log('Email:', emailValue);
     console.log('Password:', passwordValue);
-   const api = axios.create({
-    baseURL: 'http://192.168.1.12:8080',
-    timeout: 1000,
-    }); 
     // Example API call (uncomment when ready to use)
       api.post('/api/register', {
         email: emailValue,

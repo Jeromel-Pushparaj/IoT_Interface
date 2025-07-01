@@ -12,7 +12,7 @@ import {
 // import { AppleLogoIcon } from '@radix-ui/react-icons';
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api'; // Adjust the import path as necessary
 
 function LoginCard() {
     const password = useRef(null);
@@ -38,18 +38,22 @@ function LoginCard() {
     console.log('Password:', passwordValue);    
 
     // Example API call (uncomment when ready to use)
-    const api = axios.create({
-      baseURL: 'http://192.168.1.12:8080',
-      timeout: 1000,
-    }); 
+    //TODO: implement Javascript fingerprinting for the login and more security
     api.post('/api/login', {
       email: emailValue,
       password: passwordValue
     })
     .then((response) => {
       // Redirect to dashboard after successful login
+      const token = response.data.token;
+      if(token){
+      localStorage.setItem('token', response.data.token); // Store the token
+      console.log('Login successful:', response.data.message);
       navigate('/');
-      alert('Login successful:');
+      alert('Login Success')
+      }else{
+        alert('Login Failed: no token received');
+      }
     })
     .catch((error) => {
       alert('Login failed:' + (error.response?.data?.message || 'An error occurred'));

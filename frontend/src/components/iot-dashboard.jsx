@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Flex, 
@@ -23,16 +23,16 @@ import {
 } from 'lucide-react';
 import AppHeader from '@/components/header.jsx'; 
 import Background from '@/components/background.jsx';
-import axios from 'axios';
+import api from '@/api.js'; // Adjust the import path as necessary
 
 const IoTDashboard = () => {
-  const [devices, setDevices] = useState([
-    { id: 1, name: 'Smart Thermostat', type: 'Temperature', status: 'online', value: '22°C', isActive: true },
-    { id: 2, name: 'Living Room Light', type: 'Lighting', status: 'online', value: '75%', isActive: false },
-    { id: 3, name: 'Security Camera', type: 'Security', status: 'offline', value: 'Inactive', isActive: false },
-    { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
-    { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
-  ]);
+  //dummy data for device
+  // { id: 1, name: 'Smart Thermostat', type: 'Temperature', status: 'online', value: '22°C', isActive: true },
+  //   { id: 2, name: 'Living Room Light', type: 'Lighting', status: 'online', value: '75%', isActive: false },
+  //   { id: 3, name: 'Security Camera', type: 'Security', status: 'offline', value: 'Inactive', isActive: false },
+  //   { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
+  //   { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
+  const [devices, setDevices] = useState([]);
 
   const [sensorData] = useState({
     temperature: 22.5,
@@ -40,6 +40,20 @@ const IoTDashboard = () => {
     pressure: 1013.25,
     lastUpdate: new Date().toLocaleTimeString()
   });
+
+useEffect(() => {
+  api.get('/api/device/list')
+  .then((response) => {
+    if (response.data) {
+      setDevices(response.data);
+    } else {
+      console.error('No devices found in response:', response.data);
+    }
+  })
+  .catch((error) => {
+    console.error('Error fetching devices:', error);
+  });
+}, []);
 
   const toggleDevice = (deviceId) => {
     setDevices(devices.map(device => 
@@ -64,9 +78,6 @@ const IoTDashboard = () => {
 
   return (
     <>
-    <Background />
-    <Box className="absolute left-0 right-0 min-h-screen ">
-      <Flex>
         {/* Sidebar */}
         {/* <Box 
           style={{ 
@@ -109,18 +120,6 @@ const IoTDashboard = () => {
           </Card>
         </Box> */}
 
-        {/* Main Content */}
-        <Box style={{ flex: 1 }}>
-          {/* Header */}
-          <Box 
-            style={{ 
-              backgroundColor: 'transparent', 
-              padding: '1rem 2rem'
-            }}
-          >
-            {/* <Heading size="6">IoT Device Dashboard</Heading> */}
-            <AppHeader />
-          </Box>
 
           {/* Content Area */}
           <Container size="4" style={{ padding: '2rem' }}>
@@ -215,7 +214,7 @@ const IoTDashboard = () => {
 
                   <Table.Body>
                     {devices.map((device) => (
-                      <Table.Row key={device.id}>
+                      <Table.Row key={device.device_id}>
                         <Table.RowHeaderCell>
                           <Flex align="center" gap="2">
                             {getDeviceIcon(device.type)}
@@ -253,9 +252,6 @@ const IoTDashboard = () => {
               </Flex>
             </Card>
           </Container>
-        </Box>
-      </Flex>
-    </Box>
     </>
   );
 };
