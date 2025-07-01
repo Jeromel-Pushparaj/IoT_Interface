@@ -17,27 +17,36 @@ import {
   Book,
   Settings,
   Layers,
-  Code
+  Code,
 } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 const AppHeader = () => {
   const [activeItem, setActiveItem] = useState('dashboard');
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
-  const leftNavItems = [
+  function handleLogout() {
+    localStorage.removeItem('token'); // Remove the token from local storage
+    navigate('/login'); // Redirect to the login page
+  }
+  
+  const leftNavItems = token ? [
     { id: 'dashboard', label: 'Dashboard', hasDropdown: false },
     { id: 'devices', label: 'Devices', hasDropdown: false },
     { id: 'control', label: 'Control', hasDropdown: false, hasBadge: true },
-    { id: 'icons', label: 'Profile', hasDropdown: false },
-  ];
+    { id: 'icons', label: 'Profile', hasDropdown: true, menu:[ {id: 'dlogout', dlabel: 'Logout', action: handleLogout} ]},
+  ] : [
+    { id: 'login', label: 'Login', hasDropdown: false },
+    { id: 'signup', label: 'Signup', hasDropdown: false },];
 
-  const rightNavItems = [
+  const rightNavItems = token ? [
     { id: 'documentation', label: 'Documentation', icon: Book },
     { id: 'custom-devices', label: 'Custom Devices', icon: Palette },
     { id: 'blog', label: 'Blog', icon: FileText }
-  ];
+  ] : [];
 
   return (
-    <header className="transparent border-b border-slate-700/50">
+    <header className="transparent border-b border-slate-700/50 z-10">
       <div className="max-w-15xl mx-auto px-4">
         <Flex align="center" justify="between" className="h-14">
           {/* Left Side - Logo and Main Navigation */}
@@ -71,6 +80,7 @@ const AppHeader = () => {
               <Flex align="center" gap="5">
                 {leftNavItems.map((item) => (
                   <div key={item.id} className="relative">
+                  {!item.hasDropdown ? (
                     <Button
                       variant={activeItem === item.id ? "solid" : "ghost"}
                       size="2"
@@ -94,17 +104,40 @@ const AppHeader = () => {
                             New
                           </Badge>
                         )}
-                        {item.hasDropdown && (
-                          <ChevronDown size={14} className="ml-1" />
-                        )}
+                        
                       </Flex>
                     </Button>
-                  </div>
+                  ) : (
+                    <DropdownMenu.Root>
+	                      <DropdownMenu.Trigger>
+		                      <Button variant="soft">
+			                        {item.label}
+			                        <DropdownMenu.TriggerIcon />
+		                      </Button>
+	                      </DropdownMenu.Trigger>
+	                      <DropdownMenu.Content>
+                          {item.menu.map((menuItem) => (
+		                        <DropdownMenu.Item shortcut="⌘ E" onClick={menuItem.action}>{menuItem.dlabel}</DropdownMenu.Item>
+                          ))}
+		                      <DropdownMenu.Separator />
+		                      <DropdownMenu.Sub>
+			                      <DropdownMenu.SubTrigger>More</DropdownMenu.SubTrigger>
+			                      <DropdownMenu.SubContent>
+				                    <DropdownMenu.Item>Move to project…</DropdownMenu.Item>
+				                    <DropdownMenu.Item>Move to folder…</DropdownMenu.Item>
+
+				                    <DropdownMenu.Separator />
+				                    <DropdownMenu.Item>Advanced options…</DropdownMenu.Item>
+			                      </DropdownMenu.SubContent>
+		                      </DropdownMenu.Sub>
+                        </DropdownMenu.Content> 
+                    </DropdownMenu.Root>
+                    )}
+                    </div>
                 ))}
               </Flex>
             </nav>
-
-</Flex>
+    </Flex>
           {/* Right Side Navigation */}
           <Flex align="center" gap="5">
             {rightNavItems.map((item) => {

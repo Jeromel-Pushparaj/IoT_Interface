@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Flex, 
@@ -41,6 +41,7 @@ const IoTDashboard = () => {
     lastUpdate: new Date().toLocaleTimeString()
   });
 
+useEffect(() => {
   api.get('/api/device/list')
   .then((response) => {
     if (response.data) {
@@ -52,6 +53,8 @@ const IoTDashboard = () => {
   .catch((error) => {
     console.error('Error fetching devices:', error);
   });
+}, []);
+
   const toggleDevice = (deviceId) => {
     setDevices(devices.map(device => 
       device.id === deviceId 
@@ -75,7 +78,6 @@ const IoTDashboard = () => {
 
   return (
     <>
-    <Background />
     <Box className="absolute left-0 right-0 min-h-screen ">
       <Flex>
         {/* Sidebar */}
@@ -226,7 +228,7 @@ const IoTDashboard = () => {
 
                   <Table.Body>
                     {devices.map((device) => (
-                      <Table.Row key={device.id}>
+                      <Table.Row key={device.device_id}>
                         <Table.RowHeaderCell>
                           <Flex align="center" gap="2">
                             {getDeviceIcon(device.type)}

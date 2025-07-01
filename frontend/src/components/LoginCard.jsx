@@ -38,7 +38,7 @@ function LoginCard() {
     console.log('Password:', passwordValue);    
 
     // Example API call (uncomment when ready to use)
- 
+    //TODO: implement Javascript fingerprinting for the login and more security
     api.post('/api/login', {
       email: emailValue,
       password: passwordValue
