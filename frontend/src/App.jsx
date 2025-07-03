@@ -6,6 +6,9 @@ import DashboardPage from './app/dashboard/page';
 import LoginPage from './app/login/page';
 import SingupPage from './app/signup/page';
 import DashboardTest from './app/home/dashboard';
+import DevicePage from './app/device/page';
+import AddDevice from './app/device/AddDevice';
+
 function App() {
   const navigate = useNavigate();
 
@@ -19,6 +22,11 @@ function App() {
     <>
     <Routes>
       <Route path='/' element={ <DashboardPage/>}/>
+      
+      // Routes for Devices
+      <Route path='/device' element={ <DevicePage/>}/> 
+      <Route path='/device/add' element={ <AddDevice/> }/>
+
       <Route path='/login' element={ <LoginPage /> }/>
       <Route path='/signup' element={ <SingupPage /> }/>
       <Route path='/test' element={ <DashboardTest /> }/>
