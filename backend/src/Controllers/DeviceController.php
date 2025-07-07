@@ -104,17 +104,31 @@ class DeviceController
             return;
         }
 
-            $mqtt = new MQTTService();
-            $topic = "device/$deviceId/command";
-            $message = ['action' => $status];
 
-            $success = $mqtt->publish($topic, $message);
+        $device = $this->collection->findOne([
+            'device_id' => $deviceId,
+            'owner_id' => $this->decode['user']['sub'] // Ensure the device belongs to the user
+        ]);
 
-        if ($success) {
-            echo json_encode(['success' => true, 'message' => "Command sent to $deviceId"]);
+        $isActive = $status === 'active' ? true : false; // Convert status to boolean for isActive
+
+        if (!$device) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Device not found']);
+            return;
+        }  
+        // Update the device status
+        $updateResult = $this->collection->updateOne(
+            ['device_id' => $deviceId, 'owner_id' => $this->decode['user']['sub']],
+            ['$set' => ['status' => $status,'isActive' => $isActive, 'updated_at' => date('c')]]
+        );
+
+
+        if ($updateResult) {
+            echo json_encode(['success' => true, 'message' => "Device: $deviceId status updated to $status"]);
         } else {
             http_response_code(500);
-            echo json_encode(['error' => 'Failed to publish to MQTT']);
+            echo json_encode(['error' => "Failed to update device: $deviceId status"]);
         }
     }
 

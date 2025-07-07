@@ -34,7 +34,6 @@ const IoTDashboard = () => {
   //   { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
   //   { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
   const [devices, setDevices] = useState([]);
-  const [status, setStatus] = useState('offline');
 
   const [sensorData] = useState({
     temperature: 22.5,
@@ -234,7 +233,7 @@ useEffect(() => {
                           <Switch 
                             checked={device.isActive}
                             onCheckedChange={() => toggleDevice(device.id)}
-                            disabled={status === 'offline'}
+                            disabled={device.status === 'offline'}
                           />
                         </Table.Cell>
                       </Table.Row>
