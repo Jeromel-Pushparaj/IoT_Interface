@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://192.168.1.12:8080",
-  timeout: 1000,
+  timeout: 10000,
 }); 
 
 //Intercept requests to add the Authorization header

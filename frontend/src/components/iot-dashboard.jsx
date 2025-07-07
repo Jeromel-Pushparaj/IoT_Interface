@@ -24,6 +24,7 @@ import {
 import AppHeader from '@/components/header.jsx'; 
 import Background from '@/components/background.jsx';
 import api from '@/api.js'; // Adjust the import path as necessary
+import DeviceStatus from '@/components/DeviceStatus.jsx'; // Adjust the import path as necessary
 
 const IoTDashboard = () => {
   //dummy data for device
@@ -55,18 +56,6 @@ useEffect(() => {
   });
 }, []);
 
-  const toggleDevice = (deviceId) => {
-    setDevices(devices.map(device => 
-      device.id === deviceId 
-        ? { ...device, isActive: !device.isActive }
-        : device
-    ));
-  };
-
-  const getStatusIcon = (status) => {
-    return status === 'online' ? <Wifi size={16} /> : <WifiOff size={16} />;
-  };
-
   const getDeviceIcon = (type) => {
     switch (type) {
       case 'Temperature': return <Thermometer size={20} />;
@@ -75,6 +64,16 @@ useEffect(() => {
       default: return <Power size={20} />;
     }
   };
+
+  const toggleDevice = (deviceId) => {
+    setDevices(devices.map(device => 
+      device.id === deviceId 
+        ? { ...device, isActive: !device.isActive }
+        : device
+    ));
+  };
+
+
 
   return (
     <>
@@ -225,15 +224,7 @@ useEffect(() => {
                           <Text size="2">{device.type}</Text>
                         </Table.Cell>
                         <Table.Cell>
-                          <Flex align="center" gap="2">
-                            {getStatusIcon(device.status)}
-                            <Badge 
-                              color={device.status === 'online' ? 'green' : 'red'}
-                              variant="soft"
-                            >
-                              {device.status}
-                            </Badge>
-                          </Flex>
+                        <DeviceStatus id={device.device_id} />
                         </Table.Cell>
                         <Table.Cell>
                           <Text size="2">{device.value}</Text>
