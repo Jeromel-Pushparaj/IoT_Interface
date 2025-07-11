@@ -3,7 +3,7 @@ import React,{useState, useEffect} from "react";
 import DeviceCard from "@/components/DeviceCard";
 import { Grid, Link } from "@radix-ui/themes";
 import api from "@/api.js"; // Adjust the import path as necessary
-function DevicePage() {
+function ControlPage() {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function DevicePage() {
 }, []);
 
   return (
-    <DeviceLayout page={"Device Management"}>
+    <DeviceLayout page={"Device Control"}>
       {/* Add more device management components or features here */}
             {/* Placeholder for device management content */}
 
@@ -38,9 +38,8 @@ function DevicePage() {
               }}
             />
               ))}
-</Grid>
+            </Grid>
     </DeviceLayout>
   );
 }
-
-export default DevicePage;
+export default ControlPage;
