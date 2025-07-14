@@ -10,7 +10,7 @@ function Toggle({ checked, onCheckedChange }) {
       onCheckedChange={onCheckedChange}
     >
     </Switch>
-</div>
+  </div>
   );
 }
 
