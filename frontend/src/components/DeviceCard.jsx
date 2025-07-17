@@ -16,6 +16,11 @@ function DeviceCard({ device, onDelete, onEdit }) {
   const handleEdit = () => {
     onEdit(device);
   };
+  const deviceId = device.device_id;
+  if (!deviceId) {
+    console.error('Device ID is missing:', device);
+    return null; // or handle the error as needed
+  }
 
   const deviceProperties = device.properties || [];
 
@@ -37,12 +42,7 @@ function DeviceCard({ device, onDelete, onEdit }) {
             {prop.uiType === 'toggle' && (
               <>
             <Text size="2">{prop.name}: {prop.value}</Text>
-              <Toggle
-                checked={false}
-                onCheckedChange={(checked) => {
-                  console.log(`Toggle status for property ${prop.name}:`, checked);
-                }}
-                />
+              <Toggle deviceId={deviceId}/>
               </>
 
               )}
@@ -50,7 +50,7 @@ function DeviceCard({ device, onDelete, onEdit }) {
 
               <>
             <Text size="2">{prop.name}: {prop.value}</Text>
-              <BrightnessSlider value={prop.value} />
+              <BrightnessSlider deviceId={deviceId} />
               </>
             )}
             {prop.uiType === 'temp_display' && (
@@ -63,7 +63,7 @@ function DeviceCard({ device, onDelete, onEdit }) {
             {prop.uiType === 'live_data' && (
             <>
             <Text size="2">{prop.name}: {prop.value}</Text>
-              <LiveData  />
+              <LiveData  deviceId={deviceId}/>
             </>
             )}
             {/* Display property name and value */}

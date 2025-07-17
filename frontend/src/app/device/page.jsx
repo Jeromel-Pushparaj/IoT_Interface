@@ -25,7 +25,7 @@ function DevicePage() {
       {/* Add more device management components or features here */}
             {/* Placeholder for device management content */}
 
-            <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
+            {/* <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
               {devices.map((device) => (
             <DeviceCard
             key={device.device_id}
@@ -38,8 +38,8 @@ function DevicePage() {
               }}
             />
               ))}
-</Grid>
-    </DeviceLayout>
+</Grid>*/}
+     </DeviceLayout> 
   );
 }
 
