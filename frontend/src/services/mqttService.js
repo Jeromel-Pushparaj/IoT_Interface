@@ -13,12 +13,7 @@ function connect() {
     console.log("✅ MQTT already connected");
     return;
   }
-  if (isConnecting) {
-    console.log("⏳ MQTT connection already in progress...");
-    return;
-  }
 
-  isConnecting = true;
 
   console.log("🔌 Connecting to MQTT broker...");
   client = mqtt.connect(MQTT_BROKER_URL, {
@@ -66,44 +61,45 @@ function connect() {
 }
 
 function subscribe(topic, callback) {
-  connect();
+  if (!client || !client.connected) {
+    console.warn(`⚠ Cannot subscribe to ${topic}: MQTT client not connected`);
+    return () => {}; // return a no-op unsubscribe function
+  }
 
   if (!subscriptions[topic]) {
-    subscriptions[topic] = new Set();
-    client.subscribe(topic, { qos: 1 }, (err) => {
+    subscriptions[topic] = [];
+    client.subscribe(topic, (err) => {
       if (err) {
-        console.error(`❌ Failed to subscribe ${topic}:`, err);
+        console.error(`❌ Failed to subscribe to ${topic}:`, err);
       } else {
         console.log(`📡 Subscribed to ${topic}`);
       }
     });
   }
 
-  if (!subscriptions[topic].has(callback)) {
-    subscriptions[topic].add(callback);
-    console.log(`✅ Added callback for ${topic}`);
-  } else {
-    console.log(`⚠️ Callback already registered for ${topic}`);
-  }
+  subscriptions[topic].push(callback);
 
   return () => unsubscribe(topic, callback);
 }
 
 function unsubscribe(topic, callback) {
-  if (!subscriptions[topic]) return;
+  if (!client || !client.connected) {
+    console.warn(`⚠ Cannot unsubscribe from ${topic}: MQTT client not connected`);
+    return;
+  }
 
-  subscriptions[topic].delete(callback);
-  console.log(`🗑 Removed callback for ${topic}`);
-
-  if (subscriptions[topic].size === 0) {
-    client.unsubscribe(topic, (err) => {
-      if (err) {
-        console.error(`❌ Failed to unsubscribe ${topic}:`, err);
-      } else {
-        console.log(`🛑 Unsubscribed from ${topic}`);
-      }
-    });
-    delete subscriptions[topic];
+  if (subscriptions[topic]) {
+    subscriptions[topic] = subscriptions[topic].filter((cb) => cb !== callback);
+    if (subscriptions[topic].length === 0) {
+      client.unsubscribe(topic, (err) => {
+        if (err) {
+          console.error(`❌ Failed to unsubscribe from ${topic}:`, err);
+        } else {
+          console.log(`🛑 Unsubscribed from ${topic}`);
+        }
+      });
+      delete subscriptions[topic];
+    }
   }
 }
 

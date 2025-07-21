@@ -225,7 +225,7 @@ useEffect(() => {
                           <Text size="2">{device.type}</Text>
                         </Table.Cell>
                         <Table.Cell>
-                        <DeviceStatus id={device.device_id} />
+                        <DeviceStatus id={device._id.$oid} deviceId={device.device_id} />
                         </Table.Cell>
                         <Table.Cell>
                           <DeviceProperties properties={device.properties}/>

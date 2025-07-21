@@ -13,20 +13,26 @@ export function useMqttSubscription(topic, onMessage) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    if (!mqttService.isConnected()) {
+      console.log(`⏳ Waiting for MQTT to connect before subscribing to ${topic}`);
+      return;
+    }
     if (!topic) return;
 
     console.log(`📡 [useMqttSubscription] Subscribing to ${topic}`);
 
-    const unsubscribe = mqttService.subscribe(topic, (message) => {
-      setMessages((prev) => [...prev, message]);
-      if (onMessage) {
-        try {
-          onMessage(message);
-        } catch (err) {
-          console.error(`⚠️ Error in onMessage callback for ${topic}:`, err);
-        }
+
+    let lastMessage = null;
+
+    const handleMessage = (msg) => {
+      if (msg !== lastMessage) {
+        setMessages((prev) => [...prev, msg]);
+        lastMessage = msg;
       }
-    });
+      if (onMessage) onMessage(msg);
+    };
+
+    const unsubscribe = mqttService.subscribe(topic, handleMessage);
 
     return () => {
       console.log(`🛑 [useMqttSubscription] Unsubscribing from ${topic}`);
