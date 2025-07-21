@@ -1,7 +1,7 @@
 import { Slider,  Tooltip } from '@radix-ui/themes';
 import { useState, useEffect } from 'react';
 import mqttService from '@/services/mqttService.js'; // Adjust the import path as necessary
-
+//TODO: make this Brightness slider value dynaically set by the user in the Device Edit Tab
 function BrightnessSlider({deviceId}) {
   const [brightness, setBrightness] = useState(50);
   const [showTooltip, setShowTooltip] = useState(false);
