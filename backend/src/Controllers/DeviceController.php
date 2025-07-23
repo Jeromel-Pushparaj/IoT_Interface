@@ -31,11 +31,12 @@ class DeviceController
     // POST /api/device/register
     public function register($requestData)
     {
-        if (!isset($requestData['device_id']) || !isset($requestData['name'])) {
+        if (!isset($requestData['device_id']) || !isset($requestData['name']) || !isset($requestData['properties']) || !isset($requestData['ui_type'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing required fields']);
             return;
         }
+
 
         $device = [
             'device_id' => $requestData['device_id'],
@@ -46,7 +47,9 @@ class DeviceController
             'status' => 'offline', //active|inactive|maintenance|error
             'isActive' => false, // false|true
             'created_at' => date('c'), // ISO8601 format, e.g., "2025-06-05T12:34:56+00:00"
-            'updated_at' => date('c')
+            'updated_at' => date('c'),
+            'properties' => $requestData['properties'] ?? [], // optional properties field
+            'ui_type' => $requestData['ui_type'] ?? [], // optional UI type field
         ];
 
         $existing = $this->collection->findOne(['device_id' => $device['device_id']]);

@@ -3,30 +3,22 @@ import { Flex, Badge } from '@radix-ui/themes';
 import { Wifi, WifiOff } from 'lucide-react';
 import mqttService from '@/services/mqttService.js'; // Adjust the import path as necessary
 import api from '@/api.js'; // Adjust the import path as necessary
+import { useMqttSubscription } from '@/hooks/useMqttSubscription';
 
-function DeviceStatus(props) {
+function DeviceStatus({deviceId, id}) {
   const [status, setStatus] = useState('offline');
-  const deviceId = props.id;
 
-useEffect(() => {
-  // Connect only once when component mounts
-  if(!mqttService.isConnected()) {
-    mqttService.connect();
-  }
-
-  // Subscribe to MQTT topic
-  mqttService.subscribe(`device/${deviceId}/status`, (incomingMessage) => {
-    console.log('Received MQTT message:', incomingMessage);
+  useMqttSubscription(`device/${deviceId}/status`, (incomingMessage) => {
+    console.log('📩 Received MQTT message:', incomingMessage);
     const normalized = incomingMessage.toLowerCase();
 
     if (normalized !== 'online' && normalized !== 'offline') {
-      console.error('Invalid status message:', normalized);
+      console.error('❌ Invalid status message:', normalized);
       return;
     }
 
-    // Update state
     setStatus(normalized);
-    console.log(`Device ${deviceId} status changed to:`, normalized);
+    console.log(`🔄 Device ${deviceId} status changed to:`, normalized);
 
     // Call API immediately on status change
     api.post(`/api/device/update`, {
@@ -34,18 +26,25 @@ useEffect(() => {
       status: normalized
     })
     .then((response) => {
-      console.log('Device status updated:', response.data);
+      console.log('✅ Device status updated:', response.data);
     })
     .catch((error) => {
-      console.error('Error updating device status:', error);
+      console.error('❌ Error updating device status:', error);
     });
   });
 
-  return () => {
-    // Disconnect only when component unmounts
-    mqttService.disconnect();
-  };
-}, [deviceId]); // Re-run only if deviceId changes
+  useEffect(() => {
+    // Fetch initial status from API
+    api.get(`/api/device/show/${id}`)
+    .then((response) => {
+      const statusDb = response.data.status;
+      console.log(statusDb);
+      setStatus(statusDb);
+    })
+    .catch((error) => {
+      console.error('❌ Error getting the status of the Device:', error);
+    });
+  }, [deviceId]);
 
   const getStatusIcon = (status) => {
     return status === 'online' ? <Wifi size={16} /> : <WifiOff size={16} />;

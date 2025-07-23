@@ -1,12 +1,12 @@
-// mqttService.js
 import mqtt from "mqtt";
 
-const MQTT_BROKER_URL = "ws://192.168.1.12:15675/ws"; // Use RabbitMQ WebSocket port
-const RECONNECT_PERIOD = 2000; // 2 seconds
-const KEEPALIVE = 60; // seconds
+const MQTT_BROKER_URL = "ws://192.168.1.12:15675/ws";
+const RECONNECT_PERIOD = 2000;
+const KEEPALIVE = 60;
 
 let client = null;
-const subscriptions = {}; // { topic: callback }
+let isConnecting = false;
+const subscriptions = {}; // { topic: Set(callbacks) }
 
 function connect() {
   if (client && client.connected) {
@@ -14,48 +14,57 @@ function connect() {
     return;
   }
 
+
   console.log("🔌 Connecting to MQTT broker...");
   client = mqtt.connect(MQTT_BROKER_URL, {
     clientId: `react_client_${Math.random().toString(16).substr(2, 8)}`,
     keepalive: KEEPALIVE,
     reconnectPeriod: RECONNECT_PERIOD,
-    username: "guest", // RabbitMQ default user
+    username: "guest",
     password: "guest",
-    clean: true,
+    clean: false, // Keep session alive
   });
 
   client.on("connect", () => {
     console.log("✅ MQTT connected");
-    if(client && client.connected) {
-      resubscribeAll();
-    }
+    resubscribeAll();
+    isConnecting = false;
   });
 
   client.on("reconnect", () => {
-    console.log("🔄 Reconnecting to MQTT broker...");
+    console.log("🔄 MQTT reconnecting...");
   });
 
   client.on("offline", () => {
-    console.warn("⚠ MQTT went offline");
+    console.warn("⚠ MQTT offline");
   });
 
   client.on("error", (err) => {
-    console.error("🚨 MQTT connection error:", err);
+    console.error("❌ MQTT error:", err);
     client.end();
+    isConnecting = false;
   });
 
   client.on("message", (topic, message) => {
     const payload = message.toString();
-    console.log(`📩 Message received on ${topic}:`, payload);
-
+    console.log(`📩 Message received on ${topic}: ${payload}`);
     if (subscriptions[topic]) {
-      subscriptions[topic].forEach((callback) => callback(payload));
+      subscriptions[topic].forEach((cb) => {
+        try {
+          cb(payload);
+        } catch (err) {
+          console.error(`⚠️ Error in callback for ${topic}:`, err);
+        }
+      });
     }
   });
 }
 
 function subscribe(topic, callback) {
-  if (!client) connect();
+  if (!client || !client.connected) {
+    console.warn(`⚠ Cannot subscribe to ${topic}: MQTT client not connected`);
+    return () => {}; // return a no-op unsubscribe function
+  }
 
   if (!subscriptions[topic]) {
     subscriptions[topic] = [];
@@ -70,11 +79,15 @@ function subscribe(topic, callback) {
 
   subscriptions[topic].push(callback);
 
-  // Return unsubscribe function
   return () => unsubscribe(topic, callback);
 }
 
 function unsubscribe(topic, callback) {
+  if (!client || !client.connected) {
+    console.warn(`⚠ Cannot unsubscribe from ${topic}: MQTT client not connected`);
+    return;
+  }
+
   if (subscriptions[topic]) {
     subscriptions[topic] = subscriptions[topic].filter((cb) => cb !== callback);
     if (subscriptions[topic].length === 0) {
@@ -94,9 +107,9 @@ function publish(topic, message) {
   if (client && client.connected) {
     client.publish(topic, message, { qos: 1 }, (err) => {
       if (err) {
-        console.error(`❌ Failed to publish to ${topic}:`, err);
+        console.error(`❌ Failed to publish ${topic}:`, err);
       } else {
-        console.log(`📤 Published to ${topic}:`, message);
+        console.log(`📤 Published to ${topic}: ${message}`);
       }
     });
   } else {
@@ -105,17 +118,18 @@ function publish(topic, message) {
 }
 
 function resubscribeAll() {
-  if (!client || !client.connected) {
-    console.warn("⚠ Skipping resubscribeAll: client is not connected");
-    return;
-  }
+  if (!client || !client.connected) return;
+
   Object.keys(subscriptions).forEach((topic) => {
-    client.subscribe(topic, (err) => {
-      if (err) {
-        console.error(`❌ Failed to re-subscribe to ${topic}:`, err);
-      } else {
-        console.log(`🔄 Re-subscribed to ${topic}`);
-      }
+    console.log(`🔄 Re-subscribing to ${topic}`);
+    client.unsubscribe(topic, () => {
+      client.subscribe(topic, { qos: 1 }, (err) => {
+        if (err) {
+          console.error(`❌ Failed to re-subscribe ${topic}:`, err);
+        } else {
+          console.log(`🔄 Re-subscribed to ${topic}`);
+        }
+      });
     });
   });
 }
@@ -126,7 +140,7 @@ function isConnected() {
 
 function disconnect() {
   if (client) {
-    client.end(() => {
+    client.end(true, () => {
       console.log("🔌 MQTT disconnected");
       client = null;
     });

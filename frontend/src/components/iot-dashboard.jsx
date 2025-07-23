@@ -25,6 +25,7 @@ import AppHeader from '@/components/header.jsx';
 import Background from '@/components/background.jsx';
 import api from '@/api.js'; // Adjust the import path as necessary
 import DeviceStatus from '@/components/DeviceStatus.jsx'; // Adjust the import path as necessary
+import DeviceProperties from '@/components/DeviceProperties.jsx'; // Adjust the import path as necessary
 
 const IoTDashboard = () => {
   //dummy data for device
@@ -206,7 +207,7 @@ useEffect(() => {
                       <Table.ColumnHeaderCell>Device Name</Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Value</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Properties</Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Control</Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
@@ -224,10 +225,10 @@ useEffect(() => {
                           <Text size="2">{device.type}</Text>
                         </Table.Cell>
                         <Table.Cell>
-                        <DeviceStatus id={device.device_id} />
+                        <DeviceStatus id={device._id.$oid} deviceId={device.device_id} />
                         </Table.Cell>
                         <Table.Cell>
-                          <Text size="2">{device.value}</Text>
+                          <DeviceProperties properties={device.properties}/>
                         </Table.Cell>
                         <Table.Cell>
                           <Switch 
