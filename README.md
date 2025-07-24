@@ -5,7 +5,8 @@ This repository contains the source code for the IoT_Interface platform.
 
 <br>
 <img src="https://github.com/user-attachments/assets/dff384d6-1761-4e02-9c6f-54efaac34374" alt="Example Image" style="width: 400px; height: 600px; align-self: center;">
----
+<br>
+
 
 ## Documentation
 
