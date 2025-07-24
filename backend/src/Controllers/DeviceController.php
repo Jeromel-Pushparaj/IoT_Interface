@@ -31,19 +31,25 @@ class DeviceController
     // POST /api/device/register
     public function register($requestData)
     {
-        if (!isset($requestData['device_id']) || !isset($requestData['name'])) {
+        if (!isset($requestData['device_id']) || !isset($requestData['name']) || !isset($requestData['properties']) || !isset($requestData['ui_type'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Missing required fields']);
             return;
         }
 
+
         $device = [
             'device_id' => $requestData['device_id'],
-            'name' => $requestData['name'],
-            'status' => 'offline',
             'owner_id' => $this->decode['user']['sub'],
+            'name' => $requestData['name'],
+            'type' => $requestData['type'] ?? 'generic', // default to 'generic' if not provided
+            'value' => $requestData['value'] ?? null, // optional value field
+            'status' => 'offline', //active|inactive|maintenance|error
+            'isActive' => false, // false|true
             'created_at' => date('c'), // ISO8601 format, e.g., "2025-06-05T12:34:56+00:00"
-            'updated_at' => date('c')
+            'updated_at' => date('c'),
+            'properties' => $requestData['properties'] ?? [], // optional properties field
+            'ui_type' => $requestData['ui_type'] ?? [], // optional UI type field
         ];
 
         $existing = $this->collection->findOne(['device_id' => $device['device_id']]);
@@ -101,17 +107,31 @@ class DeviceController
             return;
         }
 
-            $mqtt = new MQTTService();
-            $topic = "device/$deviceId/command";
-            $message = ['action' => $status];
 
-            $success = $mqtt->publish($topic, $message);
+        $device = $this->collection->findOne([
+            'device_id' => $deviceId,
+            'owner_id' => $this->decode['user']['sub'] // Ensure the device belongs to the user
+        ]);
 
-        if ($success) {
-            echo json_encode(['success' => true, 'message' => "Command sent to $deviceId"]);
+        $isActive = $status === 'active' ? true : false; // Convert status to boolean for isActive
+
+        if (!$device) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Device not found']);
+            return;
+        }  
+        // Update the device status
+        $updateResult = $this->collection->updateOne(
+            ['device_id' => $deviceId, 'owner_id' => $this->decode['user']['sub']],
+            ['$set' => ['status' => $status,'isActive' => $isActive, 'updated_at' => date('c')]]
+        );
+
+
+        if ($updateResult) {
+            echo json_encode(['success' => true, 'message' => "Device: $deviceId status updated to $status"]);
         } else {
             http_response_code(500);
-            echo json_encode(['error' => 'Failed to publish to MQTT']);
+            echo json_encode(['error' => "Failed to update device: $deviceId status"]);
         }
     }
 

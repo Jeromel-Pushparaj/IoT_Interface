@@ -10,7 +10,7 @@ class Router {
         $routeMap = [];
         foreach ($routes as $route) {
             // Convert path to regex pattern once
-            $pattern = preg_replace('#\{[a-zA-Z_][a-zA-Z0-9_]*\}#', '([a-zA-Z0-9]+)', $route['path']);
+            $pattern = preg_replace('#\{[a-zA-Z_][a-zA-Z0-9_]*\}#', '([a-zA-Z0-9_\-]+)', $route['path']);
             $route['compiled_pattern'] = "#^{$pattern}$#";
     
             // Group by HTTP method for faster lookup

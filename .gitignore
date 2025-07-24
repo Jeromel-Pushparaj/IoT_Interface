@@ -1,19 +1,35 @@
-/backend/config
+# Backend directories
+/backend/config/auth.php
 /backend/vendor
-.env
+
+# Worker directories
 /mqtt-subscription/.env
+
+# local Documentation directories
 /documentations
+
+# Node.js directories
 /node_modules
+
+#rabbitmq volume
 /rabbitmq
-# Ignore all node modules
-/node_modules
-# Ignore all log files
-*.log
-# Ignore all temporary files
-*.tmp
-# Ignore all build artifacts
-/build
-# Ignore all coverage reports
-/coverage
-# Ignore all IDE specific files
-.idea
+
+# Build artifacts
+/build/
+/dist/
+
+# Environment files
+.env
+.env.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+
+# Binary files
+*.bin
+*.hex

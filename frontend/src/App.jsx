@@ -1,33 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import React, { useEffect } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { isTokenExpired, logoutAndRedirect } from './utils/auth'; // Adjust the import path as necessary
+import DashboardPage from './app/dashboard/page';
+import LoginPage from './app/login/page';
+import SingupPage from './app/signup/page';
+import DashboardTest from './app/home/dashboard';
+import DevicePage from './app/device/page';
+import AddDevice from './app/device/AddDevice';
+import ControlPage from './app/control/page'; // Import the ControlPage component
 
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isTokenExpired()) {
+      logoutAndRedirect(navigate);
+    }
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <Routes>
+      <Route path='/' element={ <DashboardPage/>}/>
+      
+      // Routes for Devices
+      <Route path='/device' element={ <DevicePage/>}/> 
+      <Route path='/device/add' element={ <AddDevice/> }/>
+
+      //Routes for Controll page
+      <Route path='/control' element={ <ControlPage/> }/>
+      <Route path='/control/:deviceId' element={ <ControlPage/> }/>
+
+      <Route path='/login' element={ <LoginPage /> }/>
+      <Route path='/signup' element={ <SingupPage /> }/>
+      <Route path='/test' element={ <DashboardTest /> }/>
+    </Routes>
     </>
   )
 }

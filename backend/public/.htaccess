@@ -1,6 +1,23 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Handle preflight OPTIONS requests early
+  RewriteCond %{REQUEST_METHOD} OPTIONS
+  RewriteRule ^(.*)$ $1 [R=200,L]
+
+  # Rewrite all other requests to index.php
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header always set Access-Control-Allow-Credentials "true"
+    Header set Content-Type "application/json"
+</IfModule>
+
+# Optional: force JSON for 404s or other errors
+ErrorDocument 404 '{"error": "Route not found"}'
+ErrorDocument 500 '{"error": "Internal server error"}'
