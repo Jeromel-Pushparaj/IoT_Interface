@@ -1,5 +1,5 @@
 # Backend directories
-/backend/config
+/backend/config/auth.php
 /backend/vendor
 
 # Worker directories
@@ -28,7 +28,6 @@ __pycache__/
 *.pyc
 
 # IDE
-.vscode/
 .idea/
 
 # Binary files
