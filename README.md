@@ -20,12 +20,12 @@ To get started:
    ```bash
    git clone https://github.com/<your-username>/IoT_Interface.git
    ```
-2. Follow the setup instructions in the [wiki](https://github.com/Jeromel-Pushparaj/IoT_Interface.wiki).
+2. Follow the setup instructions in the [wiki](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki).
 
 ## Contributing
 
 Interested in contributing?  
-Check out the [Contributing Guide](https://github.com/Jeromel-Pushparaj/IoT_Interface.wiki/Contributing.md) in the wiki.
+Check out the [Contributing Guide](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki/Contributing.md) in the wiki.
 
 ## License
 
