@@ -9,7 +9,7 @@ This repository contains the source code for the IoT_Interface platform.
 
 ## Documentation
 
-Comprehensive documentation, guides, and contribution instructions are available in the [project wiki](https://github.com/<your-username>/IoT_Interface.wiki).  
+Comprehensive documentation, guides, and contribution instructions are available in the [project wiki](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki).  
 Please visit the wiki for details on setup, usage, and development.
 
 ## Getting Started
@@ -25,7 +25,7 @@ To get started:
 ## Contributing
 
 Interested in contributing?  
-Check out the [Contributing Guide](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki/Contributing.md) in the wiki.
+Check out the [Contributing Guide](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki/Contributing) in the wiki.
 
 ## License
 
