@@ -18,7 +18,7 @@ To get started:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/IoT_Interface.git
+   git clone https://github.com/Jeromel-Pushparaj/IoT_Interface.git
    ```
 2. Follow the setup instructions in the [wiki](https://github.com/Jeromel-Pushparaj/IoT_Interface/wiki).
 
@@ -33,4 +33,6 @@ This project is licensed under the MIT License.
 
 ---
 
+
 For questions or support, please open an issue or start
+
