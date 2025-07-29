@@ -85,8 +85,7 @@ client.username_pw_set(mqtt_username, mqtt_password)
 client.connect(mqtt_broker, mqtt_port, 60)
 
 # Subscribe to all device data topics
-client.subscribe("device/+/command")
-client.subscribe("device/+/toggle")
+client.subscribe("device/+/+")
 
 # Loop forever
 client.loop_forever()
