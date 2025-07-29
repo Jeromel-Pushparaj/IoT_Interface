@@ -104,11 +104,14 @@ services:
       - ./mqtt-subscriber:/app
     working_dir: /app
     command: ["python3", "mqtt_subscriber.py"]
+    env_file:
+      - ./mqtt-subscriber/.env
     depends_on:
       - mongo
       - rabbitmq
     networks:
       - iot-net
+    restart: unless-stopped
 
 
 networks:
