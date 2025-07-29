@@ -25,13 +25,13 @@ mqtt_port = int(os.getenv("MQTT_PORT"))
 mqtt_username = os.getenv("MQTT_USERNAME", None)
 mqtt_password = os.getenv("MQTT_PASSWORD", None)
 
-def update(device_id, data):
+def update(device_id, data, topic):
     """
     Update the device data in the MongoDB collection.
     """
     try:
         result = collection.update_one(
-            {"device_id": device_id},
+            {"device_id": device_id, "topic": topic},
             {"$set": data},
             upsert=True  # Create a new document if it doesn't exist
         )
@@ -56,7 +56,7 @@ def on_message(client, userdata, message):
                 "raw_data": payload_str,
                 "updated_at": datetime.datetime.now()
             }
-            if update(device_id, update_data):
+            if update(device_id, update_data, topic):
                 print(f"Device {device_id} updated successfully.")
             else:
                 print(f"Failed to update device {device_id}.")
