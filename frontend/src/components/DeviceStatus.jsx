@@ -18,7 +18,7 @@ function DeviceStatus({deviceId, id}) {
     }
 
     setStatus(normalized);
-    console.log(`🔄 Device ${deviceId} status changed to:`, normalized);
+    console.log(`Device ${deviceId} status changed to:`, normalized);
 
     // Call API immediately on status change
     api.post(`/api/device/update`, {
@@ -26,10 +26,10 @@ function DeviceStatus({deviceId, id}) {
       status: normalized
     })
     .then((response) => {
-      console.log('✅ Device status updated:', response.data);
+      console.log('Device status updated:', response.data);
     })
     .catch((error) => {
-      console.error('❌ Error updating device status:', error);
+      console.error('Error updating device status:', error);
     });
   });
 
@@ -42,7 +42,7 @@ function DeviceStatus({deviceId, id}) {
       setStatus(statusDb);
     })
     .catch((error) => {
-      console.error('❌ Error getting the status of the Device:', error);
+      console.error('Error getting the status of the Device:', error);
     });
   }, [deviceId]);
 

@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Box, Text } from '@radix-ui/themes';
 import { useMqttSubscription } from '@/hooks/useMqttSubscription';
 
-function LiveData({ deviceId }) {
+function LiveData({ deviceId, disable }) {
   const topic = `device/${deviceId}/livedata`;
   const liveData = useMqttSubscription(topic);
   const dataBoxRef = useRef(null);
@@ -17,11 +17,12 @@ function LiveData({ deviceId }) {
     }
   }, [liveData]);
 
+  const backgroundColor = disable ? 'grey' : 'black';
   return (
     <Box
       ref={dataBoxRef}
       style={{
-        backgroundColor: 'black',
+        backgroundColor: backgroundColor,
         padding: '1rem',
         borderRadius: '8px',
         color: 'lime',
@@ -32,7 +33,7 @@ function LiveData({ deviceId }) {
       }}
     >
       {liveData.length === 0 ? (
-        <Text size="1" color="gray">No data available</Text>
+        <Text size="1" color="gray">{disable ? 'device offline' : 'No data available'}</Text>
       ) : (
         liveData.map((msg, idx) => (
           <div key={idx} style={{ opacity: 0, animation: 'fadeIn 0.4s forwards' }}>
