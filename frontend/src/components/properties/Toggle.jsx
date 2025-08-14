@@ -2,7 +2,7 @@ import {Switch} from '@radix-ui/themes';
 import React, { useEffect } from 'react';
 import mqttService from '@/services/mqttService.js'; // Adjust the import path as necessary
 
-function Toggle({ deviceId }) {
+function Toggle({ deviceId, disable }) {
   const checked = false; // Default state, can be managed via state if needed
   const handleToggle = (checked) => {
     mqttService.publish(`device/${deviceId}/toggle`, checked ? 'on' : 'off');
@@ -28,6 +28,7 @@ function Toggle({ deviceId }) {
   return (
     <div className='m-l-5 m-t-10'>
     <Switch
+      disabled={disable}
       radius='small'
       onCheckedChange={onCheckedChange => {
         mqttService.publish(`device/${deviceId}/toggle`, onCheckedChange ? 'on' : 'off');

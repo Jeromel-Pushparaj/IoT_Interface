@@ -2,7 +2,7 @@ import { Card, Flex, Text } from '@radix-ui/themes';
 import { Thermometer } from 'lucide-react';
 import React from 'react';
 
-function TempDisplay({ device }) {
+function TempDisplay({ device, disable}) {
   return (
               <Card style={{ padding: '1.5rem' }}>
                 <Flex direction="column" gap="3">

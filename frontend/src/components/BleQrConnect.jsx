@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@radix-ui/themes/styles.css';
 import {
     Box,
@@ -14,6 +14,7 @@ import {
 // Import the Html5Qrcode library (install via npm or use CDN in index.html)
 // npm: npm install html5-qrcode
 import { Html5Qrcode } from 'html5-qrcode';
+import api from '@/api.js';
 
 const BleQrConnect = () => {
   const [qrResult, setQrResult] = useState('Scan a QR code...');
@@ -41,20 +42,20 @@ const BleQrConnect = () => {
   };
 
   const handleScanSuccess = (decodedText) => {
-    console.log('✅ QR Code detected:', decodedText);
+    console.log('QR Code detected:', decodedText);
     setQrResult(`QR: ${decodedText}`);
 
     try {
       const parsed = JSON.parse(decodedText);
-      if (parsed.name && parsed.serviceUUID && parsed.characteristicUUID) {
+      if (parsed.name && parsed.serviceUUID && parsed.characteristicUUID && parsed.deviceData) {
         setQrData(parsed);
         html5QrCodeRef.current.stop();
         console.log('Parsed QR data:', parsed);
       } else {
-        setQrResult('❌ Invalid QR format');
+        setQrResult('Invalid QR format');
       }
     } catch (err) {
-      setQrResult('❌ QR not in JSON format');
+      setQrResult('QR not in JSON format');
       console.error(err);
     }
   };
@@ -72,20 +73,31 @@ const BleQrConnect = () => {
 
       window.bleCharacteristic = characteristic; // Store globally to use in send
 
-      alert(`✅ Connected to ${qrData.name}`);
+      
+      alert(`Connected to ${qrData.name}`);
       setIsConnected(true);
     } catch (error) {
       console.error('BLE connection error:', error);
-      alert('❌ BLE connection failed');
+      alert('BLE connection failed');
     }
   };
-
+  if(isConnected){
+    useEffect(() => {
+      api.post(`/api/device/register`, qrData.deviceData)
+      .then((response) => {
+        console.log('Device registered:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error in registering device:', error);
+      });
+      }, []);
+  }
   const handleSend = async () => {
     const uid = 'uid ' + uidRef.current.value;
     const pass = 'pass ' + passRef.current.value;
 
     if (!window.bleCharacteristic) {
-      alert('❌ Not connected!');
+      alert('Not connected!');
       return;
     }
 
@@ -93,8 +105,8 @@ const BleQrConnect = () => {
       const encoder = new TextEncoder();
       await window.bleCharacteristic.writeValue(encoder.encode(uid));
       await window.bleCharacteristic.writeValue(encoder.encode(pass));
-      console.log('📤 Sent:', uid);
-      console.log('📤 Sent:', pass);
+      console.log('Sent:', uid);
+      console.log('Sent:', pass);
     } catch (error) {
       console.error('Send failed:', error);
     }
