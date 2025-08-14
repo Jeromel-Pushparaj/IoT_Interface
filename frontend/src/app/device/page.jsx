@@ -3,6 +3,7 @@ import React,{useState, useEffect} from "react";
 import DeviceCard from "@/components/DeviceCard";
 import { Grid, Link } from "@radix-ui/themes";
 import api from "@/api.js"; // Adjust the import path as necessary
+import DeviceTable from "@/components/DeviceTable";
 function DevicePage() {
   const [devices, setDevices] = useState([]);
 
@@ -39,6 +40,7 @@ function DevicePage() {
             />
               ))}
 </Grid>*/}
+     <DeviceTable devices={devices}></DeviceTable> 
      </DeviceLayout> 
   );
 }

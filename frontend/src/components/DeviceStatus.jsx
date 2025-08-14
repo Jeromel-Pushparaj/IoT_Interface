@@ -9,11 +9,11 @@ function DeviceStatus({deviceId, id}) {
   const [status, setStatus] = useState('offline');
 
   useMqttSubscription(`device/${deviceId}/status`, (incomingMessage) => {
-    console.log('📩 Received MQTT message:', incomingMessage);
+    console.log('Received MQTT message:', incomingMessage);
     const normalized = incomingMessage.toLowerCase();
 
     if (normalized !== 'online' && normalized !== 'offline') {
-      console.error('❌ Invalid status message:', normalized);
+      console.error('Invalid status message:', normalized);
       return;
     }
 
