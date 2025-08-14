@@ -208,7 +208,6 @@ useEffect(() => {
                       <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Properties</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Control</Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
 
@@ -231,11 +230,6 @@ useEffect(() => {
                           <DeviceProperties properties={device.properties}/>
                         </Table.Cell>
                         <Table.Cell>
-                          <Switch 
-                            checked={device.isActive}
-                            onCheckedChange={() => toggleDevice(device.id)}
-                            disabled={device.status === 'offline'}
-                          />
                         </Table.Cell>
                       </Table.Row>
                     ))}

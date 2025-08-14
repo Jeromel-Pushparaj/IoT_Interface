@@ -1,15 +1,21 @@
 import React from 'react';
 import { Text } from '@radix-ui/themes';
+import { 
+  ToggleLeft, 
+  SlidersHorizontal,
+  RadioTower
+
+ } from 'lucide-react';
 function DeviceProperties({ properties }) {
   return (
   <>
-    <Text size="2" color="gray">
+  <div className='flex items-center gap-2'>
       {properties.map((prop, idx) => (
-        <div key={idx}>
-          <Text size="2">{prop.name}: {prop.dataType}</Text>
+        <div className='' key={idx}>
+          { (prop.name == "Power") && <ToggleLeft /> } { (prop.name) == "Brightness" && <SlidersHorizontal /> }{ (prop.name) == "Data" && <RadioTower />}
         </div>
       ))}
-    </Text>
+      </div>
   </>
   );
 }
