@@ -64,7 +64,7 @@ function DeviceCard({ device, onDelete, onEdit }) {
 
               <>
             <Text size="2">{prop.name}: {prop.value}</Text>
-              <BrightnessSlider deviceId={deviceId} disable={status == 'offline'}/>
+              <BrightnessSlider deviceId={deviceId} disable={status == 'offline'} min={prop.minValue} max={prop.maxValue}/>
               </>
             )}
             {prop.uiType === 'temp_display' && (
