@@ -15,5 +15,7 @@ export function isTokenExpired() {
 
 export function logoutAndRedirect(navigate) {
   localStorage.removeItem('token');
-  navigate('/login');
+  if(window.location.pathname != '/signup'){
+    navigate('/login');
+  }
 }
