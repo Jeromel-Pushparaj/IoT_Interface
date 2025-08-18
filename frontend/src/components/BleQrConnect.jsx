@@ -81,8 +81,7 @@ const BleQrConnect = () => {
       alert('BLE connection failed');
     }
   };
-  if(isConnected){
-    useEffect(() => {
+  if((isConnected || true) && qrData != null){
       api.post(`/api/device/register`, qrData.deviceData)
       .then((response) => {
         console.log('Device registered:', response.data);
@@ -90,7 +89,6 @@ const BleQrConnect = () => {
       .catch((error) => {
         console.error('Error in registering device:', error);
       });
-      }, []);
   }
   const handleSend = async () => {
     const uid = 'uid ' + uidRef.current.value;
