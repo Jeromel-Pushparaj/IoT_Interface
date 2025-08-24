@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Box, 
   Flex, 
   Text, 
-  Button, 
   Card, 
   Table, 
   Badge, 
   Switch,
   Container,
-  Heading,
   Grid
 } from '@radix-ui/themes';
 import { 
   Activity, 
   Thermometer, 
   Lightbulb, 
-  Wifi, 
-  WifiOff,
   Power,
-  Settings
 } from 'lucide-react';
-import AppHeader from '@/components/header.jsx'; 
-import Background from '@/components/background.jsx';
 import api from '@/api.js'; // Adjust the import path as necessary
 import DeviceStatus from '@/components/DeviceStatus.jsx'; // Adjust the import path as necessary
 import DeviceProperties from '@/components/DeviceProperties.jsx'; // Adjust the import path as necessary
@@ -78,49 +70,6 @@ useEffect(() => {
 
   return (
     <>
-        {/* Sidebar */}
-        {/* <Box 
-          style={{ 
-            width: '250px', 
-            backgroundColor: 'transparent', 
-            color: 'white',
-            minHeight: '100vh',
-            padding: '1rem'
-          }}
-        >
-            <Card 
-          style={{ 
-            width: '250px', 
-            color: 'white',
-            minHeight: '85vh',
-            padding: '1rem'
-          }} >
-          <Flex direction="column" gap="4">
-            <Box style={{ padding: '1rem 0' }}>
-              <Text size="4" weight="bold" style={{ color: 'white' }}>
-                IoT Control Hub
-              </Text>
-            </Box>
-            
-            <Flex direction="column" gap="2">
-              <Button variant="ghost" style={{ justifyContent: 'flex-start', color: 'white' }}>
-                <Activity size={16} style={{ marginRight: '8px' }} />
-                Dashboard
-              </Button>
-              <Button variant="ghost" style={{ justifyContent: 'flex-start', color: 'white' }}>
-                <Power size={16} style={{ marginRight: '8px' }} />
-                Devices
-              </Button>
-              <Button variant="ghost" style={{ justifyContent: 'flex-start', color: 'white' }}>
-                <Settings size={16} style={{ marginRight: '8px' }} />
-                Settings
-              </Button>
-            </Flex>
-          </Flex>
-          </Card>
-        </Box> */}
-
-
           {/* Content Area */}
           <Container size="4" style={{ padding: '2rem' }}>
             {/* Control Cards */}
