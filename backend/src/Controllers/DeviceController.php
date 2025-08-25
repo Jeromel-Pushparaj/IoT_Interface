@@ -140,13 +140,13 @@ class DeviceController
            http_response_code(200);
            $updateAt = $findData['updated_at'];
            // Create DateTime object in UTC
-            $date = new DateTime($dateString, new DateTimeZone("UTC"));
+            // $date = new DateTime($dateString, new DateTimeZone("UTC"));
 
             // Convert to your local timezone (example: Asia/Kolkata)
-            $date->setTimezone(new DateTimeZone("Asia/Kolkata"));
+            // $date->setTimezone(new DateTimeZone("Asia/Kolkata"));
 
             // Format to a human-readable string
-            echo $date->format("Y-m-d H:i:s");
+            // echo $date->format("Y-m-d H:i:s");
            echo json_encode(['upadted_at' => $updateAt]);
         }
 
