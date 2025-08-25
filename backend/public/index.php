@@ -16,6 +16,7 @@ Router::handle([
     ["method" => "POST", "path" => "/api/device/register", "handler" => [DeviceController::class, 'register'], "middleware" => [AuthMiddleware::class, 'handle']],
     ["method" => "GET", "path" => "/api/device/list", "handler" => [DeviceController::class, 'list'], "middleware" => [AuthMiddleware::class, 'handle']],
     ["method" => "GET", "path" => "/api/device/status", "handler" => [DeviceController::class, 'status'], "middleware" => [AuthMiddleware::class, 'handle']],
+    ["method" => "GET", "path" => "/api/device/last_updated/{id}", "handler" => [DeviceController::class, 'getLastUpdateTime'], "middleware" => [AuthMiddleware::class, 'handle']],
     ["method" => "POST", "path" => "/api/device/update", "handler" => [DeviceController::class, 'updateStatus'], "middleware" => [AuthMiddleware::class, 'handle']],
     ["method" => "GET", "path" => "/api/device/show/{id}", "handler" => [DeviceController::class, 'viewDevice'], "middleware" => [AuthMiddleware::class, 'handle']],
     ["method" => "DELETE", "path" => "/api/device/delete/{id}", "handler" => [DeviceController::class, 'deleteDevice'], "middleware" => [AuthMiddleware::class, 'handle']],
