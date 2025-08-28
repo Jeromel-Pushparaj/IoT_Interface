@@ -133,24 +133,32 @@ class DeviceController
             echo json_encode(['error' => "Failed to update device: $deviceId status"]);
         }
     }
-    public function getLastUpdatedTime($id){
-        $collection = $this->client->selectCollection("device_data");
-        $findData =  $collection->findOne(['device_id' => $id]);
-        if($findData == 1){
-           http_response_code(200);
-           $updateAt = $findData['updated_at'];
-           // Create DateTime object in UTC
-            // $date = new DateTime($dateString, new DateTimeZone("UTC"));
 
-            // Convert to your local timezone (example: Asia/Kolkata)
-            // $date->setTimezone(new DateTimeZone("Asia/Kolkata"));
+public function getLastUpdatedTime($requestData, $id) {
+    $collection = $this->client->selectCollection("device_data");
+    $userId = $this->decode['user']['sub'] ?? null; // Get user ID from decoded JWT or session
+    
+    $findData = $collection->findOne([
+        "device_id" => $id
+    ]);
 
-            // Format to a human-readable string
-            // echo $date->format("Y-m-d H:i:s");
-           echo json_encode(['upadted_at' => $updateAt]);
-        }
+    if ($findData) {
+        // Convert UTCDateTime -> PHP DateTime -> timestamp
+        $updateAt = $findData['updated_at']->toDateTime()->getTimestamp();
 
+        // Create DateTime object in UTC
+        $date = (new \DateTime())->setTimestamp($updateAt);
+
+        // Format to a human-readable string
+        $formatted = $date->format("l, d M Y h:i A");
+
+        http_response_code(200);
+        echo json_encode(['updated_at' => $formatted]);
+    } else {
+        http_response_code(404);
+        echo json_encode(['error' => 'Device not found']);
     }
+}
 
     public function deleteDevice($requestData, $id)
     {
