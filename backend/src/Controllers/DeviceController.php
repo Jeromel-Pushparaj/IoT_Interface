@@ -177,13 +177,21 @@ public function getLastUpdatedTime($requestData, $id) {
             echo json_encode(['error' => 'Unauthorized']);
             return;
         }
+        $deviceId = $this->collection->findOne([
+            '_id' => new ObjectId(strval($id))]
+            )['device_id'];
         $result = $this->collection->deleteOne([
             /** @var \MongoDB\BSON\ObjectId */
             '_id' => new ObjectId(strval($id)),
             'owner_id' => $userId // Ensure the device belongs to the user
         ]);
 
-        if ($result->getDeletedCount() === 1) {
+        $collection = $this->client->selectCollection("device_data");
+        $deviceDataCollection = $collection->deleteOne([
+            'device_id' => $deviceId
+        ]);
+
+        if ($result->getDeletedCount() === 1 && $deviceDataCollection->getDeletedCount() === 1) {
             echo json_encode(['status' => 'Device deleted successfully']);
         } else {
             http_response_code(404);
