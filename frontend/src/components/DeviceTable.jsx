@@ -1,18 +1,40 @@
 import DeviceStatus from '@components/DeviceStatus';
-import DeviceProperties from './DeviceProperties';
+import { useState, useEffect } from 'react';
 import {
   Card,
   Flex,
   Text,
-  Table
+  Table,
+  Button
 } from '@radix-ui/themes';
 import {
-  Pencil,
-  Trash
-
+ Pencil
 } from 'lucide-react';
+import DeleteButton from './ui/DeleteButton';
+import api from '@/api';
 
-function DeviceTable({devices}){
+function DeviceTable(){
+  const [devices, setDevices] = useState([]);
+
+  useEffect(() => {
+  api.get('/api/device/list')
+  .then((response) => {
+    if (response.data) {
+      setDevices(response.data);
+    } else {
+      console.error('No devices found in response:', response.data);
+    }
+  })
+  .catch((error) => {
+    console.error('Error fetching devices:', error);
+  });
+}, []);
+
+const handleDleteSuccess = (id) => {
+  //update the state without refetching whole list
+  setDevices((prev) => prev.filter((d) => d._id.$oid !== id));
+  console.log("hhhh");
+}
     return(
         <>
             {/* Device Table */}
@@ -51,10 +73,12 @@ function DeviceTable({devices}){
                         </Table.Cell>
 
                         <Table.Cell>
-                        <div className='flex item-center gam-4'>
-                        <Pencil />
-                        <Trash />
-                        </div>
+                          <Flex align="center" gap={5}>
+                          <Button gap="2" variant='surface'>
+                              <Pencil size={16} />
+                          </Button>
+                        <DeleteButton id={device._id.$oid} onDeleteSuccess={handleDleteSuccess} />
+                        </Flex>
                         </Table.Cell>
                         <Table.Cell>
                         </Table.Cell>
