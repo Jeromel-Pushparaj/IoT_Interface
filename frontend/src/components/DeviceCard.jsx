@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { Card, Flex, Text, Link, Separator} from '@radix-ui/themes';
+import React, { useEffect, useState } from 'react';
+import { Card, Flex, Text, Link, Separator } from '@radix-ui/themes';
 import { Power } from 'lucide-react';
 import Toggle from './properties/Toggle';
 import BrightnessSlider from './properties/BrightnessSlider';
@@ -26,15 +26,15 @@ function DeviceCard({ device, onDelete, onEdit }) {
   const id = device._id.$oid;
   useEffect(() => {
     // Fetch initial status from API
-    api.get(`/api/device/show/${id}`)
-    .then((response) => {
-      const statusDb = response.data.status;
-      console.log(statusDb);
-      setStatus(statusDb);
-    })
-    .catch((error) => {
-      console.error('Error getting the status of the Device:', error);
-    });
+    api.get(`/api/devices/${id}`)
+      .then((response) => {
+        const statusDb = response.data.status;
+        console.log(statusDb);
+        setStatus(statusDb);
+      })
+      .catch((error) => {
+        console.error('Error getting the status of the Device:', error);
+      });
   }, [deviceId]);
   const deviceProperties = device.properties || [];
 
@@ -55,38 +55,38 @@ function DeviceCard({ device, onDelete, onEdit }) {
           <div gap="2" key={idx}>
             {prop.uiType === 'toggle' && (
               <>
-            <Text size="2">{prop.name}: {prop.value}</Text>
-              <Toggle deviceId={deviceId} disable={status == 'offline'}/>
+                <Text size="2">{prop.name}: {prop.value}</Text>
+                <Toggle deviceId={deviceId} disable={status == 'offline'} />
               </>
 
-              )}
+            )}
             {prop.uiType === 'slider' && (
 
               <>
-            <Text size="2">{prop.name}: {prop.value}</Text>
-              <BrightnessSlider deviceId={deviceId} disable={status == 'offline'} min={prop.minValue} max={prop.maxValue}/>
+                <Text size="2">{prop.name}: {prop.value}</Text>
+                <BrightnessSlider deviceId={deviceId} disable={status == 'offline'} min={prop.minValue} max={prop.maxValue} />
               </>
             )}
             {prop.uiType === 'temp_display' && (
               <>
-            <Text size="2">{prop.name}: {prop.value}</Text>
-              <TempDisplay value={prop.value} disable={status == 'offline'} />
+                <Text size="2">{prop.name}: {prop.value}</Text>
+                <TempDisplay value={prop.value} disable={status == 'offline'} />
               </>
             )}
-            
+
             {prop.uiType === 'live_data' && (
-            <>
-            <Text size="2">{prop.name}: {prop.value}</Text>
-              <LiveData  deviceId={deviceId} disable={status == 'offline'} />
-            </>
+              <>
+                <Text size="2">{prop.name}: {prop.value}</Text>
+                <LiveData deviceId={deviceId} disable={status == 'offline'} />
+              </>
             )}
             {/* Display property name and value */}
-            </div>
+          </div>
         ))}
-        {status == 'offline' && 
-        <Text size="1" color="gray">
-          Last update: {device.updated_at}
-        </Text>
+        {status == 'offline' &&
+          <Text size="1" color="gray">
+            Last update: {device.updated_at}
+          </Text>
         }
       </Flex>
     </Card>

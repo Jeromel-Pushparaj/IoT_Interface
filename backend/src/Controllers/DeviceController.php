@@ -28,8 +28,8 @@ class DeviceController
         }
     }
 
-    // POST /api/device/register
-    public function register($requestData)
+    // POST /api/devices
+    public function createDevice($requestData)
     {
         if (!isset($requestData['device_id']) || !isset($requestData['name']) || !isset($requestData['properties']) || !isset($requestData['ui_type'])) {
             http_response_code(400);
@@ -65,14 +65,14 @@ class DeviceController
     }
 
     // GET /api/device/list
-    public function list($requestData)
+    public function getAllDevices($requestData)
     {
         // Fetch devices for the given user
         $devices = $this->collection->find(['owner_id' => $this->decode['user']['sub']])->toArray();
         echo json_encode($devices);
     }
 
-    public function viewDevice($requestData, $id)
+    public function getDevice($requestData, $id)
     {
         if (!isset($id) || empty($id)) {
             http_response_code(400);
@@ -94,10 +94,12 @@ class DeviceController
 
         echo json_encode($device);
     }
+
+    public function getDeviceStatus(){}
     
 
-    // PATCH /api/device/update
-    public function updateStatus($requestData)
+    // PUT /api/devices/status
+    public function updateDeviceStatus($requestData)
     {
         $deviceId = $requestData['device_id'] ?? null;
         $status = $requestData['status'] ?? null;

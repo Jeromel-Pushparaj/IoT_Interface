@@ -28,7 +28,7 @@ class UserController {
         echo json_encode(['message' => 'profile endpoint is working, authentication successful']);
     }
 
-    public function register($data) {
+    public function createUser($data) {
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
 

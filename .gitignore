@@ -2,6 +2,7 @@
 /backend/config/auth.php
 /backend/vendor
 
+./frontend/config/api.js
 # Worker directories
 /mqtt-subscription/.env
 
