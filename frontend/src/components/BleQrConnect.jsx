@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '@radix-ui/themes/styles.css';
 import {
-    Box,
-    Flex,
-    Text,
-    Button,
-    Card,
-    Container,
-    Separator,
-    TextField,
+  Box,
+  Flex,
+  Text,
+  Button,
+  Card,
+  Container,
+  Separator,
+  TextField,
 } from '@radix-ui/themes';
 
 // Import the Html5Qrcode library (install via npm or use CDN in index.html)
@@ -73,7 +73,7 @@ const BleQrConnect = () => {
 
       window.bleCharacteristic = characteristic; // Store globally to use in send
 
-      
+
       alert(`Connected to ${qrData.name}`);
       setIsConnected(true);
     } catch (error) {
@@ -81,8 +81,8 @@ const BleQrConnect = () => {
       alert('BLE connection failed');
     }
   };
-  if((isConnected || true) && qrData != null){
-      api.post(`/api/device/register`, qrData.deviceData)
+  if ((isConnected || true) && qrData != null) {
+    api.post(`/api/devices`, qrData.deviceData)
       .then((response) => {
         console.log('Device registered:', response.data);
       })
@@ -112,29 +112,29 @@ const BleQrConnect = () => {
 
   return (
     <Box maxWidth="1600px" align="center">
-    <Card size='5' align="center">
-    <div style={{ padding: 20 }}>
-      <Text size='5' weight='bold' align='center'>BLE Connect via QR</Text> 
+      <Card size='5' align="center">
+        <div style={{ padding: 20 }}>
+          <Text size='5' weight='bold' align='center'>BLE Connect via QR</Text>
 
-      <div id="reader" style={{ width: 400 }}></div>
-      <Box maxWidth="250px" margin="auto" padding="10px" color="black" border="1px solid #ccc" borderRadius="10px">
-        <Text size='3' weight='bold' align='center'>QR Result</Text>
-        <Separator size='2' />
-        <p>{qrResult}</p>
-      </Box>
+          <div id="reader" style={{ width: 400 }}></div>
+          <Box maxWidth="250px" margin="auto" padding="10px" color="black" border="1px solid #ccc" borderRadius="10px">
+            <Text size='3' weight='bold' align='center'>QR Result</Text>
+            <Separator size='2' />
+            <p>{qrResult}</p>
+          </Box>
 
-      <Button onClick={handleStartScan}>Start QR Scan</Button>{' '}
-      <Button onClick={handleConnectBLE} disabled={!qrData}>Connect BLE</Button>
+          <Button onClick={handleStartScan}>Start QR Scan</Button>{' '}
+          <Button onClick={handleConnectBLE} disabled={!qrData}>Connect BLE</Button>
 
-      <br /><br />
-      <TextField.Root variant="surface" placeholder="Enter wifi UID" size="3" ref={uidRef} disabled={!isConnected} />
-      <br />
-      <TextField.Root variant="surface" placeholder="Enter wifi password" size="3" ref={passRef} disabled={!isConnected} />
-      <br />
-      <Button onClick={handleSend} disabled={!isConnected}>Send</Button>
-    </div>
-    </Card>
-    </Box>  
+          <br /><br />
+          <TextField.Root variant="surface" placeholder="Enter wifi UID" size="3" ref={uidRef} disabled={!isConnected} />
+          <br />
+          <TextField.Root variant="surface" placeholder="Enter wifi password" size="3" ref={passRef} disabled={!isConnected} />
+          <br />
+          <Button onClick={handleSend} disabled={!isConnected}>Send</Button>
+        </div>
+      </Card>
+    </Box>
   );
 };
 

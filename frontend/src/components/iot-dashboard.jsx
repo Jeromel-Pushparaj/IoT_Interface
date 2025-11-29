@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Flex, 
-  Text, 
-  Card, 
-  Table, 
-  Badge, 
+import {
+  Flex,
+  Text,
+  Card,
+  Table,
+  Badge,
   Switch,
   Container,
   Grid
 } from '@radix-ui/themes';
-import { 
-  Activity, 
-  Thermometer, 
-  Lightbulb, 
+import {
+  Activity,
+  Thermometer,
+  Lightbulb,
   Power,
 } from 'lucide-react';
 import api from '@/api.js'; // Adjust the import path as necessary
@@ -35,19 +35,19 @@ const IoTDashboard = () => {
     lastUpdate: new Date().toLocaleTimeString()
   });
 
-useEffect(() => {
-  api.get('/api/device/list')
-  .then((response) => {
-    if (response.data) {
-      setDevices(response.data);
-    } else {
-      console.error('No devices found in response:', response.data);
-    }
-  })
-  .catch((error) => {
-    console.error('Error fetching devices:', error);
-  });
-}, []);
+  useEffect(() => {
+    api.get('/api/devices')
+      .then((response) => {
+        if (response.data) {
+          setDevices(response.data);
+        } else {
+          console.error('No devices found in response:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching devices:', error);
+      });
+  }, []);
 
   const getDeviceIcon = (type) => {
     switch (type) {
@@ -59,8 +59,8 @@ useEffect(() => {
   };
 
   const toggleDevice = (deviceId) => {
-    setDevices(devices.map(device => 
-      device.id === deviceId 
+    setDevices(devices.map(device =>
+      device.id === deviceId
         ? { ...device, isActive: !device.isActive }
         : device
     ));
@@ -70,123 +70,123 @@ useEffect(() => {
 
   return (
     <>
-          {/* Content Area */}
-          <Container size="4" style={{ padding: '2rem' }}>
-            {/* Control Cards */}
-            <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
-              {/* Toggle Button with Device Name */}
-              <Card style={{ padding: '1.5rem' }}>
-                <Flex direction="column" gap="3">
-                  <Flex align="center" justify="between">
-                    <Text size="3" weight="medium">Device Control</Text>
-                    <Power size={20} />
-                  </Flex>
-                  <Text size="2" color="gray">
-                    Smart Thermostat
-                  </Text>
-                  <Flex align="center" gap="2">
-                    <Switch 
-                      checked={devices[0]?.isActive}
-                      onCheckedChange={() => toggleDevice(1)}
-                    />
-                    <Text size="2">
-                      {devices[0]?.isActive ? 'Active' : 'Inactive'}
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Card>
-
-              {/* Sensor Value */}
-              <Card style={{ padding: '1.5rem' }}>
-                <Flex direction="column" gap="3">
-                  <Flex align="center" justify="between">
-                    <Text size="3" weight="medium">Live Sensor Data</Text>
-                    <Thermometer size={20} />
-                  </Flex>
-                  <Text size="5" weight="bold">
-                    {sensorData.temperature}°C
-                  </Text>
-                  <Text size="2" color="gray">
-                    Humidity: {sensorData.humidity}%
-                  </Text>
-                  <Text size="1" color="gray">
-                    Last update: {sensorData.lastUpdate}
-                  </Text>
-                </Flex>
-              </Card>
-
-              {/* Device Statistics */}
-              <Card style={{ padding: '1.5rem' }}>
-                <Flex direction="column" gap="3">
-                  <Flex align="center" justify="between">
-                    <Text size="3" weight="medium">Device Statistics</Text>
-                    <Activity size={20} />
-                  </Flex>
-                  <Flex direction="column" gap="2">
-                    <Flex justify="between">
-                      <Text size="2">Online Devices</Text>
-                      <Badge color="green">4/5</Badge>
-                    </Flex>
-                    <Flex justify="between">
-                      <Text size="2">Active Devices</Text>
-                      <Badge color="blue">2/5</Badge>
-                    </Flex>
-                    <Flex justify="between">
-                      <Text size="2">System Status</Text>
-                      <Badge color="green">Healthy</Badge>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Card>
-            </Grid>
-
-            {/* Device Table */}
-            <Card style={{ padding: '1.5rem' }}>
-              <Flex direction="column" gap="3">
-                <Text size="4" weight="medium">
-                  Device Management Table
-                </Text>
-                <Text size="2" color="gray">
-                  Table containing device name, device status and its type
-                </Text>
-                
-                <Table.Root>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.ColumnHeaderCell>Device Name</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Properties</Table.ColumnHeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-
-                  <Table.Body>
-                    {devices.map((device) => (
-                      <Table.Row key={device.device_id}>
-                        <Table.RowHeaderCell>
-                          <Flex align="center" gap="2">
-                            {getDeviceIcon(device.type)}
-                            <Text size="2" weight="medium">{device.name}</Text>
-                          </Flex>
-                        </Table.RowHeaderCell>
-                        <Table.Cell>
-                          <Text size="2">{device.type}</Text>
-                        </Table.Cell>
-                        <Table.Cell>
-                        <DeviceStatus id={device._id.$oid} deviceId={device.device_id} />
-                        </Table.Cell>
-                        <Table.Cell>
-                          <DeviceProperties properties={device.properties}/>
-                        </Table.Cell>
-                        <Table.Cell>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table.Root>
+      {/* Content Area */}
+      <Container size="4" style={{ padding: '2rem' }}>
+        {/* Control Cards */}
+        <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
+          {/* Toggle Button with Device Name */}
+          <Card style={{ padding: '1.5rem' }}>
+            <Flex direction="column" gap="3">
+              <Flex align="center" justify="between">
+                <Text size="3" weight="medium">Device Control</Text>
+                <Power size={20} />
               </Flex>
-            </Card>
-          </Container>
+              <Text size="2" color="gray">
+                Smart Thermostat
+              </Text>
+              <Flex align="center" gap="2">
+                <Switch
+                  checked={devices[0]?.isActive}
+                  onCheckedChange={() => toggleDevice(1)}
+                />
+                <Text size="2">
+                  {devices[0]?.isActive ? 'Active' : 'Inactive'}
+                </Text>
+              </Flex>
+            </Flex>
+          </Card>
+
+          {/* Sensor Value */}
+          <Card style={{ padding: '1.5rem' }}>
+            <Flex direction="column" gap="3">
+              <Flex align="center" justify="between">
+                <Text size="3" weight="medium">Live Sensor Data</Text>
+                <Thermometer size={20} />
+              </Flex>
+              <Text size="5" weight="bold">
+                {sensorData.temperature}°C
+              </Text>
+              <Text size="2" color="gray">
+                Humidity: {sensorData.humidity}%
+              </Text>
+              <Text size="1" color="gray">
+                Last update: {sensorData.lastUpdate}
+              </Text>
+            </Flex>
+          </Card>
+
+          {/* Device Statistics */}
+          <Card style={{ padding: '1.5rem' }}>
+            <Flex direction="column" gap="3">
+              <Flex align="center" justify="between">
+                <Text size="3" weight="medium">Device Statistics</Text>
+                <Activity size={20} />
+              </Flex>
+              <Flex direction="column" gap="2">
+                <Flex justify="between">
+                  <Text size="2">Online Devices</Text>
+                  <Badge color="green">4/5</Badge>
+                </Flex>
+                <Flex justify="between">
+                  <Text size="2">Active Devices</Text>
+                  <Badge color="blue">2/5</Badge>
+                </Flex>
+                <Flex justify="between">
+                  <Text size="2">System Status</Text>
+                  <Badge color="green">Healthy</Badge>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Card>
+        </Grid>
+
+        {/* Device Table */}
+        <Card style={{ padding: '1.5rem' }}>
+          <Flex direction="column" gap="3">
+            <Text size="4" weight="medium">
+              Device Management Table
+            </Text>
+            <Text size="2" color="gray">
+              Table containing device name, device status and its type
+            </Text>
+
+            <Table.Root>
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeaderCell>Device Name</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Properties</Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>
+                {devices.map((device) => (
+                  <Table.Row key={device.device_id}>
+                    <Table.RowHeaderCell>
+                      <Flex align="center" gap="2">
+                        {getDeviceIcon(device.type)}
+                        <Text size="2" weight="medium">{device.name}</Text>
+                      </Flex>
+                    </Table.RowHeaderCell>
+                    <Table.Cell>
+                      <Text size="2">{device.type}</Text>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <DeviceStatus id={device._id.$oid} deviceId={device.device_id} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <DeviceProperties properties={device.properties} />
+                    </Table.Cell>
+                    <Table.Cell>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </Flex>
+        </Card>
+      </Container>
     </>
   );
 };
