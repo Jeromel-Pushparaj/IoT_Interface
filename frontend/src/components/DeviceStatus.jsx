@@ -5,7 +5,7 @@ import mqttService from '@/services/mqttService.js'; // Adjust the import path a
 import api from '@/api.js'; // Adjust the import path as necessary
 import { useMqttSubscription } from '@/hooks/useMqttSubscription';
 
-function DeviceStatus({deviceId, id}) {
+function DeviceStatus({ deviceId, id }) {
   const [status, setStatus] = useState('offline');
 
   useMqttSubscription(`device/${deviceId}/status`, (incomingMessage) => {
@@ -21,29 +21,29 @@ function DeviceStatus({deviceId, id}) {
     console.log(`Device ${deviceId} status changed to:`, normalized);
 
     // Call API immediately on status change
-    api.post(`/api/device/update`, {
+    api.put(`/api/devices/status`, {
       device_id: String(deviceId),
       status: normalized
     })
-    .then((response) => {
-      console.log('Device status updated:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error updating device status:', error);
-    });
+      .then((response) => {
+        console.log('Device status updated:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error updating device status:', error);
+      });
   });
 
   useEffect(() => {
     // Fetch initial status from API
-    api.get(`/api/device/show/${id}`)
-    .then((response) => {
-      const statusDb = response.data.status;
-      console.log(statusDb);
-      setStatus(statusDb);
-    })
-    .catch((error) => {
-      console.error('Error getting the status of the Device:', error);
-    });
+    api.get(`/api/devices/${id}`)
+      .then((response) => {
+        const statusDb = response.data.status;
+        console.log(statusDb);
+        setStatus(statusDb);
+      })
+      .catch((error) => {
+        console.error('Error getting the status of the Device:', error);
+      });
   }, [deviceId]);
 
   const getStatusIcon = (status) => {
@@ -54,13 +54,13 @@ function DeviceStatus({deviceId, id}) {
 
   return (
     <Flex align="center" gap="2">
-        {getStatusIcon(status)}
-            <Badge 
-                color={status === 'online' ? 'green' : 'red'}
-                variant="soft"
-            >
-            {status}
-            </Badge>
+      {getStatusIcon(status)}
+      <Badge
+        color={status === 'online' ? 'green' : 'red'}
+        variant="soft"
+      >
+        {status}
+      </Badge>
     </Flex>
   );
 }

@@ -25,7 +25,7 @@ function SignupCard() {
       return;
     }
     const emailValue = email.current.value;
-    const passwordValue = password.current.value; 
+    const passwordValue = password.current.value;
 
     if (!emailValue || !passwordValue) {
       console.error('Email or password is empty');
@@ -36,10 +36,10 @@ function SignupCard() {
     console.log('Email:', emailValue);
     console.log('Password:', passwordValue);
     // Example API call (uncomment when ready to use)
-      api.post('/api/register', {
-        email: emailValue,
-        password: passwordValue
-      })
+    api.post('/api/users', {
+      email: emailValue,
+      password: passwordValue
+    })
       .then((response) => {
         //redirect to login page after successful signup
         navigate('/login');
@@ -52,8 +52,8 @@ function SignupCard() {
   };
 
   return (
-      <form onSubmit={handleSubmit}>
-    <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
+    <form onSubmit={handleSubmit}>
+      <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
         <Flex direction="column" gap="4">
           <Text size="4" weight="bold" align="center">Create an account</Text>
           <Text size="2" align="center" color="gray">Sign up with Apple or Google</Text>
@@ -81,8 +81,8 @@ function SignupCard() {
             Already have an account? <Link href="/login">Login</Link>
           </Text>
         </Flex>
-    </Card>
-  </form>
+      </Card>
+    </form>
   );
 }
 
