@@ -31,7 +31,7 @@ function DeviceLayout({ children, page}) {
     }
 
     return (
-        <Box className="min-h-screen transparent p-4">
+        <Box className="min-h-screen transparent p-4 pt-20">
             <Container>
                 <Flex direction="column" gap="4">
                   

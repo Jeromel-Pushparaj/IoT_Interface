@@ -43,7 +43,7 @@ const IoTDashboard = () => {
   return (
     <>
       {/* Content Area */}
-      <Container size="4" style={{ padding: '2rem' }}>
+      <Container size="4" style={{ padding: '2rem', paddingTop: '4rem' }}>
         {/* Control Cards */}
         <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
           {/* Toggle Button with Device Name */}
