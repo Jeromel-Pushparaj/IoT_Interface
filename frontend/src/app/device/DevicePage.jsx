@@ -1,4 +1,4 @@
-import DeviceLayout from "@/components/device-layout";
+import DeviceLayout from "@/components/DeviceLayout";
 import React from "react";
 import DeviceTable from "@/components/DeviceTable";
 function DevicePage() {

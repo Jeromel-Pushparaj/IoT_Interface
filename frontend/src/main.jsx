@@ -4,38 +4,46 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "@/App.jsx";
 import { Theme, Box, Flex } from "@radix-ui/themes";
-import Background from "./components/background.jsx";
-import AppHeader from "@/components/header.jsx";
+import Background from "./components/Background.jsx";
+import Header from "@/components/Header.jsx";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
-        <BrowserRouter>
-            <Theme
-                panelBackground="translucent"
-                accentColor="indigo"
-                grayColor="sand"
-                radius="large"
-                scaling="95%"
-                appearance="dark"
-            >
-                <Background />
+  <StrictMode>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <Theme
+          panelBackground="translucent"
+          accentColor="indigo"
+          grayColor="sand"
+          radius="large"
+          scaling="95%"
+          appearance="dark"
+        >
+          <Background />
 
-                <Box className="absolute left-0 right-0 min-h-screen ">
-                    <Flex>
-                        <Box style={{ flex: 1 }}>
-                            <Box
-                                style={{
-                                    backgroundColor: "transparent",
-                                    padding: "1rem 2rem",
-                                }}
-                            >
-                                <AppHeader />
-                            </Box>
-                            <App />
-                        </Box>
-                    </Flex>
+          <Box className="absolute left-0 right-0 min-h-screen ">
+            <Flex>
+              <Box style={{ flex: 1 }}>
+                <Box
+                  style={{
+                    backgroundColor: "transparent",
+                    padding: "1rem 2rem",
+                  }}
+                >
+                  <Header />
                 </Box>
-            </Theme>
-        </BrowserRouter>
-    </StrictMode>
+                <App />
+              </Box>
+            </Flex>
+          </Box>
+        </Theme>
+      </QueryClientProvider>
+    </BrowserRouter>
+  </StrictMode>
 );

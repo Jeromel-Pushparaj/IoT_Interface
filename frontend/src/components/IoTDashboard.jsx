@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   Text,
   Card,
   Table,
   Badge,
-  Switch,
   Container,
   Grid
 } from '@radix-ui/themes';
@@ -15,18 +14,12 @@ import {
   Lightbulb,
   Power,
 } from 'lucide-react';
-import api from '@/api.js'; // Adjust the import path as necessary
-import DeviceStatus from '@/components/DeviceStatus.jsx'; // Adjust the import path as necessary
-import DeviceProperties from '@/components/DeviceProperties.jsx'; // Adjust the import path as necessary
+import DeviceStatus from '@/components/DeviceStatus.jsx';
+import DeviceProperties from '@/components/DeviceProperties.jsx';
+import { useDevices } from '@/hooks/useDevices.js';
 
 const IoTDashboard = () => {
-  //dummy data for device
-  // { id: 1, name: 'Smart Thermostat', type: 'Temperature', status: 'online', value: '22°C', isActive: true },
-  //   { id: 2, name: 'Living Room Light', type: 'Lighting', status: 'online', value: '75%', isActive: false },
-  //   { id: 3, name: 'Security Camera', type: 'Security', status: 'offline', value: 'Inactive', isActive: false },
-  //   { id: 4, name: 'Smart Speaker', type: 'Audio', status: 'online', value: 'Playing', isActive: true },
-  //   { id: 5, name: 'Garden Sprinkler', type: 'Irrigation', status: 'online', value: 'Scheduled', isActive: false }
-  const [devices, setDevices] = useState([]);
+  const { data: devices, isLoading, isError } = useDevices();
 
   const [sensorData] = useState({
     temperature: 22.5,
@@ -34,20 +27,6 @@ const IoTDashboard = () => {
     pressure: 1013.25,
     lastUpdate: new Date().toLocaleTimeString()
   });
-
-  useEffect(() => {
-    api.get('/api/devices')
-      .then((response) => {
-        if (response.data) {
-          setDevices(response.data);
-        } else {
-          console.error('No devices found in response:', response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching devices:', error);
-      });
-  }, []);
 
   const getDeviceIcon = (type) => {
     switch (type) {
@@ -58,15 +37,8 @@ const IoTDashboard = () => {
     }
   };
 
-  const toggleDevice = (deviceId) => {
-    setDevices(devices.map(device =>
-      device.id === deviceId
-        ? { ...device, isActive: !device.isActive }
-        : device
-    ));
-  };
-
-
+  if (isLoading) return <div>Loading devices...</div>;
+  if (isError) return <div>Error fetching devices.</div>;
 
   return (
     <>
@@ -82,17 +54,8 @@ const IoTDashboard = () => {
                 <Power size={20} />
               </Flex>
               <Text size="2" color="gray">
-                Smart Thermostat
+                Feature coming soon
               </Text>
-              <Flex align="center" gap="2">
-                <Switch
-                  checked={devices[0]?.isActive}
-                  onCheckedChange={() => toggleDevice(1)}
-                />
-                <Text size="2">
-                  {devices[0]?.isActive ? 'Active' : 'Inactive'}
-                </Text>
-              </Flex>
             </Flex>
           </Card>
 
@@ -161,7 +124,7 @@ const IoTDashboard = () => {
               </Table.Header>
 
               <Table.Body>
-                {devices.map((device) => (
+                {devices && devices.map((device) => (
                   <Table.Row key={device.device_id}>
                     <Table.RowHeaderCell>
                       <Flex align="center" gap="2">

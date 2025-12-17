@@ -1,5 +1,5 @@
 // components/SignupCard.jsx
-import React, { useRef } from 'react';
+import React from 'react'; // Removed useRef
 import {
   Card,
   Flex,
@@ -11,48 +11,50 @@ import {
 } from '@radix-ui/themes';
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Adjust the import path as necessary
+import api from '../api';
+
+// New imports for react-hook-form and zod
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+// Define the Zod schema for validation
+const signupSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
+// type SignupFormInputs = z.infer<typeof signupSchema>; // For future .tsx conversion
 
 function SignupCard() {
-  const email = useRef(null);
-  const password = useRef(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!email.current || !password.current) {
-      console.error('Email or password ref is not set');
-      return;
-    }
-    const emailValue = email.current.value;
-    const passwordValue = password.current.value;
+  // Initialize react-hook-form
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(signupSchema),
+  });
 
-    if (!emailValue || !passwordValue) {
-      console.error('Email or password is empty');
-      return;
-    }
-
+  const onSubmit = (data) => { // This will be passed to useForm's handleSubmit
     // Add your signup logic here
-    console.log('Email:', emailValue);
-    console.log('Password:', passwordValue);
-    // Example API call (uncomment when ready to use)
+    console.log('Form Data:', data);
+
     api.post('/api/users', {
-      email: emailValue,
-      password: passwordValue
+      email: data.email,
+      password: data.password
     })
       .then((response) => {
-        //redirect to login page after successful signup
+        // Redirect to login page after successful signup
         navigate('/login');
-        alert('Signup successful:', response.data.message);
+        alert('Signup successful: ' + response.data.message); // Fixed alert message concatenation
       })
       .catch((error) => {
-        navigate('/signup');
-        alert('Signup failed:', error);
+        // navigate('/signup'); // Removed: avoid navigating on error, let user retry
+        alert('Signup failed: ' + (error.response?.data?.message || 'An error occurred'));
       });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}> {/* Use handleSubmit from react-hook-form */}
       <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
         <Flex direction="column" gap="4">
           <Text size="4" weight="bold" align="center">Create an account</Text>
@@ -67,12 +69,14 @@ function SignupCard() {
 
           <Flex direction="column" gap="2">
             <Text>Email</Text>
-            <TextField.Root placeholder='Email' size="3" type='email' ref={email}>
+            <TextField.Root placeholder='Email' size="3" type='email' {...register('email')}>
             </TextField.Root>
+            {errors.email && <Text color="red" size="1">{errors.email.message}</Text>}
 
             <Text>Password</Text>
-            <TextField.Root placeholder='Password' size='3' type='password' ref={password}>
+            <TextField.Root placeholder='Password' size='3' type='password' {...register('password')}>
             </TextField.Root>
+            {errors.password && <Text color="red" size="1">{errors.password.message}</Text>}
           </Flex>
 
           <Button size="3" variant="solid" type="submit">Sign up</Button>

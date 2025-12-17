@@ -1,5 +1,5 @@
 // components/LoginCard.jsx
-import React, { useRef } from 'react';
+import React from 'react'; // Removed useRef
 import {
   Card,
   Flex,
@@ -9,60 +9,59 @@ import {
   Separator,
   Link
 } from '@radix-ui/themes';
-// import { AppleLogoIcon } from '@radix-ui/react-icons';
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Adjust the import path as necessary
+import api from '../api';
+
+// New imports for react-hook-form and zod
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+// Define the Zod schema for validation
+const loginSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
+// Infer the type from the schema for TypeScript (will be useful later when converting to .tsx)
+// type LoginFormInputs = z.infer<typeof loginSchema>;
 
 function LoginCard() {
-  const password = useRef(null);
-  const email = useRef(null);
   const navigate = useNavigate();
 
-  function handleLogin(event) {
-    event.preventDefault();
-    if (!email.current || !password.current) {
-      console.error('Email or password ref is not set');
-      return;
-    }
+  // Initialize react-hook-form
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
-    const emailValue = email.current.value;
-    const passwordValue = password.current.value;
-
-    if (!emailValue || !passwordValue) {
-      console.error('Email or password is empty');
-      return;
-    }
+  const onSubmit = (data) => {
     // Add your login logic here
-    console.log('Email:', emailValue);
-    console.log('Password:', passwordValue);
+    console.log('Form Data:', data);
 
-    // Example API call (uncomment when ready to use)
-    //TODO: implement Javascript fingerprinting for the login and more security
     api.post('/api/auth/login', {
-      email: emailValue,
-      password: passwordValue
+      email: data.email,
+      password: data.password
     })
       .then((response) => {
-        // Redirect to dashboard after successful login
         const token = response.data.token;
         if (token) {
-          localStorage.setItem('token', response.data.token); // Store the token
+          localStorage.setItem('token', response.data.token);
           console.log('Login successful:', response.data.message);
           navigate('/');
-          alert('Login Success')
+          alert('Login Success');
         } else {
           alert('Login Failed: no token received');
         }
       })
       .catch((error) => {
         alert('Login failed:' + (error.response?.data?.message || 'An error occurred'));
-        navigate('/login');
+        // navigate('/login'); // Removed: avoid navigating on error, let user retry
       });
+  };
 
-  }
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleSubmit(onSubmit)}> {/* Use handleSubmit from react-hook-form */}
       <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
         <Flex direction="column" gap="4">
           <Text size="4" weight="bold" align="center">Welcome back</Text>
@@ -75,16 +74,18 @@ function LoginCard() {
           <Separator size="4" />
           <Flex direction="column" gap="2">
             <Text>Email</Text>
-            <TextField.Root placeholder='Email' size="3" type='email' ref={email} >
+            <TextField.Root placeholder='Email' size="3" type='email' {...register('email')} >
             </TextField.Root>
+            {errors.email && <Text color="red" size="1">{errors.email.message}</Text>}
 
             <Flex justify="between" align="center">
               <Text>Password</Text>
               <Link href="#" size="1">Forgot your password?</Link>
             </Flex>
 
-            <TextField.Root placeholder='Password' size="3" type='password' ref={password}>
+            <TextField.Root placeholder='Password' size="3" type='password' {...register('password')}>
             </TextField.Root>
+            {errors.password && <Text color="red" size="1">{errors.password.message}</Text>}
           </Flex>
 
           <Button size="3" variant='solid' type='submit'>Login</Button>
@@ -95,7 +96,6 @@ function LoginCard() {
         </Flex>
       </Card>
     </form>
-
   );
 }
 export default LoginCard;

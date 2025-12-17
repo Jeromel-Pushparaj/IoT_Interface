@@ -1,6 +1,6 @@
 import React from "react";
 import SignupCard from "@/components/SignupCard";
-import Background from "@/components/background";
+import Background from "@/components/Background";
 import { Container } from "@radix-ui/themes";
 import { Navigate } from "react-router-dom";
 

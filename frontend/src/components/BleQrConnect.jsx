@@ -73,23 +73,25 @@ const BleQrConnect = () => {
 
       window.bleCharacteristic = characteristic; // Store globally to use in send
 
+      // If connection is successful, then register the device
+      if (server.connected && qrData?.deviceData) {
+        api.post(`/api/devices`, qrData.deviceData)
+          .then((response) => {
+            console.log('Device registered:', response.data);
+            alert(`Connected to ${qrData.name} and registered.`);
+          })
+          .catch((error) => {
+            console.error('Error in registering device:', error);
+          });
+      }
 
-      alert(`Connected to ${qrData.name}`);
       setIsConnected(true);
     } catch (error) {
       console.error('BLE connection error:', error);
       alert('BLE connection failed');
     }
   };
-  if ((isConnected || true) && qrData != null) {
-    api.post(`/api/devices`, qrData.deviceData)
-      .then((response) => {
-        console.log('Device registered:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error in registering device:', error);
-      });
-  }
+
   const handleSend = async () => {
     const uid = 'uid ' + uidRef.current.value;
     const pass = 'pass ' + passRef.current.value;

@@ -19,18 +19,6 @@ function DeviceStatus({ deviceId, id }) {
 
     setStatus(normalized);
     console.log(`Device ${deviceId} status changed to:`, normalized);
-
-    // Call API immediately on status change
-    api.put(`/api/devices/status`, {
-      device_id: String(deviceId),
-      status: normalized
-    })
-      .then((response) => {
-        console.log('Device status updated:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error updating device status:', error);
-      });
   });
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CardBox from '@/components/card.jsx';
+import MainCard from '@/components/MainCard.jsx';
 import { Container } from '@radix-ui/themes';
-import IoTDashboard from '@/components/iot-dashboard.jsx';
+import IoTDashboard from '@/components/IoTDashboard.jsx';
 function DashboardPage() {
     return (
       <>

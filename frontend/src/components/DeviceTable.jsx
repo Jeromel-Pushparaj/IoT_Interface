@@ -1,5 +1,4 @@
 import DeviceStatus from '@components/DeviceStatus';
-import { useState, useEffect } from 'react';
 import {
   Card,
   Flex,
@@ -11,30 +10,19 @@ import {
   Pencil
 } from 'lucide-react';
 import DeleteButton from './ui/DeleteButton';
-import api from '@/api';
+import { useDevices } from '@/hooks/useDevices';
 
 function DeviceTable() {
-  const [devices, setDevices] = useState([]);
+  const { data: devices, isLoading, isError, refetch } = useDevices();
 
-  useEffect(() => {
-    api.get('/api/devices')
-      .then((response) => {
-        if (response.data) {
-          setDevices(response.data);
-        } else {
-          console.error('No devices found in response:', response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching devices:', error);
-      });
-  }, []);
-
-  const handleDleteSuccess = (id) => {
-    //update the state without refetching whole list
-    setDevices((prev) => prev.filter((d) => d._id.$oid !== id));
-    console.log("hhhh");
+  const handleDleteSuccess = () => {
+    //refetch the list after a successful deletion
+    refetch();
   }
+
+  if (isLoading) return <div>Loading devices...</div>;
+  if (isError) return <div>Error fetching devices.</div>;
+
   return (
     <>
       {/* Device Table */}
@@ -58,7 +46,7 @@ function DeviceTable() {
             </Table.Header>
 
             <Table.Body>
-              {devices.map((device) => (
+              {devices && devices.map((device) => (
                 <Table.Row key={device.device_id}>
                   <Table.RowHeaderCell>
                     <Flex align="center" gap="2">

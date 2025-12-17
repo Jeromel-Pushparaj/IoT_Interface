@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DeviceLayout from '@/components/device-layout';
+import DeviceLayout from '@/components/DeviceLayout';
 import BleQrConnect from '@/components/BleQrConnect';
 function AddDevice() {
     return (
