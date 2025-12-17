@@ -27,7 +27,7 @@ createRoot(document.getElementById("root")).render(
         >
           <Background />
 
-          <Box className="absolute left-0 right-0 min-h-screen ">
+          <Box className="bg-transparent absolute left-0 right-0 min-h-screen " style={{ backgroundColor: 'transparent' }}>
             <Flex>
               <Box style={{ flex: 1 }}>
                 <Box

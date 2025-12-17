@@ -1,6 +1,5 @@
 import React from "react";
 import SignupCard from "@/components/SignupCard";
-import Background from "@/components/Background";
 import { Container } from "@radix-ui/themes";
 import { Navigate } from "react-router-dom";
 
@@ -11,12 +10,9 @@ function SignupPage() {
         return <Navigate to="/" replace />; // Use replace to avoid adding to history
     } 
     return (
-        <>
-            <Background />
-            <Container className="flex items-center justify-center min-h-screen">
-                <SignupCard />
-            </Container>
-        </>
+        <Container className="flex items-center justify-center min-h-screen">
+            <SignupCard />
+        </Container>
     );
 }       
 export default SignupPage;

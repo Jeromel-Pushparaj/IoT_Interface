@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Flex, Text, Button, DropdownMenu, IconButton } from '@radix-ui/themes';
 import { Layers, Settings } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 
 const AppHeader = () => {
-  const [activeItem, setActiveItem] = useState('dashboard');
+  const [activeItem, setActiveItem] = useState(''); // Initialize with empty string
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
   const token = localStorage.getItem('token'); // Get token for conditional rendering
+
+  // Effect to set active item based on current path
+  useEffect(() => {
+    const currentPath = location.pathname;
+    if (currentPath === '/') {
+      setActiveItem('dashboard');
+    } else if (currentPath.startsWith('/device')) {
+      setActiveItem('devices');
+    } else if (currentPath.startsWith('/control')) {
+      setActiveItem('control');
+    } else if (currentPath === '/login') {
+      setActiveItem('login');
+    } else if (currentPath === '/signup') {
+      setActiveItem('signup');
+    } else {
+      setActiveItem(''); // No active item if path doesn't match
+    }
+  }, [location.pathname]);
 
   function handleLogout() {
     localStorage.removeItem('token'); // Remove the token
     navigate('/login'); // Redirect to login
   }
 
-  const navItems = [
+  const authenticatedNavItems = [
     { id: 'dashboard', label: 'Dashboard', action: '/' },
     { id: 'devices', label: 'Devices', action: '/device' },
     { id: 'control', label: 'Control', action: '/control' },
   ];
+
+  const unauthenticatedNavItems = [
+    { id: 'login', label: 'Login', action: '/login' },
+    { id: 'signup', label: 'Signup', action: '/signup' },
+  ];
+
+  const currentNavItems = token ? authenticatedNavItems : unauthenticatedNavItems;
 
   return (
     <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50">
@@ -39,7 +65,7 @@ const AppHeader = () => {
           {/* Center Buttons and Profile Dropdown */}
           <nav>
             <Flex align="center" gap="4">
-              {navItems.map((item) => (
+              {currentNavItems.map((item) => (
                 <Button
                   key={item.id}
                   variant={activeItem === item.id ? "soft" : "ghost"}

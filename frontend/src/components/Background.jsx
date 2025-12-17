@@ -75,7 +75,7 @@ const Background = () => {
         {/* This div provides the overall page background color/gradient */}
         {/* It's fixed and z-[-1] so it's behind the particles */}
         <div className="fixed top-0 left-0 w-full h-full z-[-1] bg-[linear-gradient(to_bottom,_var(--accent-4),_#0f172a)] opacity-60"></div>
-        
+
         <Particles
           id="tsparticles"
           particlesLoaded={particlesLoaded}
