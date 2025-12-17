@@ -68,7 +68,7 @@ function DeviceCard({ device, onDelete, onEdit }: DeviceCardProps) {
   const deviceProperties = device.properties || [];
 
   return (
-    <Card style={{ padding: '1.5rem', marginBottom: '1rem' }}>
+    <Card style={{ padding: '1.5rem', marginBottom: '1rem' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
       <Flex direction="column" gap="3">
         <Flex align="center" justify="between">
           <Link href={`/device/${device.device_id}`} style={{ textDecoration: 'none' }}>

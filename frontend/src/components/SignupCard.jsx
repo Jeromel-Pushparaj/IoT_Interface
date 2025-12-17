@@ -55,7 +55,7 @@ function SignupCard() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}> {/* Use handleSubmit from react-hook-form */}
-      <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
+      <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }} className="!bg-slate-800/50 backdrop-blur-lg border border-slate-700/50">
         <Flex direction="column" gap="4">
           <Text size="4" weight="bold" align="center">Create an account</Text>
           <Text size="2" align="center" color="gray">Sign up with Apple or Google</Text>

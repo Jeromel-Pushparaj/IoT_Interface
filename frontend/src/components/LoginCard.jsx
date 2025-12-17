@@ -62,7 +62,7 @@ function LoginCard() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}> {/* Use handleSubmit from react-hook-form */}
-      <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }}>
+      <Card variant="surface" style={{ maxWidth: 360, margin: 'auto' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
         <Flex direction="column" gap="4">
           <Text size="4" weight="bold" align="center">Welcome back</Text>
           <Text size="2" align="center" color="gray">Login with your Apple or Google account</Text>

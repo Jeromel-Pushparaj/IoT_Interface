@@ -47,7 +47,7 @@ const IoTDashboard = () => {
         {/* Control Cards */}
         <Grid columns="3" gap="4" style={{ marginBottom: '2rem' }}>
           {/* Toggle Button with Device Name */}
-          <Card style={{ padding: '1.5rem' }}>
+          <Card style={{ padding: '1.5rem' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
             <Flex direction="column" gap="3">
               <Flex align="center" justify="between">
                 <Text size="3" weight="medium">Device Control</Text>
@@ -60,7 +60,7 @@ const IoTDashboard = () => {
           </Card>
 
           {/* Sensor Value */}
-          <Card style={{ padding: '1.5rem' }}>
+          <Card style={{ padding: '1.5rem' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
             <Flex direction="column" gap="3">
               <Flex align="center" justify="between">
                 <Text size="3" weight="medium">Live Sensor Data</Text>
@@ -79,7 +79,7 @@ const IoTDashboard = () => {
           </Card>
 
           {/* Device Statistics */}
-          <Card style={{ padding: '1.5rem' }}>
+          <Card style={{ padding: '1.5rem' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
             <Flex direction="column" gap="3">
               <Flex align="center" justify="between">
                 <Text size="3" weight="medium">Device Statistics</Text>
@@ -104,7 +104,7 @@ const IoTDashboard = () => {
         </Grid>
 
         {/* Device Table */}
-        <Card style={{ padding: '1.5rem' }}>
+        <Card style={{ padding: '1.5rem' }} className="rounded-full border border-slate-700/50 bg-transparent backdrop-blur-lg shadow-lg">
           <Flex direction="column" gap="3">
             <Text size="4" weight="medium">
               Device Management Table
